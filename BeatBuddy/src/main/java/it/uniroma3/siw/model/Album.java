@@ -25,7 +25,7 @@ public class Album {
     @OneToMany(fetch = FetchType.EAGER)
     private List<Song> songs;
 
-    @ManyToOne
+    @OneToMany
     private List<Review> reviews;
 
     @ManyToMany
