@@ -22,7 +22,7 @@ public class User {
     private String name;
 	private String surname;
     private LocalDate dateOfBirth;
-    private Email email;
+    private String email;
     //private String pwd;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
@@ -63,11 +63,11 @@ public class User {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public Email getEmail() {
+    public String getEmail() {
         return email;
     }
 
-    public void setEmail(Email email) {
+    public void setEmail(String email) {
         this.email = email;
     }
 
