@@ -1,2 +1,2 @@
-/*insert into chef(id,name,surname,date_of_birth,photo) values(nextval('chef_seq'),'Carlo','Cracco','1999-01-24','');
-insert into credentials(id,username,password,role,chef_id) values(nextval('credentials_seq'),'cc','$2a$12$1stsBZY328GxN2cciE9sHuWCQLzmYdZDLTOebs4atu6gAUtIFNKL6','DEFAULT',1);*/
+insert into users(id,email,name,surname,date_of_birth) values(nextval('users_seq'),'leo@prova.it','Leonardo','Fabbri','2002-11-25');
+insert into credentials(id,username,password,role,user_id) values(nextval('credentials_seq'),'lf','$2a$12$1stsBZY328GxN2cciE9sHuWCQLzmYdZDLTOebs4atu6gAUtIFNKL6','DEFAULT',1);
