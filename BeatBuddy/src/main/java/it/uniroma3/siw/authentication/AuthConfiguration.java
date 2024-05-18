@@ -4,14 +4,20 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+@Configuration
+@EnableWebSecurity
 public class AuthConfiguration {
     
     @Autowired
@@ -31,17 +37,22 @@ public class AuthConfiguration {
     }
 
     @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception{
+        return authenticationConfiguration.getAuthenticationManager();
+    }
+
+    @Bean
     protected SecurityFilterChain configure(final HttpSecurity httpSecurity)
     throws Exception{
         httpSecurity
         .csrf().and().cors().disable()
         .authorizeHttpRequests()
         // chiunque (autenticato o no) può accedere alle pagine index, login, register, ai css e alle immagini
-        .requestMatchers(HttpMethod.GET,"/","/index","/login","/register","/css/**", "/images/**").permitAll()
+        .requestMatchers(HttpMethod.GET,"/","/index","/login","/registration","/css/**", "/images/**").permitAll()
         // chiunque (autenticato o no) può mandare richieste POST al punto di accesso per login e register
-        .requestMatchers(HttpMethod.POST,"/","/index","/register", "/login").permitAll()
-        .requestMatchers(HttpMethod.GET,"/admin/**").hasAnyAuthority("ADMIN")
-        .requestMatchers(HttpMethod.POST,"/admin/**").hasAnyAuthority("ADMIN")
+        .requestMatchers(HttpMethod.POST,"/","/index","/registration", "/login").permitAll()
+        .requestMatchers(HttpMethod.GET,"/artist/**").hasAnyAuthority("ARTIST")
+        .requestMatchers(HttpMethod.POST,"/artist/**").hasAnyAuthority("ARTIST")
         // tutti gli utenti autenticati possono accere alle pagine rimanenti
         .anyRequest().authenticated()
         // LOGIN: qui definiamo il login

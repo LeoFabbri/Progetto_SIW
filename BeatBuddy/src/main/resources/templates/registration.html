@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>
+		BeatBuddy - Registration
+	</title>
+</head>
+
+<body>
+
+	<h1>Registrazione</h1>
+	<form th:action="@{/registration}" method="POST">
+			<div>
+				<span>Name:</span>
+				<span><input name="name" type="text" required th:field="${user.name}"/></span>
+			</div>
+			<div>
+				<span>Surname:</span>
+				<span><input name="surname" type="text" required th:field="${user.surname}"/></span>
+			</div>
+            <div>
+				<span>Email:</span>
+				<span><input name="email" type="text" required th:field="${user.email}"/></span>
+			</div>
+            <div>
+				<span>Username:</span>
+				<span><input name="username" type="text" required th:field="${credentials.username}"/></span>
+			</div>
+            <div>
+				<span>Password:</span>
+				<span><input name="password" type="password" required th:field="${credentials.password}"/></span>
+			</div>
+
+            <div>
+				<span>Role:</span>
+				<span><label>User</label><input type="radio" name="user" value="DEFAULT" th:field="${credentials.role}"></span>
+                <span><label>Artist</label><input type="radio" name="artist" value="ARTIST" th:field="${credentials.role}"></span>
+			</div>
+
+			<div>
+				<span><button type="submit">Submit</button></span>
+			</div>
+	</form>
+</body>
+
+</html>
