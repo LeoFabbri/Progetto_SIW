@@ -1,0 +1,22 @@
+header {
+    height: 400px;
+}
+
+img {
+    max-height: 600px;
+    width: 100%;
+    object-position: center;
+}
+
+section {
+    margin: 75px 100px;
+}
+
+footer {
+    background-color: black;
+    height: 100px;
+  }
+
+em{
+    color: white;
+}
