@@ -12,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Transient;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -32,13 +33,22 @@ public class Song {
     private List<Review> reviews;
 
     @ManyToMany
-    private List<Artist> producedBy;
+    private List<Artist> producers;
+
+    @Transient
+    private List<String> producersId;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private List<Artist> sungBy;
+    private List<Artist> singers;
+
+    @Transient
+    private List<String> singersId;
 
     @ManyToMany
-    private List<Artist> writtenBy;
+    private List<Artist> writers;
+
+    @Transient
+    private List<String> writersId;
 
     public Long getId(){
         return this.id;
@@ -96,39 +106,83 @@ public class Song {
         this.reviews = reviews;
     }
 
-    public List<Artist> getProducedBy() {
-        return producedBy;
+    public List<Artist> getProducers() {
+        return producers;
     }
 
-    public void setProducedBy(List<Artist> producedBy) {
-        this.producedBy = producedBy;
+    public void setProducers(List<Artist> producers) {
+        this.producers = producers;
     }
 
-    public List<Artist> getSungBy() {
-        return sungBy;
+    public List<Artist> getSingers() {
+        return singers;
     }
 
-    public void setSungBy(List<Artist> sungBy) {
-        this.sungBy = sungBy;
+    public void setSingers(List<Artist> singers) {
+        this.singers = singers;
     }
 
-    public List<Artist> getWrittenBy() {
-        return writtenBy;
+    public List<Artist> getWriters() {
+        return writers;
     }
 
-    public void setWrittenBy(List<Artist> writtenBy) {
-        this.writtenBy = writtenBy;
+    public void setWriters(List<Artist> writers) {
+        this.writers = writers;
     }
-    
+
+    public List<String> getSingersId(){
+        return this.singersId;
+    }
+
+    public void setSingersId(List<String> singersId){
+        this.singersId = singersId;
+    }
+
+    public List<String> getProducersId() {
+        return producersId;
+    }
+
+    public void setProducersId(List<String> producersId) {
+        this.producersId = producersId;
+    }
+
+    public List<String> getWritersId() {
+        return writersId;
+    }
+
+    public void setWritersId(List<String> writersId) {
+        this.writersId = writersId;
+    }
+
     @Override
-    public boolean equals(Object o){
-        Song song = (Song)o;
-        return this.title.equals(song.getTitle()) && this.duration.equals(song.getDuration());
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((title == null) ? 0 : title.hashCode());
+        result = prime * result + ((singers == null) ? 0 : singers.hashCode());
+        return result;
     }
 
     @Override
-    public int hashCode(){
-        return this.title.hashCode() + this.duration.hashCode();
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Song other = (Song) obj;
+        if (title == null) {
+            if (other.title != null)
+                return false;
+        } else if (!title.equals(other.title))
+            return false;
+        if (singers == null) {
+            if (other.singers != null)
+                return false;
+        } else if (!singers.equals(other.singers))
+            return false;
+        return true;
     }
 
 }

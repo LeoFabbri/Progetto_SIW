@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>BeatBuddy</title>
+    </head>
+
+    <body>
+        
+        <a href="/"><h1>BeatBuddy</h1></a>
+
+        <div>
+            
+            <div th:if="${song}">
+
+                <div><b>Titolo: </b><span th:text="${song.title}"></span></div>
+                <div><b>Durata: </b><span th:text="${song.duration}"></span></div>
+                <div><b>Data di pubblicazione: </b><span th:text="${song.pubblicationDate}"></span></div>
+                <div><b>Numero di ascolti: </b><span th:text="${song.numberOfPlays}"></span></div>
+
+                <div th:unless="${song.singers.isEmpty()}">
+                    <b>Cantanti:</b>
+                    <ul th:each="artist : ${song.singers}">
+                        <li th:text="${artist.stageName}"></li>
+                    </ul>
+                </div>
+                <div th:if="${song.singers.isEmpty()}">Nessun cantante inserito</div>
+
+                <div th:unless="${song.producers.isEmpty()}">
+                    <b>Produttori:</b>
+                    <ul th:each="artist : ${song.producers}">
+                        <li th:text="${artist.stageName}"></li>
+                    </ul>
+                </div>
+                <div th:if="${song.producers.isEmpty()}">Nessun produttore inserito</div>
+
+                <div th:unless="${song.writers.isEmpty()}">
+                    <b>Scrittori:</b>
+                    <ul th:each="artist : ${song.writers}">
+                        <li th:text="${artist.stageName}"></li>
+                    </ul>
+                </div>
+                <div th:if="${song.writers.isEmpty()}">Nessuno scrittore inserito</div>
+
+            </div>
+
+            <div th:unless="${song}">
+                <i>Nessuna canzone trovata</i>
+            </div>
+        
+        </div>
+
+    </body>
+
+</html>

@@ -23,5 +23,9 @@ public class SongService {
     public void save(Song song){
         this.songRepository.save(song);
     }
+
+    public void deleteById(Long id){
+        this.songRepository.deleteById(id);
+    }
     
 }

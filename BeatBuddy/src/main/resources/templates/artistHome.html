@@ -10,7 +10,15 @@
 
     <body>
            
-        <h1>Sei uno stronzo</h1>
+        <h1 th:text="'Bentornato ' + ${userDetails.username}"></h1>
+
+        <div>
+            <a href="/artist/formNewSong">Aggiungi una nuova canzone</a>
+            <a href="/artist/deleteSongs">Elimina una canzone</a>
+            <br>
+            <a href="/artist/formNewAlbum">Aggiungi un nuovo album</a>
+            <a href="/artist/deleteAlbums">Elimina un album</a>
+        </div>
 
     </body>
 

@@ -3,14 +3,20 @@ package it.uniroma3.siw.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
 
+@JsonIdentityInfo(
+	generator = ObjectIdGenerators.PropertyGenerator.class,
+	property = "id"
+)
 @Entity
 public class Artist {
 
@@ -23,13 +29,13 @@ public class Artist {
     private Long monthlyListeners;
     private String biography;
 
-	@ManyToMany(mappedBy = "producedBy")
+	@ManyToMany(mappedBy = "producers")
 	private List<Song> songsProduced;
 
-	@ManyToMany(mappedBy = "sungBy")
+	@ManyToMany(mappedBy = "singers")
 	private List<Song> songsSung;
 
-	@ManyToMany(mappedBy = "writtenBy")
+	@ManyToMany(mappedBy = "writers")
 	private List<Song> songWritten;
 
 	@ManyToMany(mappedBy = "artists", fetch = FetchType.EAGER)
@@ -114,16 +120,32 @@ public class Artist {
 	public void setAlbums(List<Album> albums) {
 		this.albums = albums;
 	}
-	
-	@Override
-	public boolean equals(Object o) {
-		Artist a = (Artist)o;
-		return this.stageName.equals(a.getStageName());
-	}
-	
+
 	@Override
 	public int hashCode() {
-		return this.stageName.hashCode();
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((stageName == null) ? 0 : stageName.hashCode());
+		return result;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Artist other = (Artist) obj;
+		if (stageName == null) {
+			if (other.stageName != null)
+				return false;
+		} else if (!stageName.equals(other.stageName))
+			return false;
+		return true;
+	}
+	
+	
 
 }
