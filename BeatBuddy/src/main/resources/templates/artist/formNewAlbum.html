@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>BeatBuddy - New Album</title>
+    </head>
+
+    <body>
+        
+        <a href="/logout">logout</a>
+        <br><br>
+
+        <h1>Aggiungi un nuovo album</h1>
+
+        <div>
+            <form th:action="@{/artist/newAlbum/album}" th:objects="${album}" method="post">
+
+                <div>
+                    <label>Nome: </label>
+                    <input type="text" th:field="${album.title}"/>
+                </div>
+
+                <br>
+
+                <div id="artistsDiv">
+                    <h2>Artisti:</h2>
+                </div>
+                <input type="button" onclick="addArtists()" value="Aggiungi un'artista">
+
+                <div id="songsDiv">
+                    <h2>Canzoni:</h2>
+                </div>
+                <input type="button" onclick="addNewSong()" value="Aggingi una nuova canzone">
+                <input type="button" onclick="addSong()" value="Aggiungi una canzone già esistente">
+
+                <br>
+
+                <div>
+                    <input type="submit" value="registra">
+                </div>
+
+            </form>
+        </div>
+
+        <script>
+
+            let songsCont = 0;
+            let existingSongsCont = 0;
+            let artistsCont = 0;
+
+            function addArtists() {
+
+                fetch('/rest/singers').then(data => data.json()).then(data => {
+                    const select = document.createElement('select');
+                    select.id = 'artistId_'+artistsCont;
+                    select.name = 'artistsId['+artistsCont+']';
+                    data.forEach(item => {
+                        const option = document.createElement('option');
+                        option.value = item.id;
+                        option.textContent = item.stageName;
+                        select.appendChild(option);
+                    });
+                    document.getElementById('artistsDiv').append(select);
+                    artistsCont++;
+                }).catch(error => console.error('Error fetching artists:', error));
+
+            }
+
+            function addSong(){
+
+                fetch('/rest/songs').then(data => data.json()).then(data => {
+                    const div = document.createElement('div');
+                    const select = document.createElement('select');
+                    select.id = 'songId_'+existingSongsCont;
+                    select.name = 'songsId['+existingSongsCont+']';
+                    data.forEach(item => {
+                        const option = document.createElement('option');
+                        option.value = item.id;
+                        option.textContent = item.title;
+                        select.appendChild(option);
+                    });
+                    div.appendChild(select);
+                    document.getElementById('songsDiv').append(div);
+                    existingSongsCont++;
+                }).catch(error => console.error('Error fetching artists:', error));
+
+            }
+
+            function addNewSong(){
+
+                var newDiv = document.createElement('div');
+
+                var newTitleLabel = document.createElement('label');
+                newTitleLabel.textContent = 'Titolo: ';
+                var newTitle = document.createElement('input');
+                newTitle.type = 'text';
+                newTitle.id = 'song_'+songsCont+'_title';
+                newTitle.name = 'songs['+songsCont+'].title';
+
+                var newDurationLabel = document.createElement('label');
+                newDurationLabel.textContent = 'Durata: ';
+                var newDuration = document.createElement('input');
+                newDuration.type = 'number';
+                newDuration.id = 'song_'+songsCont+'_duration';
+                newDuration.name = 'songs['+songsCont+'].duration';
+
+                newDiv.appendChild(newTitleLabel);
+                newDiv.appendChild(newTitle);
+                newDiv.appendChild(newDurationLabel);
+                newDiv.appendChild(newDuration);
+
+                document.getElementById("songsDiv").appendChild(newDiv);
+
+                songsCont++;
+
+            }
+
+        </script>
+
+    </body>
+
+</html>

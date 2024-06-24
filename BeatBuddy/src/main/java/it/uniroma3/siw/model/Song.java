@@ -16,7 +16,7 @@ import jakarta.persistence.Transient;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
-public class Song {
+public class Song implements Comparable{
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -184,5 +184,13 @@ public class Song {
             return false;
         return true;
     }
+
+    @Override
+    public int compareTo(Object o) {
+        Song s = (Song)o;
+        return this.title.compareTo(s.getTitle());
+    }
+
+    
 
 }

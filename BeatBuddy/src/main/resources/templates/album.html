@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>BeatBuddy</title>
+    </head>
+
+    <body>
+        
+        <a href="/"><h1>BeatBuddy</h1></a>
+
+        <div>
+            
+            <div th:if="${album}">
+
+                <div><b>Titolo: </b><span th:text="${album.title}"></span></div>
+                <div><b>Data di pubblicazione: </b><span th:text="${album.pubblicationDate}"></span></div>
+
+                <div th:unless="${album.artists.isEmpty()}">
+                    <b>Artisti:</b>
+                    <ul th:each="artist : ${album.artists}">
+                        <li th:text="${artist.stageName}"></li>
+                    </ul>
+                </div>
+                <div th:if="${album.artists.isEmpty()}">Nessun produttore inserito</div>
+
+                <div th:unless="${album.songs.isEmpty()}">
+                    <b>Brani:</b>
+                    <ul th:each="song : ${album.songs}">
+                        <audio src=""></audio>
+                        <li th:text="${song.title} + ' ' + ${song.duration}"></li>
+                    </ul>
+                </div>
+                <div th:if="${album.songs.isEmpty()}"><i>nessun brano inserito</i></div>
+
+            </div>
+        
+        </div>
+
+    </body>
+
+</html>

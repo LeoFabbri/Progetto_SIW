@@ -3,6 +3,7 @@ package it.uniroma3.siw.controller;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -49,7 +50,6 @@ public class SongController {
     @GetMapping("/artist/formNewSong")
     public String getFormNewSong(Model model) {
         model.addAttribute("song", new Song());
-        model.addAttribute("artists", this.artistRepository.findAllExceptId((Long)model.getAttribute("artistID")));
         return "artist/formNewSong.html";
     }
 
@@ -59,14 +59,20 @@ public class SongController {
         List<Artist> producers = new ArrayList<Artist>();
         List<Artist> writers = new ArrayList<Artist>();
         singers.add(this.artistRepository.findById((Long)model.getAttribute("artistID")).get());
-        for(String id : song.getSingersId()){
-            singers.add(this.artistRepository.findById(Long.parseLong(id)).get());
+        if(song.getSingersId()!=null){
+            for(String id : song.getSingersId()){
+                singers.add(this.artistRepository.findById(Long.parseLong(id)).get());
+            }
         }
-        for(String id : song.getProducersId()){
-            producers.add(this.artistRepository.findById(Long.parseLong(id)).get());
+        if(song.getProducersId()!=null){
+            for(String id : song.getProducersId()){
+                producers.add(this.artistRepository.findById(Long.parseLong(id)).get());
+            }
         }
-        for(String id : song.getWritersId()){
-            writers.add(this.artistRepository.findById(Long.parseLong(id)).get());
+        if(song.getWritersId()!=null){
+            for(String id : song.getWritersId()){
+                writers.add(this.artistRepository.findById(Long.parseLong(id)).get());
+            }
         }
         song.setSingers(singers);
         song.setProducers(producers);
@@ -86,6 +92,12 @@ public class SongController {
 
     @GetMapping("/artist/deleteSongs/{id}")
     public String deleteSong(Model model, @PathVariable("id") Long id) {
+        Song s = this.songService.findById(id);
+        if(s.getAlbum() != null){
+            s.getAlbum().getSongs().remove(s);
+            Collections.sort(s.getAlbum().getSongs());
+            s.setAlbum(null);
+        }
         this.songService.deleteById(id);
         return "redirect:/artist/deleteSongs";
     }
