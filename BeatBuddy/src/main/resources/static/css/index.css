@@ -1,22 +1,72 @@
-header {
-    height: 400px;
-}
+    body {
+        font-family: 'Open Sans', sans-serif;
+    }
+    .navbar {
+        background-color: white;
+    }
+    .navbar .navbar-brand {
+        font-weight: bold;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+    }
 
-img {
-    max-height: 600px;
-    width: 100%;
-    object-position: center;
-}
+    .navbar-nav {
+        flex-direction: row;
+    }
+    .navbar-nav .nav-link{
+        color: black;
+    }
+    .navbar-nav .nav-link:hover {
+        color: #834230; /* Cambia colore al passaggio del mouse */
+    }
+    .search-btn {
+        color: #834230 !important;
+        border-color: #834230 !important;
+    }
+    
+    .search-btn:hover {
+        background-color: #834230 !important;
+        color: white !important;
+        border-color: #834230 !important;
+    }
 
-section {
-    margin: 75px 100px;
-}
-
-footer {
+    .carousel-item img {
+        width: 500px;
+        height: 300px;
+        object-fit: cover;
+        width: 100%;
+    }
+    .section-title {
+        margin: 30px 0 30px;
+        font-size: 1.8rem;
+        font-weight: 600;
+        text-align: center;
+    }
+    .square-text,
+    .circle-text{
+        text-align: center;
+        font-weight: 500;
+        font-family: 'Open Sans', sans-serif;
+    }
+    .carousel-square img,
+    .carousel-circle img {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+    }
+    .carousel-circle img {
+        border-radius: 50%;
+    }
+    .song-grid .card {
+        height: 150px;
+    }
+    footer {
     background-color: black;
     height: 100px;
-  }
-
-em{
     color: white;
-}
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    }

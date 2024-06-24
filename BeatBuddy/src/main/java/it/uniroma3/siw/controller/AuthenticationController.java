@@ -1,5 +1,7 @@
 package it.uniroma3.siw.controller;
 
+import javax.swing.text.StyledEditorKit.ItalicAction;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -8,8 +10,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
+import it.uniroma3.siw.model.Album;
+import it.uniroma3.siw.model.Artist;
 import it.uniroma3.siw.model.Credentials;
 import it.uniroma3.siw.model.User;
+import it.uniroma3.siw.service.AlbumService;
+import it.uniroma3.siw.service.ArtistService;
 import it.uniroma3.siw.service.CredentialsService;
 import it.uniroma3.siw.service.UserService;
 
@@ -28,10 +34,24 @@ public class AuthenticationController {
    @Autowired
    private UserService userService;
 
+   @Autowired
+    private AlbumService albumService; 
+
+    @Autowired
+    private ArtistService artistService;
+
    @GetMapping("/")
     public String getIndex(Model model) {
+        
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (authentication instanceof AnonymousAuthenticationToken) {
+            /*
+            Iterable<Album> albums = albumService.findAll(); // Recupera tutti gli album dal servizio
+            Iterable<Artist> artists = artistService.findAll(); // Recupera tutti gli artisti dal servizio
+
+            model.addAttribute("albums", albums);
+            model.addAttribute("artists", artists);
+            */
 	        return "index.html";
 		}else{
             UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();

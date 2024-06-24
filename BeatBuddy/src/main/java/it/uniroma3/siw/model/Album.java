@@ -21,6 +21,7 @@ public class Album {
     private Long id;
     private String title;
     private LocalDate pubblicationDate;
+    private String urlImage;
 
     @OneToMany(fetch = FetchType.EAGER)
     private List<Song> songs;
@@ -30,6 +31,13 @@ public class Album {
 
     @ManyToMany
     private List<Artist> artists;
+
+    public Album(){}
+
+    public Album(String title, String urlImage){
+        this.title=title;
+        this.urlImage=urlImage;
+    }
 
     public Long getId(){
         return this.id;
@@ -55,6 +63,14 @@ public class Album {
         this.pubblicationDate = pubblicationDate;
     }
 
+    public String getUrlImage() {
+        return urlImage;
+    }
+
+    public void setUrlImage(String urlImage) {
+        this.urlImage = urlImage;
+    }
+
     public List<Song> getSongs() {
         return songs;
     }
@@ -78,6 +94,7 @@ public class Album {
     public void setArtists(List<Artist> artists) {
         this.artists = artists;
     }
+
 
     @Override
     public boolean equals(Object o){

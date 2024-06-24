@@ -22,6 +22,7 @@ public class Artist {
 	private LocalDate dataDiNascita;
     private Long monthlyListeners;
     private String biography;
+	private String urlImage;
 
 	@ManyToMany(mappedBy = "producedBy")
 	private List<Song> songsProduced;
@@ -34,6 +35,13 @@ public class Artist {
 
 	@ManyToMany(mappedBy = "artists", fetch = FetchType.EAGER)
 	private List<Album> albums;
+
+	public Artist(){}
+
+	public Artist(String stageName, String urlImage){
+		this.stageName=stageName;
+		this.urlImage=urlImage;
+	}
 
     public Long getId() {
 		return this.id;
@@ -81,6 +89,14 @@ public class Artist {
 
     public void setBiography(String biography) {
         this.biography = biography;
+    }
+
+	public String getUrlImage() {
+        return urlImage;
+    }
+
+    public void setUrlImage(String urlImage) {
+        this.urlImage = urlImage;
     }
 
 	public List<Song> getSongsProduced() {
