@@ -26,17 +26,17 @@ public class Song {
     private LocalDate pubblicationDate;
     private Integer numberOfPlays;
     
-    public String getImagePath() {
-        return imagePath;
-    }
+    // public String getImagePath() {
+    //     return imagePath;
+    // }
 
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
-    }
+    // public void setImagePath(String imagePath) {
+    //     this.imagePath = imagePath;
+    // }
 
-    private String imagePath;
+    // private String imagePath;
     
-    @Column(length = 100000000)
+    @Column(length = 1000000000)
     private String base64;
 
     public String getBase64() {

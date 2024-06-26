@@ -41,19 +41,22 @@ public class SongController {
     public String getSong(@PathVariable("id") Long id, Model model) {
         Song song = this.songService.findById(id);
         model.addAttribute("song", song);
-        //model.addAttribute("reviews", this.reviewService.findAll());
-        if(credentialsService.getCredentials((Long) model.getAttribute("userId")).getRole().equals("DEFAULT")){
-            User user = userService.findById((Long) model.getAttribute("userId"));
-            model.addAttribute("role", "DEFAULT");
-
-            Review recensioneUser = reviewService.findBySongAndUser(song, user);
-            model.addAttribute("recensioneUser", recensioneUser);
-            model.addAttribute("recensioni", reviewService.findBySong(song));
-            model.addAttribute("playlists", this.userService.findById((Long) model.getAttribute("userId")).getPlaylistsCreated());
-        }
-        else{
-            model.addAttribute("role", "ADMIN");
-            model.addAttribute("recensioni", reviewService.findBySong(song));
+        model.addAttribute("recensioni", reviewService.findBySong(song));
+        System.out.println(credentialsService.getCredentials((Long) model.getAttribute("userId")).getRole());
+        if((Long) model.getAttribute("userId") == null){
+            model.addAttribute("role", "ANONIMO");
+        }else{
+            if(credentialsService.getCredentials((Long) model.getAttribute("userId")).getRole().equals("DEFAULT")){
+                User user = userService.findById((Long) model.getAttribute("userId"));
+                model.addAttribute("role", "DEFAULT");
+    
+                Review recensioneUser = reviewService.findBySongAndUser(song, user);
+                model.addAttribute("recensioneUser", recensioneUser);
+                model.addAttribute("playlists", this.userService.findById((Long) model.getAttribute("userId")).getPlaylistsCreated());
+            }
+            else{
+                model.addAttribute("role", "ARTIST");
+            }
         }
 
         return "song.html";
@@ -61,7 +64,7 @@ public class SongController {
 
     @PostMapping("/song/{id}/recensione")
     public String addRecensione(@PathVariable("id") Long id, @RequestParam int stars, 
-                                @RequestParam String comment, @RequestParam LocalDate pubblicationDate, @ModelAttribute("userId") Long userId, Model model) {
+                                @RequestParam String comment, @ModelAttribute("userId") Long userId, Model model) {
         Song song = songService.findById(id);
         User user = userService.findById(userId);
 
@@ -74,7 +77,7 @@ public class SongController {
         reviewService.save(recensione);
         song.getReviews().add(recensione);
 
-        return "redirect:/songs";
+        return "redirect:/song/" + id;
     }
 
     @GetMapping("/songs")
