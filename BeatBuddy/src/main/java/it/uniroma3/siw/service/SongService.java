@@ -1,5 +1,7 @@
 package it.uniroma3.siw.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,10 @@ public class SongService {
 
     public Song findById(Long id){
         return this.songRepository.findById(id).get();
+    }
+
+    public List<Song> findByTitle(String title){
+        return this.songRepository.findByTitle(title);
     }
 
     public Iterable<Song> findAll(){

@@ -23,6 +23,17 @@ public class Review {
 	private String comment;
     private LocalDate pubblicationDate;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Song song;
+
+    public Song getSong() {
+        return song;
+    }
+
+    public void setSong(Song song) {
+        this.song = song;
+    }
+
     @ManyToOne
     private User user;
 
