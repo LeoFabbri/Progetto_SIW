@@ -27,6 +27,7 @@ public class SongRestController {
     public List<Song> getSongs(Model model){
         List<Song> canzoni = new ArrayList<Song>();
         for(Song s : this.songService.findBySinger(this.artistRepository.findById((Long)model.getAttribute("artistID")).get())){
+            System.out.println(s.getTitle());
             canzoni.add(s);
         }
         return canzoni;

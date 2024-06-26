@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>SiwFood - New Song</title>
+    </head>
+
+    <body>
+        
+        <a href="/logout">logout</a>
+        <br><br>
+
+        <h1>Aggiungi una nuova canzone</h1>
+
+        <div>
+            <form th:action="@{'/artist/newAlbum/newSong/song'}" th:object="${song}" method="post">
+
+                <div>
+                    <label>Nome: </label>
+                    <input type="text" th:field="${song.title}"/>
+                </div>
+
+                <div>
+                    <label>Durata: </label>
+                    <input type="text" th:field="${song.duration}"/>
+                </div>
+
+                <div id="singersDiv">
+                    <h2>Cantanti: </h2>
+                </div>
+                <input type="button" onclick="addSingers()" value="Aggiungi un cantante">
+
+                <div id="producersDiv">
+                    <h2>Produttori: </h2>
+                </div>
+                <input type="button" onclick="addProducers()" value="Aggiungi un produttore">
+
+                <div id="writersDiv">
+                    <h2>Scrittori: </h2>
+                </div>
+                <input type="button" onclick="addWriters()" value="Aggiungi uno scrittore">
+
+                <br>
+            
+                <div>
+                    <input type="submit" value="registra">
+                </div>
+
+            </form>
+        </div>
+
+        <script>
+            let singersCont = 0;
+            let writersCont = 0;
+            let producersCont = 0;
+
+            function addSingers() {
+
+                fetch('/rest/singers').then(data => data.json()).then(data => {
+                    const select = document.createElement('select');
+                    select.id = 'singerId_'+singersCont;
+                    select.name = 'singersId['+singersCont+']';
+                    data.forEach(item => {
+                        const option = document.createElement('option');
+                        option.value = item.id;
+                        option.textContent = item.stageName;
+                        select.appendChild(option);
+                    });
+                    document.getElementById('singersDiv').append(select);
+                    singersCont++;
+                }).catch(error => console.error('Error fetching artists:', error));
+
+            }
+
+            function addWriters() {
+
+                fetch('/rest/artists').then(data => data.json()).then(data => {
+                    const select = document.createElement('select');
+                    select.id = 'writerId_'+writersCont;
+                    select.name = 'writersId['+writersCont+']';
+                    data.forEach(item => {
+                        const option = document.createElement('option');
+                        option.value = item.id;
+                        option.textContent = item.stageName;
+                        select.appendChild(option);
+                    });
+                    document.getElementById('writersDiv').append(select);
+                    writersCont++;
+                }).catch(error => console.error('Error fetching artists:', error));
+
+            }
+
+            function addProducers() {
+
+                fetch('/rest/artists').then(data => data.json()).then(data => {
+                    const select = document.createElement('select');
+                    select.id = 'producerId_'+producersCont;
+                    select.name = 'producersId['+producersCont+']';
+                    data.forEach(item => {
+                        const option = document.createElement('option');
+                        option.value = item.id;
+                        option.textContent = item.stageName;
+                        select.appendChild(option);
+                    });
+                    document.getElementById('producersDiv').append(select);
+                    producersCont++;
+                }).catch(error => console.error('Error fetching artists:', error));
+
+            }
+
+        </script>
+
+    </body>
+
+</html>

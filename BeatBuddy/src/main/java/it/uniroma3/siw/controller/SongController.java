@@ -45,12 +45,17 @@ public class SongController {
         model.addAttribute("song", this.songService.findById(id));
         return "song.html";
     }
-    
 
     @GetMapping("/artist/formNewSong")
     public String getFormNewSong(Model model) {
         model.addAttribute("song", new Song());
         return "artist/formNewSong.html";
+    }
+
+    @GetMapping("/artist/newAlbum/formNewSong")
+    public String getAlbumFormNewSong(Model model){
+        model.addAttribute("song", new Song());
+        return "artist/albumFormNewSong.html";
     }
 
     @PostMapping("/artist/newSong/song")
@@ -61,16 +66,54 @@ public class SongController {
         singers.add(this.artistRepository.findById((Long)model.getAttribute("artistID")).get());
         if(song.getSingersId()!=null){
             for(String id : song.getSingersId()){
+                this.artistRepository.findById(Long.parseLong(id)).get().getSongsSung().add(song);
                 singers.add(this.artistRepository.findById(Long.parseLong(id)).get());
             }
         }
         if(song.getProducersId()!=null){
             for(String id : song.getProducersId()){
+                this.artistRepository.findById(Long.parseLong(id)).get().getSongsProduced().add(song);
                 producers.add(this.artistRepository.findById(Long.parseLong(id)).get());
             }
         }
         if(song.getWritersId()!=null){
             for(String id : song.getWritersId()){
+                this.artistRepository.findById(Long.parseLong(id)).get().getSongWritten().add(song);
+                writers.add(this.artistRepository.findById(Long.parseLong(id)).get());
+            }
+        }
+        song.setSingers(singers);
+        song.setProducers(producers);
+        song.setWriters(writers);
+        song.setAlbum(null);
+        song.setPubblicationDate(LocalDate.now());
+        song.setNumberOfPlays(0);
+        this.songService.save(song);
+        model.addAttribute("song", song);
+        return "redirect:/songs/"+song.getId();
+    }
+
+    @PostMapping("/artist/newAlbum/newSong/song")
+    public String albumFormNewSong(@ModelAttribute("song") Song song, Model model) {
+        List<Artist> singers = new ArrayList<Artist>();
+        List<Artist> producers = new ArrayList<Artist>();
+        List<Artist> writers = new ArrayList<Artist>();
+        singers.add(this.artistRepository.findById((Long)model.getAttribute("artistID")).get());
+        if(song.getSingersId()!=null){
+            for(String id : song.getSingersId()){
+                this.artistRepository.findById(Long.parseLong(id)).get().getSongsSung().add(song);
+                singers.add(this.artistRepository.findById(Long.parseLong(id)).get());
+            }
+        }
+        if(song.getProducersId()!=null){
+            for(String id : song.getProducersId()){
+                this.artistRepository.findById(Long.parseLong(id)).get().getSongsProduced().add(song);
+                producers.add(this.artistRepository.findById(Long.parseLong(id)).get());
+            }
+        }
+        if(song.getWritersId()!=null){
+            for(String id : song.getWritersId()){
+                this.artistRepository.findById(Long.parseLong(id)).get().getSongWritten().add(song);
                 writers.add(this.artistRepository.findById(Long.parseLong(id)).get());
             }
         }
@@ -80,13 +123,12 @@ public class SongController {
         song.setPubblicationDate(LocalDate.now());
         song.setNumberOfPlays(0);
         this.songService.save(song);
-        model.addAttribute("song", song);
-        return "redirect:/songs/"+song.getId();
+        return "redirect:/artist/formNewAlbum";
     }
     
     @GetMapping("/artist/deleteSongs")
     public String getDeleteSongs(Model model) {
-        model.addAttribute("songs", this.artistRepository.findById((Long)model.getAttribute("artistID")).get().getSongsSung());
+        model.addAttribute("songs", this.songService.findBySinger(this.artistRepository.findById((Long)model.getAttribute("artistID")).get()));
         return "artist/artistSongs.html";
     }
 
@@ -101,7 +143,5 @@ public class SongController {
         this.songService.deleteById(id);
         return "redirect:/artist/deleteSongs";
     }
-    
-    
 
 }

@@ -21,6 +21,7 @@ import it.uniroma3.siw.repository.AlbumRepository;
 import it.uniroma3.siw.repository.ArtistRepository;
 import it.uniroma3.siw.repository.SongRepository;
 import it.uniroma3.siw.service.AlbumService;
+import it.uniroma3.siw.service.ArtistService;
 
 @Controller
 public class AlbumController {
@@ -30,6 +31,9 @@ public class AlbumController {
 
     @Autowired
     private ArtistRepository artistRepository;
+
+    @Autowired
+    private ArtistService artistService;
 
     @Autowired
     private SongRepository songRepository;
@@ -51,13 +55,17 @@ public class AlbumController {
         List<Artist> artists = new ArrayList<Artist>();
         List<Song> existingSongs = new ArrayList<Song>();
         artists.add(this.artistRepository.findById((Long)model.getAttribute("artistID")).get());
-        List<Song> songs = new ArrayList<Song>(album.getSongs());
-        for(Song s : songs){
-            s.setSingers(artists);
-            s.setAlbum(album);
+        List<Song> songs = new ArrayList<Song>();
+        if(album.getSongs()!=null){
+            songs.addAll(album.getSongs());
+            for(Song s : songs){
+                s.setSingers(artists);
+                s.setAlbum(album);
+            }
         }
         if(album.getArtistsId()!=null){
             for(String s : album.getArtistsId()){
+                this.artistRepository.findById(Long.parseLong(s)).get().getAlbums().add(album);
                 artists.add(this.artistRepository.findById(Long.parseLong(s)).get());
             }
         }
@@ -78,6 +86,19 @@ public class AlbumController {
         return "redirect:/albums/"+album.getId();
     }
 
+    @GetMapping("/artist/formUpdateAlbum")
+    public String getUpdateAlbums(Model model){
+        model.addAttribute("albums", this.albumService.findAll());
+        return "artist/updateAlbums.html";
+    }
+
+    @GetMapping("/artist/formUpdateAlbum/{id}")
+    public String getFormUpdateAlbum(@PathVariable("id") Long id, Model model){
+        model.addAttribute("album", this.albumService.findById(id));
+        return "artist/formUpdateAlbum.html";
+    }
+    
+
     @GetMapping("/artist/deleteAlbums")
     public String getDeleteAlbums(Model model){
         model.addAttribute("albums", this.albumService.findByArtist(this.artistRepository.findById((Long)model.getAttribute("artistID")).get()));
@@ -96,5 +117,67 @@ public class AlbumController {
         this.albumService.deleteById(id);
         return "redirect:/artist/deleteAlbums";
     }
+
+    @GetMapping("/artist/updateAlbum/removeArtist/{ida}/{idar}")
+    public String albumRemoveArtist(@PathVariable("ida") Long ida, @PathVariable("idar") Long idar, Model model){
+        Album a = this.albumService.findById(ida);
+        Artist ar = this.artistRepository.findById(idar).get();
+        ar.getAlbums().remove(a);
+        a.getArtists().remove(ar);
+        this.artistRepository.save(ar);
+        this.albumService.save(a);
+        return "redirect:/artist/formUpdateAlbum/"+ida;
+    }
+
+    @GetMapping("/artist/updateAlbum/removeSong/{ida}/{ids}")
+    public String albumRemoveSong(@PathVariable("ida") Long ida, @PathVariable("ids") Long ids, Model model){
+        Album a = this.albumService.findById(ida);
+        Song s = this.songRepository.findById(ids).get();
+        s.setAlbum(null);
+        a.getSongs().remove(s);
+        Collections.sort(a.getSongs());
+        this.songRepository.save(s);
+        this.albumService.save(a);
+        return "redirect:/artist/formUpdateAlbum/"+ida;
+    }
+
+    @GetMapping("/artist/updateAlbum/addArtists/{id}")
+    public String getFormAlbumAddArtists(@PathVariable("id") Long id, Model model){
+        model.addAttribute("album", this.albumService.findById(id));
+        model.addAttribute("newAlbum", new Album());
+        model.addAttribute("artists", this.artistService.findAllExceptId((Long)model.getAttribute("artistID")));
+        return "artist/formAlbumAddArtists.html";
+    }
+
+    @PostMapping("/artist/updateAlbum/addArtists/newAlbum/{id}")
+    public String addArtistToAlbum(@ModelAttribute("newAlbum") Album newAlbum, @PathVariable("id") Long id, Model model){
+        Album album = this.albumService.findById(id);
+        for(String s : newAlbum.getArtistsId()){
+            album.getArtists().add(this.artistRepository.findById(Long.parseLong(s)).get());
+        }
+        this.albumService.save(album);
+        return "redirect:/artist/formUpdateAlbum/"+album.getId();
+    }
+
+    @GetMapping("/artist/updateAlbum/addSongs/{id}")
+    public String getFormAlbumAddSongs(@PathVariable("id") Long id, Model model){
+        model.addAttribute("album", this.albumService.findById(id));
+        model.addAttribute("newAlbum", new Album());
+        model.addAttribute("songs", this.songRepository.findAll());
+        return "artist/formAlbumAddSongs.html";
+    }
+
+    @PostMapping("/artist/updateAlbum/addSongs/newAlbum/{id}")
+    public String addSongToAlbum(@ModelAttribute("newAlbum") Album newAlbum, @PathVariable("id") Long id, Model model){
+        Album album = this.albumService.findById(id);
+        for(String s : newAlbum.getSongsId()){
+            album.getSongs().add(this.songRepository.findById(Long.parseLong(s)).get());
+        }
+        this.albumService.save(album);
+        return "redirect:/artist/formUpdateAlbum/"+album.getId();
+    }
+
+    //@Post("/artist/updateAlbum/addArtists/album")
+
 
 }
