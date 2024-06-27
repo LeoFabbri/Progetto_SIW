@@ -1,6 +1,5 @@
 package it.uniroma3.siw.model;
 
-import java.sql.Time;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -12,7 +11,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Song {
@@ -24,6 +22,9 @@ public class Song {
     private Integer duration;
     private LocalDate pubblicationDate;
     private Integer numberOfPlays;
+    private String audioUrl;
+
+    
 
     @ManyToOne
     private Album album;
@@ -118,6 +119,14 @@ public class Song {
 
     public void setWrittenBy(List<Artist> writtenBy) {
         this.writtenBy = writtenBy;
+    }
+
+    public String getAudioUrl() {
+        return audioUrl;
+    }
+
+    public void setAudioUrl(String audioUrl) {
+        this.audioUrl = audioUrl;
     }
     
     @Override

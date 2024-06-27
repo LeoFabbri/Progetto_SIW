@@ -1,6 +1,11 @@
     body {
         font-family: 'Open Sans', sans-serif;
     }
+
+    h2, h4, h5{
+        font-family: 'Montserrat', sans-serif;
+    }
+    /* NAV BAR */ 
     .navbar {
         background-color: white;
     }
@@ -20,15 +25,47 @@
     .navbar-nav .nav-link:hover {
         color: #834230; /* Cambia colore al passaggio del mouse */
     }
-    .search-btn {
-        color: #834230 !important;
-        border-color: #834230 !important;
+
+    /* HEADER */ 
+
+    .center-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
     
-    .search-btn:hover {
+    .search-form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #ffffff;
+        padding: 15px;
+        width: 70%; /* Larghezza del form */
+        max-width: 600px; /* Larghezza massima del form */
+    }
+    
+    .search-input {
+        flex: 1; /* L'input occupa tutto lo spazio disponibile */
+        margin-right: 10px;
+    }
+    
+    .search-btn {
+        min-width: 80px; /* Larghezza minima del pulsante */
+        border-color: #834230 !important;
+        background-color: white !important; 
+        color: #834230 !important; 
+      
+    }
+
+    .search-btn:hover{
         background-color: #834230 !important;
         color: white !important;
-        border-color: #834230 !important;
+    }
+
+    /* SECTION */ 
+
+    .carousel-slide{
+        width: 20%;
     }
 
     .carousel-item img {
@@ -58,9 +95,67 @@
     .carousel-circle img {
         border-radius: 50%;
     }
+    .carousel-control-prev,
+    .carousel-control-next {
+        color: #834230 !important;
+        background-color: #834230 !important;        
+    }
+
+    .carousel-control-prev:hover,
+    .carousel-control-next:hover {
+        color: white !important;
+        background-color: #834230;
+        border-color: #834230;
+    }
+
+
     .song-grid .card {
         height: 150px;
     }
+
+    .song-card {
+        width: 800px;
+        height: 300px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        background-color: #fff;
+    }
+    
+    .album-img {
+        width: 300px;
+        height: 300px;
+        object-fit: cover;
+        border-radius: 4px;
+        align-items: left;
+    }
+    
+    .song-info {
+        flex: 1;
+        padding-left: 20px;
+    }
+    
+    .song-info h5 {
+        margin-bottom: 10px;
+    }
+    
+    .song-info p {
+        margin-bottom: 5px;
+    }
+
+    .song-info audio {
+        margin-top: 10px;
+        width: 80%;
+    }
+    
+
+    
+
+    /* FOOTER */ 
+
     footer {
     background-color: black;
     height: 100px;
