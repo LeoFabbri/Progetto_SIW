@@ -30,19 +30,5 @@ public class ArtistService {
     public List<Artist> findAllExceptId(Long id){
         return this.artistRepository.findAllExceptId(id);
     }
-
-    public List<Artist> findAllExceptArtists(List<Artist> la){
-        List<Artist> artists = new ArrayList<Artist>();
-        List<Artist> allArtists = new ArrayList<Artist>();
-        for(Artist a : this.artistRepository.findAll()){
-            allArtists.add(a);
-        }
-        for(Artist a : la){
-            if(!allArtists.contains(a)){
-                artists.add(a);
-            }
-        }
-        return artists;
-    }
     
 }

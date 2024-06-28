@@ -9,11 +9,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import it.uniroma3.siw.controller.validator.AlbumValidator;
 import it.uniroma3.siw.model.Album;
 import it.uniroma3.siw.model.Artist;
 import it.uniroma3.siw.model.Song;
@@ -22,9 +24,13 @@ import it.uniroma3.siw.repository.ArtistRepository;
 import it.uniroma3.siw.repository.SongRepository;
 import it.uniroma3.siw.service.AlbumService;
 import it.uniroma3.siw.service.ArtistService;
+import jakarta.validation.Valid;
 
 @Controller
 public class AlbumController {
+
+    @Autowired
+    private AlbumValidator albumValidator;
 
     @Autowired
     private AlbumService albumService;
@@ -51,7 +57,7 @@ public class AlbumController {
     }
 
     @PostMapping("/artist/newAlbum/album")
-    public String newAlbum(@ModelAttribute("album") Album album, Model model) {
+    public String newAlbum(@Valid @ModelAttribute("album") Album album, Model model, BindingResult bindingResult) {
         List<Artist> artists = new ArrayList<Artist>();
         List<Song> existingSongs = new ArrayList<Song>();
         artists.add(this.artistRepository.findById((Long)model.getAttribute("artistID")).get());
@@ -81,6 +87,12 @@ public class AlbumController {
         album.setSongs(songs);
         album.setArtists(artists);
         album.setPubblicationDate(LocalDate.now());
+        this.albumValidator.validate(album, bindingResult);
+        if(bindingResult.hasErrors()){
+            model.addAttribute("album", new Album());
+            model.addAttribute("error", "this album already exixsts");
+            return "artist/formNewAlbum.html";
+        }
         this.albumService.save(album);
         model.addAttribute("album", album);
         return "redirect:/albums/"+album.getId();

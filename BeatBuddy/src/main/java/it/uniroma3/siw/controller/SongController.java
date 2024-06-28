@@ -11,11 +11,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 
+import it.uniroma3.siw.controller.validator.SongValidator;
 import it.uniroma3.siw.model.Artist;
 import it.uniroma3.siw.model.Song;
 import it.uniroma3.siw.repository.ArtistRepository;
 import it.uniroma3.siw.service.SongService;
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +31,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class SongController {
+
+    @Autowired
+    private SongValidator songValidator;
 
     @Autowired
     private SongService songService;
@@ -59,7 +66,7 @@ public class SongController {
     }
 
     @PostMapping("/artist/newSong/song")
-    public String newSong(@ModelAttribute("song") Song song, Model model) {
+    public String newSong(@Valid @ModelAttribute("song") Song song, Model model, BindingResult bindingResult) {
         List<Artist> singers = new ArrayList<Artist>();
         List<Artist> producers = new ArrayList<Artist>();
         List<Artist> writers = new ArrayList<Artist>();
@@ -88,13 +95,19 @@ public class SongController {
         song.setAlbum(null);
         song.setPubblicationDate(LocalDate.now());
         song.setNumberOfPlays(0);
+        this.songValidator.validate(song, bindingResult);
+        if(bindingResult.hasErrors()){
+            model.addAttribute("error","Song already exists");
+            model.addAttribute("song", new Song());
+            return "artist/formNewSong.html";
+        }
         this.songService.save(song);
         model.addAttribute("song", song);
         return "redirect:/songs/"+song.getId();
     }
 
     @PostMapping("/artist/newAlbum/newSong/song")
-    public String albumFormNewSong(@ModelAttribute("song") Song song, Model model) {
+    public String albumFormNewSong(@Valid @ModelAttribute("song") Song song, Model model, BindingResult bindingResult) {
         List<Artist> singers = new ArrayList<Artist>();
         List<Artist> producers = new ArrayList<Artist>();
         List<Artist> writers = new ArrayList<Artist>();
@@ -122,6 +135,11 @@ public class SongController {
         song.setWriters(writers);
         song.setPubblicationDate(LocalDate.now());
         song.setNumberOfPlays(0);
+        if(bindingResult.hasErrors()){
+            model.addAttribute("error","Song already exists");
+            model.addAttribute("song", new Song());
+            return "artist/albumFormNewSong.html";
+        }
         this.songService.save(song);
         return "redirect:/artist/formNewAlbum";
     }

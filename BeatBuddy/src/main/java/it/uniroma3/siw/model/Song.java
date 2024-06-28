@@ -16,7 +16,11 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Transient;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @JsonIdentityInfo(
 	generator = ObjectIdGenerators.PropertyGenerator.class,
@@ -28,7 +32,9 @@ public class Song implements Comparable{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @NotBlank
     private String title;
+    @NotNull
     private Integer duration;
     private LocalDate pubblicationDate;
     private Integer numberOfPlays;

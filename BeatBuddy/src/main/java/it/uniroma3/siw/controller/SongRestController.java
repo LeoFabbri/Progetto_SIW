@@ -11,13 +11,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import it.uniroma3.siw.model.Song;
 import it.uniroma3.siw.repository.ArtistRepository;
+import it.uniroma3.siw.repository.SongRepository;
 import it.uniroma3.siw.service.SongService;
 
 @RestController
 public class SongRestController {
 
     @Autowired
-    private SongService songService;
+    private SongRepository songRepository;
 
     @Autowired
     private ArtistRepository artistRepository;
@@ -26,8 +27,7 @@ public class SongRestController {
     @ResponseBody
     public List<Song> getSongs(Model model){
         List<Song> canzoni = new ArrayList<Song>();
-        for(Song s : this.songService.findBySinger(this.artistRepository.findById((Long)model.getAttribute("artistID")).get())){
-            System.out.println(s.getTitle());
+        for(Song s : this.songRepository.findBySinger(this.artistRepository.findById((Long)model.getAttribute("artistID")).get())){
             canzoni.add(s);
         }
         return canzoni;

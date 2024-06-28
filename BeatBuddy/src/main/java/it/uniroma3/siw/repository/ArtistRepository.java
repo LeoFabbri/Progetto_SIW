@@ -13,7 +13,7 @@ public interface ArtistRepository extends CrudRepository<Artist,Long>{
 
     public List<Artist> findByStageName(String stageName);
 
-    @Query(value = "select a from Artist a where a.id != ?1")
+    @Query(value = "select a from Artist a where a.id != :id")
     public List<Artist> findAllExceptId(Long id);
 
 }
