@@ -17,25 +17,14 @@ import jakarta.validation.constraints.Email;
 public class Review {
     
     @Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
     private Integer stars;
 	private String comment;
     private LocalDate pubblicationDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Song song;
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private User user;
-
-    public Song getSong() {
-        return song;
-    }
-
-    public void setSong(Song song) {
-        this.song = song;
-    }
 
     public Long getId() {
 		return this.id;
@@ -70,7 +59,7 @@ public class Review {
     }
 
     public User getUser() {
-        return this.user;
+        return user;
     }
 
     public void setUser(User user) {

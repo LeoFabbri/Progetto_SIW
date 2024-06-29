@@ -15,7 +15,7 @@ import jakarta.persistence.OneToMany;
 public class Artist {
 
     @Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private String stageName;
     private String realName;
