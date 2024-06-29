@@ -15,6 +15,7 @@ import it.uniroma3.siw.model.Artist;
 import it.uniroma3.siw.model.User;
 import it.uniroma3.siw.model.Review;
 import it.uniroma3.siw.model.Song;
+import it.uniroma3.siw.repository.PlaylistRepository;
 import it.uniroma3.siw.repository.ReviewRepository;
 import it.uniroma3.siw.service.ArtistService;
 import it.uniroma3.siw.service.CredentialsService;
@@ -37,12 +38,14 @@ public class SongController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private PlaylistRepository playlistRepository;
+
     @GetMapping("/song/{id}")
     public String getSong(@PathVariable("id") Long id, Model model) {
         Song song = this.songService.findById(id);
         model.addAttribute("song", song);
         model.addAttribute("recensioni", reviewService.findBySong(song));
-        System.out.println(credentialsService.getCredentials((Long) model.getAttribute("userId")).getRole());
         if((Long) model.getAttribute("userId") == null){
             model.addAttribute("role", "ANONIMO");
         }else{
@@ -50,9 +53,12 @@ public class SongController {
                 User user = userService.findById((Long) model.getAttribute("userId"));
                 model.addAttribute("role", "DEFAULT");
     
+                // this.userService.findById((Long) model.getAttribute("userId")).getPlaylistsCreated().get(0).getSongs().contains(song);
+
                 Review recensioneUser = reviewService.findBySongAndUser(song, user);
                 model.addAttribute("recensioneUser", recensioneUser);
-                model.addAttribute("playlists", this.userService.findById((Long) model.getAttribute("userId")).getPlaylistsCreated());
+                // model.addAttribute("playlists", this.userService.findById((Long) model.getAttribute("userId")).getPlaylistsCreated());
+                model.addAttribute("playlists", this.playlistRepository.findByUSerAndSong(user, song));
             }
             else{
                 model.addAttribute("role", "ARTIST");

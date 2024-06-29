@@ -75,11 +75,25 @@
         </div>
         
         <div th:if="${playlists==null || playlists.isEmpty()}" class="alert alert-warning" role="alert">
-            Non ci sono playlist nel sistema.
+            Non hai playlist.
         </div>
         
         <div th:if="${playlists != null && !playlists.isEmpty()}" class="list-group">
             <div th:each="playlist : ${playlists}" class="list-group-item list-group-item-action">
+                <a th:href="@{'/playlist/' + ${playlist.id}}" th:text="${playlist.title}" class="stretched-link"></a>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1>Le Playlists pubbliche degli utenti</h1>
+        </div>
+
+        <div th:if="${publicPlaylists==null || publicPlaylists.isEmpty()}" class="alert alert-warning" role="alert">
+            Non ci sono playlist pubbliche nel sistema.
+        </div>
+        
+        <div th:unless="${publicPlaylists==null || publicPlaylists.isEmpty()}" class="list-group">
+            <div th:each="playlist : ${publicPlaylists}" class="list-group-item list-group-item-action">
                 <a th:href="@{'/playlist/' + ${playlist.id}}" th:text="${playlist.title}" class="stretched-link"></a>
             </div>
         </div>
