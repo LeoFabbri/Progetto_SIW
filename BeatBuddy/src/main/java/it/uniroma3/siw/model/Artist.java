@@ -3,13 +3,13 @@ package it.uniroma3.siw.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
 
 @Entity
 public class Artist {
@@ -22,7 +22,17 @@ public class Artist {
 	private LocalDate dataDiNascita;
     private Long monthlyListeners;
     private String biography;
-	private String urlImage;
+
+	@Column(length = 1000000000)
+	private String base64;
+
+	public String getBase64() {
+		return base64;
+	}
+
+	public void setBase64(String base64) {
+		this.base64 = base64;
+	}
 
 	@ManyToMany(mappedBy = "producedBy")
 	private List<Song> songsProduced;
@@ -35,13 +45,6 @@ public class Artist {
 
 	@ManyToMany(mappedBy = "artists", fetch = FetchType.EAGER)
 	private List<Album> albums;
-
-	public Artist(){}
-
-	public Artist(String stageName, String urlImage){
-		this.stageName=stageName;
-		this.urlImage=urlImage;
-	}
 
     public Long getId() {
 		return this.id;
@@ -91,13 +94,7 @@ public class Artist {
         this.biography = biography;
     }
 
-	public String getUrlImage() {
-        return urlImage;
-    }
 
-    public void setUrlImage(String urlImage) {
-        this.urlImage = urlImage;
-    }
 
 	public List<Song> getSongsProduced() {
 		return songsProduced;

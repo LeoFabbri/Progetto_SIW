@@ -5,43 +5,76 @@
 	<title>
 		BeatBuddy - Registration
 	</title>
+	<link href="/css/registration.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
 </head>
 
 <body>
 
-	<h1>Registrazione</h1>
-	<form th:action="@{/registration}" method="POST">
-			<div>
-				<span>Name:</span>
-				<span><input name="name" type="text" required th:field="${user.name}"/></span>
-			</div>
-			<div>
-				<span>Surname:</span>
-				<span><input name="surname" type="text" required th:field="${user.surname}"/></span>
-			</div>
-            <div>
-				<span>Email:</span>
-				<span><input name="email" type="text" required th:field="${user.email}"/></span>
-			</div>
-            <div>
-				<span>Username:</span>
-				<span><input name="username" type="text" required th:field="${credentials.username}"/></span>
-			</div>
-            <div>
-				<span>Password:</span>
-				<span><input name="password" type="password" required th:field="${credentials.password}"/></span>
-			</div>
+	<nav class="navbar navbar-expand-lg navbar-light border-bottom">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">Login</a>
+                    </li>
+                </ul>
+                <a class="navbar-brand mx-auto" href="/">BeatBuddy</a>
+            </div>
+        </div>
+    </nav>
 
-            <div>
-				<span>Role:</span>
-				<span><label>User</label><input type="radio" name="user" value="DEFAULT" th:field="${credentials.role}"></span>
-                <span><label>Artist</label><input type="radio" name="artist" value="ARTIST" th:field="${credentials.role}"></span>
-			</div>
-
-			<div>
-				<span><button type="submit">Submit</button></span>
-			</div>
-	</form>
+	<section class="d-flex justify-content-center align-items-center">
+        <div class="register-container">
+            <h1 class="text-center">Registrazione</h1>
+            <form th:action="@{/registration}" method="POST">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nome:</label>
+                            <input name="name" type="text" class="form-control" required th:field="${user.name}" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="surname" class="form-label">Cognome:</label>
+                            <input name="surname" type="text" class="form-control" required th:field="${user.surname}" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email:</label>
+                            <input name="email" type="text" class="form-control" required th:field="${user.email}" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username:</label>
+                            <input name="username" type="text" class="form-control" required th:field="${credentials.username}" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password:</label>
+                            <input name="password" type="password" class="form-control" required th:field="${credentials.password}" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="role" class="form-label">Ruolo:</label>
+                            <div>
+                                <input type="radio" name="role" value="DEFAULT" th:field="${credentials.role}">
+                                <label for="role">User</label>
+                            </div>
+                            <div>
+                                <input type="radio" name="role" value="ARTIST" th:field="${credentials.role}">
+                                <label for="role">Artist</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary btn-lg w-100">Sign in</button>
+                </div>
+            </form>
+        </div>
+    </section>
 </body>
 
 </html>

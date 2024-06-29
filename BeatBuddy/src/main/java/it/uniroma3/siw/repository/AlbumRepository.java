@@ -10,4 +10,6 @@ public interface AlbumRepository extends CrudRepository<Album,Long>{
 
     public List<Album> findByTitle(String title);
 
+    public List<Album> findByTitleContainingIgnoreCase(String title);
+
 }

@@ -48,15 +48,17 @@
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Previous</span>
                 </button>
+                
                 <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Next</span>
                 </button>
+    
                 
             </div>
             <div class="center-container">
-                <form id="searchForm" class="search-form">
-                    <input class="form-control search-input" type="search" placeholder="Search an artist, song or album..." aria-label="Search">
+                <form th:action="@{/searchAll}" method="post" class="search-form">
+                    <input class="form-control search-input" th:value="${name}" name="name" autocomplete="off" placeholder="Search an artist, song or album..." aria-label="Search">
                     <button class="btn btn-outline-success search-btn" type="submit">Search</button>
                 </form>
             </div>
@@ -77,7 +79,7 @@
                                     <a th:href="@{/album/{id}(id=${album.id})}">
                                         <div class="d-flex justify-content-around">
                                             <div class="carousel-square">
-                                                <img th:src="${album.urlImage}" th:alt="${album.title}" class="img-fluid">
+                                                <img th:src=" 'data:image/;base64,' + ${album.base64}" alt="Album Image" >
                                                 <h5 class="text-center square-text" th:text="${album.title}">Album Title</h5>
                                             </div>
                                         </div>
@@ -111,7 +113,7 @@
                                     <a th:href="@{/artist/{id}(id=${artist.id})}">
                                         <div class="d-flex justify-content-around">
                                             <div class="carousel-circle">
-                                                <img th:src="${artist.urlImage}" th:alt="${artist.stageName}" class="img-fluid">
+                                                <img th:src=" 'data:image/;base64,' + ${artist.base64}" alt="Artist Image" >
                                                 <h5 class="text-center circle-text" th:text="${artist.stageName}">Artist Title</h5>
                                             </div>
                                         </div>
@@ -132,28 +134,36 @@
             </div>
 
             <div class="container mt-4">
-                <h2 class="section-title text-center mb-4">Le canzoni del momento</h2>
-                <div class="row">
+                <h2 class="section-title">Le canzoni del momento</h2>
+                <div class="row-song">
                     <div th:each="song, iterStat : ${songs}" class="col-12 mb-4">
-                        <div class="song-card d-flex align-items-center">
-                            <img th:src="${song.album.urlImage}" th:alt="${song.title}" class="album-img">
-                            <div class="song-info ms-4">
-                                <h5 class="card-title" th:text="${song.title}">Song Title</h5>
-                                <p class="card-text" th:text="${song.album.title}">Album Title</p>
-                                <p class="card-text" th:text="'Plays: ' + ${song.numberOfPlays}">Number of Plays</p>
-                                <p class="card-text" th:text="'Published: ' + ${song.pubblicationDate}">Publication Date</p>
-                                <p class="card-text" th:text="'Duration: ' + ${song.duration}">Duration</p>
-                                <audio th:src="${song.audioUrl}" controls></audio>
+                        <div class="song-card">
+                            <img th:src=" 'data:image/;base64,' + ${song.base64}" alt="Song Image" class="song-image">
+                            <div class="song-info-container">
+                                <div class="song-info">
+                                    <h2 class="card-title" th:text="${song.title}">Song Title</h2>
+                                    <p class="card-text" th:text="'Album: ' + ${song.album.title}">Album Title</p>
+                                    <audio controls>
+                                        <source th:src=" 'data:audio/mpeg;base64,' + ${song.audioBase64}">
+                                    </audio>
+                                </div>
+                                <div class="song-details">
+                                    <h4 class="card-details"><u>Details</u></h4>
+                                    <p class="card-text" th:text="'Plays: ' + ${song.numberOfPlays}">Number of Plays</p>
+                                    <p class="card-text" th:text="'Published: ' + ${song.pubblicationDate}">Publication Date</p>
+                                    <p class="card-text" th:text="'Duration: ' + ${song.duration} + ' min.'">Duration</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             
+            
         </section>
 
         <footer>
-                <em>INFO</em>
+            <p>&copy; 2024 BeatBuddy. Tutti i diritti riservati.</p>
         </footer>
 
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz4fnFO9gybBogGzJpA2lF5U5dQ4K2P6J6WmVRjZW3v2gF6S5P8p2K3aZ5" crossorigin="anonymous"></script>

@@ -1,16 +1,15 @@
 package it.uniroma3.siw.model;
 
-import java.sql.Time;
 import java.time.LocalDate;
 import java.util.List;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
 @Entity
@@ -21,7 +20,16 @@ public class Album {
     private Long id;
     private String title;
     private LocalDate pubblicationDate;
-    private String urlImage;
+    @Column(length = 1000000000)
+	private String base64;
+
+	public String getBase64() {
+		return base64;
+	}
+
+	public void setBase64(String base64) {
+		this.base64 = base64;
+	}
 
     @OneToMany(fetch = FetchType.EAGER)
     private List<Song> songs;
@@ -32,12 +40,7 @@ public class Album {
     @ManyToMany
     private List<Artist> artists;
 
-    public Album(){}
-
-    public Album(String title, String urlImage){
-        this.title=title;
-        this.urlImage=urlImage;
-    }
+    
 
     public Long getId(){
         return this.id;
@@ -61,14 +64,6 @@ public class Album {
 
     public void setPubblicationDate(LocalDate pubblicationDate) {
         this.pubblicationDate = pubblicationDate;
-    }
-
-    public String getUrlImage() {
-        return urlImage;
-    }
-
-    public void setUrlImage(String urlImage) {
-        this.urlImage = urlImage;
     }
 
     public List<Song> getSongs() {

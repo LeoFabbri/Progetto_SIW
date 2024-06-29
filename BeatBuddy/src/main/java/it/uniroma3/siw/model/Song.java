@@ -3,6 +3,7 @@ package it.uniroma3.siw.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -22,9 +23,10 @@ public class Song {
     private Integer duration;
     private LocalDate pubblicationDate;
     private Integer numberOfPlays;
-    private String audioUrl;
-
-    
+    @Column(length = 1000000000)
+	private String base64;
+    @Column(length = 1000000000)
+	private String audioBase64;    
 
     @ManyToOne
     private Album album;
@@ -121,13 +123,21 @@ public class Song {
         this.writtenBy = writtenBy;
     }
 
-    public String getAudioUrl() {
-        return audioUrl;
+    public String getAudioBase64() {
+        return audioBase64;
     }
 
-    public void setAudioUrl(String audioUrl) {
-        this.audioUrl = audioUrl;
+    public void setAudioBase64(String audioBase64) {
+        this.audioBase64 = audioBase64;
     }
+
+    public String getBase64() {
+		return base64;
+	}
+
+	public void setBase64(String base64) {
+		this.base64 = base64;
+	}
     
     @Override
     public boolean equals(Object o){

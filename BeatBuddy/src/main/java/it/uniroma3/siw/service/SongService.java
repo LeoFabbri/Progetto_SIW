@@ -1,5 +1,7 @@
 package it.uniroma3.siw.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,5 +25,7 @@ public class SongService {
     public void save(Song song){
         this.songRepository.save(song);
     }
-    
+    public List<Song> findByTitleContainingIgnoreCase(String title){
+        return songRepository.findByTitleContainingIgnoreCase(title);
+    }
 }

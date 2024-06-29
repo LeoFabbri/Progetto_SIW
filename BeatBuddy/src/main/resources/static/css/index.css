@@ -1,5 +1,5 @@
     body {
-        font-family: 'Open Sans', sans-serif;
+        font-family: 'Montserrat', sans-serif;
     }
 
     h2, h4, h5{
@@ -84,7 +84,7 @@
     .circle-text{
         text-align: center;
         font-weight: 500;
-        font-family: 'Open Sans', sans-serif;
+        font-family: 'Montserrat', sans-serif;
     }
     .carousel-square img,
     .carousel-circle img {
@@ -95,36 +95,42 @@
     .carousel-circle img {
         border-radius: 50%;
     }
+
     .carousel-control-prev,
     .carousel-control-next {
-        color: #834230 !important;
-        background-color: #834230 !important;        
-    }
-
-    .carousel-control-prev:hover,
-    .carousel-control-next:hover {
-        color: white !important;
+        color: black !important;
         background-color: #834230;
         border-color: #834230;
+        border-radius: 100px 100px ;
+        max-width: 50px;
+        max-height: 50px;   
+    }
+ 
+    .carousel-control-prev:hover,
+    .carousel-control-next:hover {
+        color: black !important;
+        background-color: #834230;
+        border-color: #834230;
+        border-radius: 100px 100px ;
+        max-width: 50px;
+        max-height: 50px;
     }
 
-
-    .song-grid .card {
-        height: 150px;
-    }
-
-    .song-card {
-        width: 800px;
-        height: 300px;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        overflow: hidden;
+    .container mt-4{
         display: flex;
+        justify-content: center;
         align-items: center;
-        padding: 10px;
-        background-color: #fff;
+        flex-direction: column;
     }
     
+    .row-song {
+        width: 80%;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+
+    }
+
     .album-img {
         width: 300px;
         height: 300px;
@@ -132,8 +138,41 @@
         border-radius: 4px;
         align-items: left;
     }
+
+
+    .song-card {
+        width: 800px;
+        height: 150px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        
+        display: flex;
+        align-items: center;
+        margin: 10px;
+        background-color: #fff;
+    }
+
+    .song-card:hover{
+        background-color: #83423040;
+    }
     
-    .song-info {
+    .song-image {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+    
+    .song-info-container {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    
+    
+    .song-info,
+    .song-details {
         flex: 1;
         padding-left: 20px;
     }
@@ -142,14 +181,16 @@
         margin-bottom: 10px;
     }
     
-    .song-info p {
+    .song-info p,
+    .song-details p {
         margin-bottom: 5px;
     }
-
+    
     .song-info audio {
         margin-top: 10px;
         width: 80%;
     }
+    
     
 
     
