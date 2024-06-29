@@ -29,5 +29,7 @@ public class SongService {
     public void save(Song song){
         this.songRepository.save(song);
     }
-    
+    public List<Song> findByTitleContainingIgnoreCase(String title){
+        return songRepository.findByTitleContainingIgnoreCase(title);
+    }
 }

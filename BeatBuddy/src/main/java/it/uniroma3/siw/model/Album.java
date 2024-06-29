@@ -1,16 +1,15 @@
 package it.uniroma3.siw.model;
 
-import java.sql.Time;
 import java.time.LocalDate;
 import java.util.List;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
 @Entity
@@ -21,6 +20,16 @@ public class Album {
     private Long id;
     private String title;
     private LocalDate pubblicationDate;
+    @Column(length = 1000000000)
+	private String base64;
+
+	public String getBase64() {
+		return base64;
+	}
+
+	public void setBase64(String base64) {
+		this.base64 = base64;
+	}
 
     @OneToMany(fetch = FetchType.EAGER)
     private List<Song> songs;
@@ -30,6 +39,8 @@ public class Album {
 
     @ManyToMany
     private List<Artist> artists;
+
+    
 
     public Long getId(){
         return this.id;
@@ -78,6 +89,7 @@ public class Album {
     public void setArtists(List<Artist> artists) {
         this.artists = artists;
     }
+
 
     @Override
     public boolean equals(Object o){

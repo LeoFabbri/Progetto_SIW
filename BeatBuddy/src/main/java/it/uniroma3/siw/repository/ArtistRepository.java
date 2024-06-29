@@ -12,4 +12,6 @@ public interface ArtistRepository extends CrudRepository<Artist,Long>{
 
     public List<Artist> findByStageName(String stageName);
 
+    public List<Artist> findByStageNameContainingIgnoreCase(String stageName);
+
 }

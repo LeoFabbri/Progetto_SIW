@@ -1,6 +1,5 @@
 package it.uniroma3.siw.model;
 
-import java.sql.Time;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -13,7 +12,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Song {
@@ -25,27 +23,10 @@ public class Song {
     private Integer duration;
     private LocalDate pubblicationDate;
     private Integer numberOfPlays;
-    
-    // public String getImagePath() {
-    //     return imagePath;
-    // }
-
-    // public void setImagePath(String imagePath) {
-    //     this.imagePath = imagePath;
-    // }
-
-    // private String imagePath;
-    
     @Column(length = 1000000000)
-    private String base64;
-
-    public String getBase64() {
-        return base64;
-    }
-
-    public void setBase64(String base64) {
-        this.base64 = base64;
-    }
+	private String base64;
+    @Column(length = 1000000000)
+	private String audioBase64;    
 
     @ManyToOne
     private Album album;
@@ -61,14 +42,6 @@ public class Song {
 
     @ManyToMany
     private List<Artist> writtenBy;
-
-    // public void setImagePath(String imagePath){
-    //     this.imagePath = imagePath;
-    // }
-
-    // public String getImagePath(){
-    //     return this.imagePath;
-    // }
 
     public Long getId(){
         return this.id;
@@ -150,6 +123,22 @@ public class Song {
         this.writtenBy = writtenBy;
     }
 
+    public String getAudioBase64() {
+        return audioBase64;
+    }
+
+    public void setAudioBase64(String audioBase64) {
+        this.audioBase64 = audioBase64;
+    }
+
+    public String getBase64() {
+		return base64;
+	}
+
+	public void setBase64(String base64) {
+		this.base64 = base64;
+	}
+    
     @Override
     public int hashCode() {
         final int prime = 31;

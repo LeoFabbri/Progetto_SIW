@@ -1,5 +1,7 @@
 package it.uniroma3.siw.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,10 @@ public class ArtistService {
 
     public void save(Artist Artist){
         this.artistRepository.save(Artist);
+    }
+
+    public List<Artist> findByStageNameContainingIgnoreCase(String stageName){
+        return artistRepository.findByStageNameContainingIgnoreCase(stageName);
     }
     
 }

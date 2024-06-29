@@ -12,6 +12,8 @@ import it.uniroma3.siw.model.Song;
 public interface SongRepository extends CrudRepository<Song,Long>{
 
     public List<Song> findByTitle(String title);
+
+    public List<Song> findByTitleContainingIgnoreCase(String title);
     
     //public List<Review> findAllReviews();
 }
