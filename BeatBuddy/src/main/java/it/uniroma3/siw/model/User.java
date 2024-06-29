@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -11,25 +12,38 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 
 @Entity
+@Table(name = "Users")
 public class User {
 
     @Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
     private String name;
 	private String surname;
     private LocalDate dateOfBirth;
     private String email;
-    //private String pwd;
+    
+    @Column(length = 100000000)
+    private String base64;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Playlist> playlistsCreated;
 
     @OneToMany(mappedBy = "user")
     private List<Review> reviews;
+
+    public String getBase64() {
+        return base64;
+    }
+
+    public void setBase64(String base64) {
+        this.base64 = base64;
+    }
 
     public Long getId() {
 		return this.id;
