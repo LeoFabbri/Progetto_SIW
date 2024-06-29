@@ -12,14 +12,25 @@ import jakarta.persistence.ManyToOne;
 public class Review {
     
     @Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
     private Integer stars;
 	private String comment;
     private LocalDate pubblicationDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Song song;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
+
+    public Song getSong() {
+        return song;
+    }
+
+    public void setSong(Song song) {
+        this.song = song;
+    }
 
     public Long getId() {
 		return this.id;
@@ -54,7 +65,7 @@ public class Review {
     }
 
     public User getUser() {
-        return user;
+        return this.user;
     }
 
     public void setUser(User user) {

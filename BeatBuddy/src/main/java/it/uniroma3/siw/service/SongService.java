@@ -18,6 +18,10 @@ public class SongService {
         return this.songRepository.findById(id).get();
     }
 
+    public List<Song> findByTitle(String title){
+        return this.songRepository.findByTitle(title);
+    }
+
     public Iterable<Song> findAll(){
         return this.songRepository.findAll();
     }

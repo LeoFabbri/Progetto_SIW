@@ -17,7 +17,7 @@ import jakarta.persistence.OneToMany;
 public class Song {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
     private Integer duration;
@@ -140,14 +140,36 @@ public class Song {
 	}
     
     @Override
-    public boolean equals(Object o){
-        Song song = (Song)o;
-        return this.title.equals(song.getTitle()) && this.duration.equals(song.getDuration());
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((title == null) ? 0 : title.hashCode());
+        result = prime * result + ((duration == null) ? 0 : duration.hashCode());
+        return result;
     }
 
     @Override
-    public int hashCode(){
-        return this.title.hashCode() + this.duration.hashCode();
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Song other = (Song) obj;
+        if (title == null) {
+            if (other.title != null)
+                return false;
+        } else if (!title.equals(other.title))
+            return false;
+        if (duration == null) {
+            if (other.duration != null)
+                return false;
+        } else if (!duration.equals(other.duration))
+            return false;
+        return true;
     }
+    
+    
 
 }
