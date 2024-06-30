@@ -26,7 +26,7 @@ public class ArtistRestController {
     @ResponseBody
     public List<Artist> getSingers(Model model){
         List<Artist> artisti = new ArrayList<Artist>();
-        for (Artist a : this.artistRepository.findAllExceptId((Long)model.getAttribute("artistID"))) {
+        for (Artist a : this.artistRepository.findAllExceptId((Long)model.getAttribute("userId"))) {
             artisti.add(a);
         }
         return artisti;

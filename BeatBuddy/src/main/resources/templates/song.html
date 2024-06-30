@@ -154,7 +154,7 @@
                     <div class="artist-list">
                         <ul>
                             <li th:each="artist : ${song.singers}">
-                                <span th:text="${artist.name}">Nome Artista</span>
+                                <span th:text="${artist.stageName}">Nome Artista</span>
                             </li>
                         </ul>
                     </div>
@@ -195,7 +195,7 @@
                 <div th:if="${role=='DEFAULT' && recensioneUser == null}" class="mt-4">
                     <div class="mt-4 p-4 border rounded">
                         <h2 class="section-title">Lascia una Recensione</h2>
-                        <form th:action="@{'/song/' + ${song.id} + '/recensione'}" method="post">
+                        <form th:action="@{'/songs/' + ${song.id} + '/recensione'}" method="post">
                             <div class="mb-3">
                                 <label for="stars" class="form-label">Stelle (da 1 a 5)</label>
                                 <input type="number" id="stars" name="stars" min="1" max="5" class="form-control" required>

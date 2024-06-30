@@ -20,6 +20,7 @@ import it.uniroma3.siw.model.Song;
 import it.uniroma3.siw.model.User;
 import it.uniroma3.siw.repository.ArtistRepository;
 import it.uniroma3.siw.repository.PlaylistRepository;
+import it.uniroma3.siw.service.ArtistService;
 import it.uniroma3.siw.service.CredentialsService;
 import it.uniroma3.siw.service.ReviewService;
 import it.uniroma3.siw.service.SongService;
@@ -46,6 +47,9 @@ public class SongController {
 
     @Autowired
     private ArtistRepository artistRepository;
+
+    @Autowired
+    private ArtistService artistService;
 
     @Autowired
     private ReviewService reviewService;
@@ -107,18 +111,12 @@ public class SongController {
         reviewService.save(recensione);
         song.getReviews().add(recensione);
 
-        return "redirect:/song/" + id;
-    }
-
-    @GetMapping("/songs")
-    public String showSongs(Model model) {
-        model.addAttribute("songs", this.songService.findAll());
-        return "songs.html";
+        return "redirect:/songs/" + id;
     }
 
     @GetMapping("/artist/songs")
     public String getArtistSongs(Model model){
-        model.addAttribute("songs", this.songService.findBySinger(this.artistRepository.findById((Long)model.getAttribute("artistID")).get()));
+        model.addAttribute("songs", this.songService.findBySinger(this.artistRepository.findById((Long)model.getAttribute("userId")).get()));
         return "artist/artistSongs.html";
     }
 
@@ -139,23 +137,23 @@ public class SongController {
         List<Artist> singers = new ArrayList<Artist>();
         List<Artist> producers = new ArrayList<Artist>();
         List<Artist> writers = new ArrayList<Artist>();
-        singers.add(this.artistRepository.findById((Long)model.getAttribute("artistID")).get());
+        singers.add(this.artistService.findById((Long)model.getAttribute("userId")));
         if(song.getSingersId()!=null){
             for(String id : song.getSingersId()){
-                this.artistRepository.findById(Long.parseLong(id)).get().getSongsSung().add(song);
-                singers.add(this.artistRepository.findById(Long.parseLong(id)).get());
+                this.artistService.findById(Long.parseLong(id)).getSongsSung().add(song);
+                singers.add(this.artistService.findById(Long.parseLong(id)));
             }
         }
         if(song.getProducersId()!=null){
             for(String id : song.getProducersId()){
-                this.artistRepository.findById(Long.parseLong(id)).get().getSongsProduced().add(song);
-                producers.add(this.artistRepository.findById(Long.parseLong(id)).get());
+                this.artistService.findById(Long.parseLong(id)).getSongsProduced().add(song);
+                producers.add(this.artistService.findById(Long.parseLong(id)));
             }
         }
         if(song.getWritersId()!=null){
             for(String id : song.getWritersId()){
-                this.artistRepository.findById(Long.parseLong(id)).get().getSongWritten().add(song);
-                writers.add(this.artistRepository.findById(Long.parseLong(id)).get());
+                this.artistService.findById(Long.parseLong(id)).getSongWritten().add(song);
+                writers.add(this.artistService.findById(Long.parseLong(id)));
             }
         }
         song.setSingers(singers);
@@ -180,7 +178,7 @@ public class SongController {
         List<Artist> singers = new ArrayList<Artist>();
         List<Artist> producers = new ArrayList<Artist>();
         List<Artist> writers = new ArrayList<Artist>();
-        singers.add(this.artistRepository.findById((Long)model.getAttribute("artistID")).get());
+        singers.add(this.artistRepository.findById((Long)model.getAttribute("userId")).get());
         if(song.getSingersId()!=null){
             for(String id : song.getSingersId()){
                 this.artistRepository.findById(Long.parseLong(id)).get().getSongsSung().add(song);
@@ -215,7 +213,10 @@ public class SongController {
     
     @GetMapping("/artist/deleteSongs")
     public String getDeleteSongs(Model model) {
-        model.addAttribute("songs", this.songService.findBySinger(this.artistRepository.findById((Long)model.getAttribute("artistID")).get()));
+        System.out.println((Long)model.getAttribute("userId"));
+        System.out.println(this.artistService.findById((Long)model.getAttribute("userId")).getStageName());
+        System.out.println(this.songService.findBySinger(this.artistService.findById((Long)model.getAttribute("userId"))).size());
+        model.addAttribute("songs", this.songService.findBySinger(this.artistService.findById((Long)model.getAttribute("userId"))));
         return "artist/deleteArtistSongs.html";
     }
 

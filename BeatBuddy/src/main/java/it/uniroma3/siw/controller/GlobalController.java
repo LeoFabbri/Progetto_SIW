@@ -8,13 +8,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-import it.uniroma3.siw.repository.CredentialsRepository;
+import it.uniroma3.siw.service.CredentialsService;
 
 @ControllerAdvice
 public class GlobalController {
 
     @Autowired
-    private CredentialsRepository credentialsRepository;
+    private CredentialsService credentialsService;
     
     @ModelAttribute("userDetails")
     public UserDetails getUser() {
@@ -33,7 +33,11 @@ public class GlobalController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            id = credentialsRepository.findByUsername(user.getUsername()).get().getId();
+            String role = credentialsService.getCredentials(user.getUsername()).getRole();
+            if(role.equals("DEFAULT"))
+                id = credentialsService.getCredentials(user.getUsername()).getUser().getId();
+            else
+                id = credentialsService.getCredentials(user.getUsername()).getArtist().getId();
         }
         return id;
     }

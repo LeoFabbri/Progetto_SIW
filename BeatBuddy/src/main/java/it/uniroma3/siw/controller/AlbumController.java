@@ -60,7 +60,7 @@ public class AlbumController {
     public String newAlbum(@Valid @ModelAttribute("album") Album album, Model model, BindingResult bindingResult) {
         List<Artist> artists = new ArrayList<Artist>();
         List<Song> existingSongs = new ArrayList<Song>();
-        artists.add(this.artistRepository.findById((Long)model.getAttribute("artistID")).get());
+        artists.add(this.artistRepository.findById((Long)model.getAttribute("userId")).get());
         List<Song> songs = new ArrayList<Song>();
         if(album.getSongs()!=null){
             songs.addAll(album.getSongs());
@@ -113,7 +113,7 @@ public class AlbumController {
 
     @GetMapping("/artist/deleteAlbums")
     public String getDeleteAlbums(Model model){
-        model.addAttribute("albums", this.albumService.findByArtist(this.artistRepository.findById((Long)model.getAttribute("artistID")).get()));
+        model.addAttribute("albums", this.albumService.findByArtist(this.artistRepository.findById((Long)model.getAttribute("userId")).get()));
         return "artist/deleteArtistAlbum.html";
     }
 
@@ -157,7 +157,7 @@ public class AlbumController {
     public String getFormAlbumAddArtists(@PathVariable("id") Long id, Model model){
         model.addAttribute("album", this.albumService.findById(id));
         model.addAttribute("newAlbum", new Album());
-        model.addAttribute("artists", this.artistService.findAllExceptId((Long)model.getAttribute("artistID")));
+        model.addAttribute("artists", this.artistService.findAllExceptId((Long)model.getAttribute("userId")));
         return "artist/formAlbumAddArtists.html";
     }
 

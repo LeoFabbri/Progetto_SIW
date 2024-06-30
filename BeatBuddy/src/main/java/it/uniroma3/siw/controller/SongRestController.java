@@ -27,7 +27,7 @@ public class SongRestController {
     @GetMapping("/rest/songs")
     @ResponseBody
     public List<Song> getSongs(Model model){
-        Artist singer = this.artistRepository.findById((Long)model.getAttribute("artistID")).get();
+        Artist singer = this.artistRepository.findById((Long)model.getAttribute("userId")).get();
         List<Song> songs = this.songRepository.findBySinger(singer);
         System.out.println("Fetched songs : "+songs);
         return songs;
