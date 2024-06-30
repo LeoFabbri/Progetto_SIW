@@ -27,37 +27,75 @@
 
     <div class="container-fluid song-container">
         <div class="row">
+            <!-- Colonna dell'immagine della canzone e delle informazioni -->
             <div class="col-md-4">
-                <img th:src="'data:image/jpeg;base64,' + ${song.base64}" class="song-image" alt="Questa Canzone non ha foto">
-                <div th:if="${role=='DEFAULT'}" class="mt-4">
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#playlistModal">Aggiungi canzone a una playlist</button>
+                <div class="song-info">
+                    <img th:src="'data:image/jpeg;base64,' + ${song.base64}" class="song-image" alt="Questa Canzone non ha foto">
+                    <h1 th:text="${song.title}">Titolo Canzone</h1>
+                    <ul>
+                        <li><span>Data di pubblicazione: </span><span th:text="${song.pubblicationDate}"></span></li>
+                        <li><span>Durata: </span><span th:text="${song.duration}"></span></li>
+                        <li><span>Ascolti: </span><span th:text="${song.numberOfPlays}"></span></li>
+                    </ul>
                 </div>
-                <div class="artist-section">
-                    <h2>Artisti</h2>
-                    <div class="artist-list">
-                        <ul>
-                            <li th:each="artist : ${song.singers}">
-                                <span th:text="${artist.stageName}">Nome Artista</span>
-                            </li>
-                        </ul>
+            </div>
+    
+            <!-- Colonna degli artisti -->
+            <div class="col-md-4 artist-section">
+                <h2 class="section-title">Cantanti</h2>
+                <div class="row">
+                    <div th:each="artist : ${song.singers}" class="col-md-4 mb-4">
+                        <a th:href="@{'/artist/' + ${artist.id}}" class="text-decoration-none">
+                            <div class="card h-100">
+                                <img th:src="'data:image/jpeg;base64,' + ${artist.base64}" class="card-img-top" alt="Artista senza foto" style="width: 100%; height: 250px; object-fit: cover;">
+                                <div class="card-body text-center">
+                                    <span th:text="${artist.stageName}" class="card-title">Nome Artista</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <h2 class="section-title">Scrittori</h2>
+                <div th:if="${song.writers == null || song.writers.size() == 0}" class="row">
+                    <p class="text-center">Questa canzone non ha scrittori iscritti al sito!</p>
+                </div>
+                <div th:unless="${song.writers == null || song.writers.size() == 0}" class="row">
+                    <div th:each="artist : ${song.writers}" class="col-md-4 mb-4">
+                        <a th:href="@{'/artist/' + ${artist.id}}" class="text-decoration-none">
+                            <div class="card h-100">
+                                <img th:src="'data:image/jpeg;base64,' + ${artist.base64}" class="card-img-top" alt="Artista senza foto" style="width: 100%; height: 250px; object-fit: cover;">
+                                <div class="card-body text-center">
+                                    <span th:text="${artist.stageName}" class="card-title">Nome Artista</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <h2 class="section-title">Produttori</h2>
+                <div th:if="${song.producers == null || song.producers.size() == 0}" class="row">
+                    <p class="text-center">Questa canzone non ha produttori iscritti al sito!</p>
+                </div>
+                <div th:unless="${song.producers == null || song.producers.size() == 0}" class="row">
+                    <div th:each="artist : ${song.producers}" class="col-md-4 mb-4">
+                        <a th:href="@{'/artist/' + ${artist.id}}" class="text-decoration-none">
+                            <div class="card h-100">
+                                <img th:src="'data:image/jpeg;base64,' + ${artist.base64}" class="card-img-top" alt="Artista senza foto" style="width: 100%; height: 250px; object-fit: cover;">
+                                <div class="card-body text-center">
+                                    <span th:text="${artist.stageName}" class="card-title">Nome Artista</span>
+                                </div>
+                            </div>
+                        </a>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 song-info">
-                <h1 th:text="${song.title}">Titolo Canzone</h1>
-                <ul>
-                    <li><span>Data di pubblicazione: </span><span th:text="${song.pubblicationDate}"></span></li>
-                    <li><span>Durata: </span><span th:text="${song.duration}"></span></li>
-                    <li><span>Ascolti: </span><span th:text="${song.numberOfPlays}"></span></li>
-                </ul>
-                
-            </div>
+
+            <!-- Colonna delle recensioni -->
             <div class="col-md-4 review-section">
                 <h2 class="section-title">Recensioni</h2>
                 <div th:if="${recensioni != null && !recensioni.isEmpty()}">
                     <div th:each="rec : ${recensioni}" class="review-container">
                         <div class="review-header">
-                            <img th:src="'data:image/jpeg;base64,' + ${rec.user.base64}" alt="Utente senza foto" style="width: 50px; height: 50px;">
+                            <img th:src="'data:image/jpeg;base64,' + ${rec.user.base64}" alt="Utente senza foto" class="rounded-circle" style="width: 50px; height: 50px;">
                             <h4 th:text="${rec.user.name} + ' ' + ${rec.user.surname}"></h4>
                         </div>
                         <div class="review-stars">
@@ -90,8 +128,16 @@
                     </div>
                 </div>
             </div>
+
         </div>
-    </div>
+    </div>                    
+    
+    <!-- <div class="col-md-4">
+        <img th:src="'data:image/jpeg;base64,' + ${song.base64}" class="song-image" alt="Questa Canzone non ha foto">
+        <div th:if="${role=='DEFAULT'}" class="mt-4">
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#playlistModal">Aggiungi canzone a una playlist</button>
+        </div>
+    </div> -->
 
     <!-- Modal -->
     <div class="modal fade" id="playlistModal" tabindex="-1" aria-labelledby="playlistModalLabel" aria-hidden="true">

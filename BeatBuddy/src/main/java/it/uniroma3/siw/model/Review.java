@@ -23,6 +23,9 @@ public class Review {
     private Song song;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    private Album album;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
     public Song getSong() {
@@ -71,6 +74,14 @@ public class Review {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Album getAlbum() {
+        return album;
+    }
+
+    public void setAlbum(Album album) {
+        this.album = album;
     }
     
 	@Override
