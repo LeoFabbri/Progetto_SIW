@@ -68,6 +68,13 @@ public class AuthenticationController {
 			if (credentials.getRole().equals("ARTIST")) {
 				return "artistHome.html";
 			}else{
+                Iterable<Album> albums = albumService.findAll();
+                Iterable<Artist> artists = artistService.findAll();
+                Iterable<Song> songs = songService.findAll();
+
+                model.addAttribute("albums", albums);
+                model.addAttribute("artists", artists);
+                model.addAttribute("songs", songs);
                 return "userHome.html";
             }
 

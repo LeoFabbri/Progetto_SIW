@@ -64,8 +64,6 @@
         color: white !important;
     }
 
-    /* SECTION */ 
-
     .carousel-slide{
         width: 20%;
     }
@@ -76,6 +74,10 @@
         object-fit: cover;
         width: 100%;
     }
+
+    /* SECTION */ 
+
+    
     .section-title {
         margin: 30px 0 30px;
         font-size: 1.8rem;
@@ -97,11 +99,13 @@
     .carousel-circle img {
         border-radius: 50%;
     }
+    .carousel-square img{
+        border-radius: 10%;
+    }
 
     .carousel-control-prev,
     .carousel-control-next {
         color: black !important;
-        background-color: #834230 !important;
         border-radius: 100px 100px ;
         max-width: 50px;
     }
@@ -109,7 +113,6 @@
     .carousel-control-prev:hover,
     .carousel-control-next:hover {
         color: black !important;
-        background-color: #834230;
         border-radius: 100px 100px ;
     }
 
@@ -132,7 +135,7 @@
         width: 300px;
         height: 300px;
         object-fit: cover;
-        border-radius: 4px;
+        border-radius: 10px;
         align-items: left;
     }
 
@@ -150,7 +153,7 @@
     }
 
     .song-card:hover{
-        background-color: #83423040;
+        background-color: #83423082;
     }
     
     .song-image {
