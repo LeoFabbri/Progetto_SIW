@@ -26,7 +26,10 @@
                         <a th:href="@{'/artist/updateAlbum/addArtists/'+${album.id}}">Aggiungi artisti</a>
                     </ul>
                 </div>
-                <div th:if="${album.artists.isEmpty()}"><i>Nessun artista inserito</i></div>
+
+                <div th:if="${album.artists.isEmpty()}"><i>Nessun artista inserito</i>
+                    <a th:href="@{'/artist/updateAlbum/addArtists/'+${album.id}}">Aggiungi artisti</a>
+                </div>
 
                 <div th:unless="${album.songs.isEmpty()}">
                     <b>Brani:</b>
@@ -39,7 +42,9 @@
                         <a th:href="@{'/artist/updateAlbum/addSongs/'+${album.id}}">Aggiungi brani</a>
                     </ul>
                 </div>
-                <div th:if="${album.songs.isEmpty()}"><i>Nessun brano inserito</i></div>
+                <div th:if="${album.songs.isEmpty()}"><i>Nessun brano inserito</i>
+                    <a th:href="@{'/artist/updateAlbum/addArtists/'+${album.id}}">Aggiungi artisti</a>
+                </div>
 
             </div>
         

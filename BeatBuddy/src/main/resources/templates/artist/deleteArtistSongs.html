@@ -33,7 +33,7 @@
                 <ul class="list-group">
                     <li class="list-group-item d-flex justify-content-between align-items-center" th:each="song : ${songs}">
                         <span th:text="${song.title}">Nome canzone</span>
-                        <a href="#" class="btn btn-danger btn-sm" onclick="confirmNavigation(event, '@{/artist/deleteSongs/' + '${song.id}}')">Elimina</a>
+                        <a href="#" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#confirmModal">Elimina</a>
                     </li>
                 </ul>
         
@@ -59,7 +59,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
-                        <a id="confirmDeleteBtn" class="btn btn-danger">Elimina</a>
+                        <a th:href="@{'/artist/deleteSongs/'+${song.id}}" id="confirmDeleteBtn" class="btn btn-danger">Elimina</a>
                     </div>
                 </div>
             </div>
@@ -68,13 +68,6 @@
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <script>
-            function confirmNavigation(event, url) {
-                event.preventDefault();
-                $('#confirmDeleteBtn').attr('href', url);
-                $('#confirmModal').modal('show');
-            }
-        </script>
 
     </body>
 

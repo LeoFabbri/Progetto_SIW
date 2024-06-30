@@ -10,12 +10,12 @@
         <a href="/"><h1>BeatBuddy</h1></a>
 
         <div>
-            <i>Canzoni:</i>
+            <i>Albums:</i>
             <div th:if="${albums}">
 
                 <ul>
                     <li th:each="album : ${albums}">
-                        <span th:text="${album.title}">Nome canzone</span>
+                        <span th:text="${album.title}">Nome Album: </span>
                         <a th:href="@{'/artist/formUpdateAlbum/'+${album.id}}">Modifica</a>
                     </li>
                 </ul> 

@@ -39,6 +39,11 @@ public class SongService {
     public List<Song> findBySinger(Artist a){
         return this.songRepository.findBySinger(a);
     }
+
+    public List<Song> findByTitleAndSinger(String title, Artist a){
+        return this.songRepository.findByTitleAndSinger(title, a);
+    }
+
     public List<Song> findByTitleContainingIgnoreCase(String title){
         return songRepository.findByTitleContainingIgnoreCase(title);
     }

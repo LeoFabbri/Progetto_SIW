@@ -16,7 +16,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import it.uniroma3.siw.model.Playlist;
 import it.uniroma3.siw.model.Song;
 import it.uniroma3.siw.model.User;
-import it.uniroma3.siw.repository.PlaylistRepository;
 import it.uniroma3.siw.service.PlaylistService;
 import it.uniroma3.siw.service.SongService;
 import it.uniroma3.siw.service.UserService;
@@ -27,9 +26,6 @@ public class PlaylistController {
     
     @Autowired
     private PlaylistService playlistService;
-    
-	@Autowired
-    private PlaylistRepository playlistRepository;
 
     @Autowired
     private UserService userService;
@@ -54,7 +50,7 @@ public class PlaylistController {
         playlist.setUser(user);
         user.getPlaylistsCreated().add(playlist);
         playlist.setDuration(0);
-        this.playlistRepository.save(playlist); 
+        this.playlistService.save(playlist); 
 		//return "redirect:/song/{id}";
         return "redirect:/";
 	}
