@@ -48,8 +48,8 @@ public class AuthenticationController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (authentication instanceof AnonymousAuthenticationToken) {
             
-            Iterable<Album> albums = albumService.findAll(); // Recupera tutti gli album dal servizio
-            Iterable<Artist> artists = artistService.findAll(); // Recupera tutti gli artisti dal servizio
+            Iterable<Album> albums = albumService.findAll();
+            Iterable<Artist> artists = artistService.findAll();
             Iterable<Song> songs = songService.findAll();
 
             model.addAttribute("albums", albums);
