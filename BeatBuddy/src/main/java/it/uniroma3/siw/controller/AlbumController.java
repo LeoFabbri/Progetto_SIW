@@ -175,7 +175,7 @@ public class AlbumController {
     public String getFormAlbumAddSongs(@PathVariable("id") Long id, Model model){
         model.addAttribute("album", this.albumService.findById(id));
         model.addAttribute("newAlbum", new Album());
-        model.addAttribute("songs", this.songService.findAll());
+        model.addAttribute("songs", this.songService.findByArtistWithoutAlbum(this.artistService.findById((Long)model.getAttribute("userId"))));
         return "artist/formAlbumAddSongs.html";
     }
 

@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,6 +37,11 @@ public class ArtistRestController {
             artisti.add(a);
         }
         return artisti;
+    }
+
+    @GetMapping("/rest/artists/{id}")
+    public Artist getArtist(@PathVariable("id") Long id, Model model){
+        return this.artistService.findById(id);
     }
 
 }

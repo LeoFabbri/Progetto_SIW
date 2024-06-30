@@ -4,6 +4,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import it.uniroma3.siw.model.Artist;
@@ -20,12 +21,26 @@ public class SongRestController {
     @Autowired
     private ArtistService artistService;
 
-
     @GetMapping("/rest/songs")
     @ResponseBody
     public List<Song> getSongs(Model model){
         Artist singer = this.artistService.findById((Long)model.getAttribute("userId"));
         List<Song> songs = this.songService.findBySinger(singer);
+        System.out.println("Fetched songs : "+songs);
+        return songs;
+    }
+
+    @GetMapping("/rest/songs/{id}")
+    @ResponseBody
+    public Song getSong(@PathVariable("id") Long id, Model model){
+        return this.songService.findById(id);
+    }
+
+    @GetMapping("/rest/songsWithoutAlbum")
+    @ResponseBody
+    public List<Song> getSongsWithoutAlbums(Model model){
+        Artist singer = this.artistService.findById((Long)model.getAttribute("userId"));
+        List<Song> songs = this.songService.findByArtistWithoutAlbum(singer);
         System.out.println("Fetched songs : "+songs);
         return songs;
     }

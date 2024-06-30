@@ -1,6 +1,5 @@
 package it.uniroma3.siw.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,5 +45,9 @@ public class SongService {
 
     public List<Song> findByTitleContainingIgnoreCase(String title){
         return songRepository.findByTitleContainingIgnoreCase(title);
+    }
+
+    public List<Song> findByArtistWithoutAlbum(Artist artist){
+        return this.songRepository.findByArtistWithoutAlbum(artist);
     }
 }
