@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,12 +23,17 @@ import org.springframework.web.multipart.MultipartFile;
 import it.uniroma3.siw.controller.validator.AlbumValidator;
 import it.uniroma3.siw.model.Album;
 import it.uniroma3.siw.model.Artist;
+import it.uniroma3.siw.model.Review;
 import it.uniroma3.siw.model.Song;
+import it.uniroma3.siw.model.User;
 import it.uniroma3.siw.repository.AlbumRepository;
 import it.uniroma3.siw.repository.ArtistRepository;
 import it.uniroma3.siw.repository.SongRepository;
 import it.uniroma3.siw.service.AlbumService;
 import it.uniroma3.siw.service.ArtistService;
+import it.uniroma3.siw.service.CredentialsService;
+import it.uniroma3.siw.service.ReviewService;
+import it.uniroma3.siw.service.UserService;
 import jakarta.validation.Valid;
 
 @Controller
@@ -48,10 +54,54 @@ public class AlbumController {
     @Autowired
     private SongRepository songRepository;
 
+    @Autowired
+    private ReviewService reviewService;
+
+    @Autowired
+    private CredentialsService credentialsService;
+
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/albums/{id}")
-    public String getAlbum(@PathVariable("id") Long id, Model model){
-        model.addAttribute("album",this.albumService.findById(id));
+    public String getAlbum(@PathVariable("id") Long id, Model model) {
+        Album album = this.albumService.findById(id);
+        model.addAttribute("album", album);
+        model.addAttribute("recensioni", reviewService.findByAlbum(album));
+        if((Long) model.getAttribute("userId") == null){
+            model.addAttribute("role", "ANONIMO");
+        }else{
+            if(credentialsService.getCredentials(((UserDetails) model.getAttribute("userDetails")).getUsername()).getRole().equals("DEFAULT")){
+                User user = userService.findById((Long) model.getAttribute("userId"));
+                model.addAttribute("role", "DEFAULT");
+    
+                Review recensioneUser = reviewService.findByAlbumAndUser(album, user);
+                model.addAttribute("recensioneUser", recensioneUser);
+            }
+            else{
+                model.addAttribute("role", "ARTIST");
+            }
+        }
+
         return "album.html";
+    }
+
+    @PostMapping("/albums/{id}/recensione")
+    public String addRecensione(@PathVariable("id") Long id, @RequestParam int stars, 
+                                @RequestParam String comment, @ModelAttribute("userId") Long userId, Model model) {
+        Album album = this.albumService.findById(id);
+        User user = userService.findById(userId);
+
+        Review recensione = new Review();
+        recensione.setUser(user);
+        recensione.setAlbum(album);
+        recensione.setComment(comment);
+        recensione.setPubblicationDate(LocalDate.now());
+        recensione.setStars(stars);
+        reviewService.save(recensione);
+        album.getReviews().add(recensione);
+
+        return "redirect:/albums/" + id;
     }
 
     @GetMapping("/artist/formNewAlbum")

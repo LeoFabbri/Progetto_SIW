@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import it.uniroma3.siw.model.Album;
 import it.uniroma3.siw.model.Artist;
 import it.uniroma3.siw.model.Review;
 import it.uniroma3.siw.model.Song;
@@ -35,6 +36,14 @@ public class ReviewService {
 
     public List<Review> findBySong(Song song){
         return this.reviewRepository.findBySong(song);
+    }
+
+    public List<Review> findByAlbum(Album album){
+        return this.reviewRepository.findByAlbum(album);
+    }
+
+    public Review findByAlbumAndUser(Album album, User user){
+        return this.reviewRepository.findByAlbumAndUser(album, user);
     }
 
 }

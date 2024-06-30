@@ -24,13 +24,12 @@ INSERT INTO song(id, title, pubblication_date, album_id, duration, number_of_pla
 
 
 INSERT INTO song(id, title, pubblication_date, duration, number_of_plays) VALUES(nextval('song_id_seq'), 'a', '2002-02-02',  140, 150);
-/* 
-INSERT INTO song(id, title, pubblication_date, duration, number_of_plays) VALUES(nextval('song_id_seq'), 'b', '2002-02-02',  130, 150);
 
-INSERT INTO song(id, title, pubblication_date, duration, number_of_plays) VALUES(nextval('song_id_seq'), 'c', '2002-02-02',  120, 150);
-INSERT INTO song(id, title, pubblication_date, duration, number_of_plays) VALUES(nextval('song_id_seq'), 'd', '2002-02-02',  110, 150);
-INSERT INTO song(id, title, pubblication_date, duration, number_of_plays) VALUES(nextval('song_id_seq'), 'e', '2002-02-02',  100, 150); 
-*/
+-- INSERT INTO song(id, title, pubblication_date, duration, number_of_plays) VALUES(nextval('song_id_seq'), 'b', '2002-02-02',  130, 150);
+
+-- INSERT INTO song(id, title, pubblication_date, duration, number_of_plays) VALUES(nextval('song_id_seq'), 'c', '2002-02-02',  120, 150);
+-- INSERT INTO song(id, title, pubblication_date, duration, number_of_plays) VALUES(nextval('song_id_seq'), 'd', '2002-02-02',  110, 150);
+-- INSERT INTO song(id, title, pubblication_date, duration, number_of_plays) VALUES(nextval('song_id_seq'), 'e', '2002-02-02',  100, 150); 
 
 insert into artist(id,stage_name,real_name,date_of_birth,biography) values(nextval('artist_id_seq'),'Renato Tre','Renato Fiacchini','1950-09-30','er goat');
 insert into artist(id,stage_name,real_name,date_of_birth,biography) values(nextval('artist_id_seq'),'Lazza','Jacopo Lazzarini','1994-08-22','zzala');
@@ -42,6 +41,7 @@ insert into credentials(id,username,password,role,user_id) values(nextval('crede
 insert into credentials(id,username,password,role,artist_id) values(nextval('credentials_id_seq'),'rt','$2a$12$l7qQAec52Uay4JsLIlGsxeptCkczRWmKCN/aOePRbOptDTM7fwaY6','ARTIST',7);
 insert into song(id,title,duration,pubblication_date,number_of_plays) values(nextval('song_id_seq'),'spalle al muro','300','1991-02-28','2273000');
 insert into song(id,title,duration,pubblication_date,number_of_plays) values(nextval('song_id_seq'),'cercami','340','1998-06-04','24642000');
+insert into song_singers(singers_id,songs_sung_id) values(1,2);
 insert into song_singers(singers_id,songs_sung_id) values(2,1);
 insert into song_singers(singers_id,songs_sung_id) values(7,7);
 insert into song_singers(singers_id,songs_sung_id) values(7,8);

@@ -84,7 +84,7 @@
                             <div th:each="index : ${#numbers.sequence(iterStat.index, iterStat.index + 2)}"
                                  th:if="${index lt albums.size()}" class="col-md-4">
                                 <div th:with="album=${albums[index]}">
-                                    <a th:href="@{/album/{id}(id=${album.id})}">
+                                    <a th:href="@{/albums/{id}(id=${album.id})}">
                                         <div class="d-flex justify-content-around">
                                             <div class="carousel-square">
                                                 <img th:src=" 'data:image/;base64,' + ${album.base64}" alt="Album Image" >
