@@ -5,7 +5,9 @@
     h2, h4, h5{
         font-family: 'Montserrat', sans-serif;
     }
+
     /* NAV BAR */ 
+    
     .navbar {
         background-color: white;
     }
@@ -99,21 +101,16 @@
     .carousel-control-prev,
     .carousel-control-next {
         color: black !important;
-        background-color: #834230;
-        border-color: #834230;
+        background-color: #834230 !important;
         border-radius: 100px 100px ;
         max-width: 50px;
-        max-height: 50px;   
     }
  
     .carousel-control-prev:hover,
     .carousel-control-next:hover {
         color: black !important;
         background-color: #834230;
-        border-color: #834230;
         border-radius: 100px 100px ;
-        max-width: 50px;
-        max-height: 50px;
     }
 
     .container mt-4{
@@ -168,8 +165,6 @@
         width: 100%;
         justify-content: space-between;
     }
-
-    
     
     .song-info,
     .song-details {
@@ -190,10 +185,6 @@
         margin-top: 10px;
         width: 80%;
     }
-    
-    
-
-    
 
     /* FOOTER */ 
 
