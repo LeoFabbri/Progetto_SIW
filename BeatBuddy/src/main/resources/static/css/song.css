@@ -1,0 +1,148 @@
+/* NAV BAR */
+.navbar {
+    background-color: white;
+}
+.navbar .navbar-brand {
+    font-weight: bold;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.navbar-nav {
+    flex-direction: row;
+}
+.navbar-nav .nav-link{
+    color: black;
+}
+.navbar-nav .nav-link:hover {
+    color: #834230; 
+}
+
+/* SECTION */
+
+
+.song-container {
+    padding: 30px;
+}
+
+.song-image {
+    width: 60%;
+    height: auto;
+    max-height: 500px;
+    object-fit: contain;
+    border-radius: 10px;
+}
+
+.song-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: -270px;
+    margin-left: -12%;
+}
+
+.song-info h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.song-info ul {
+    padding: 0;
+    list-style-type: none;
+    font-size: 1.5rem; /* Aggiunto per ingrandire le voci della lista */
+}
+
+.song-info li {
+    padding: 10px 0; /* Aumentato da 5px */
+}
+
+.song-info li span {
+    font-weight: bold;
+    font-size: 1.5rem; /* Aggiunto per ingrandire il testo */
+}
+
+.artist-section {
+    margin-top: 20px;
+}
+
+.artist-section h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.artist-list ul {
+    padding: 0;
+    list-style-type: none;
+}
+
+.artist-list li {
+    padding: 5px 0;
+}
+
+.artist-list li span {
+    font-weight: bold;
+}
+
+.review-section {
+    margin-top: 20px;
+    margin-left: 10%;
+}
+
+.review-container {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #834230;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.review-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.review-header img {
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+.review-stars {
+    color: #FFD700;
+    margin-right: 10px;
+}
+
+.review-content {
+    font-size: 16px;
+}
+
+.form-label {
+    font-weight: bold;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 10px;
+    background-color: #834230;
+    color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.btn{
+    background-color: #C6AC8F !important;
+    border-color: #C6AC8F !important;
+}
+
+@media (max-width: 768px) {
+    .song-info {
+        margin-top: -20px;
+    }
+}
+
+.modal-dialog {
+    margin-top: 20%;
+}
