@@ -32,9 +32,9 @@ INSERT INTO song(id, title, pubblication_date, album_id, duration, number_of_pla
 INSERT INTO song(id, title, pubblication_date, album_id, duration, number_of_plays) VALUES(nextval('song_id_seq'), 'Piscia', '2002-02-02', 1, 110, 150);
 INSERT INTO song(id, title, pubblication_date, album_id, duration, number_of_plays) VALUES(nextval('song_id_seq'), 'Borra', '2002-02-02', 1, 100, 150);
 
-insert into artist(id,stage_name,real_name,data_di_nascita,biography) values(nextval('artist_id_seq'),'Renato Tre','Renato Fiacchini','1950-09-30','er goat');
-insert into artist(id,stage_name,real_name,data_di_nascita,biography) values(nextval('artist_id_seq'),'Lazza','Jacopo Lazzarini','1994-08-22','zzala');
-insert into artist(id,stage_name,real_name,data_di_nascita,biography) values(nextval('artist_id_seq'),'Post Malone','Austin Richard Post','1995-07-04','posty');
+insert into artist(id,stage_name,real_name,date_of_birth,biography) values(nextval('artist_id_seq'),'Renato Tre','Renato Fiacchini','1950-09-30','er goat');
+insert into artist(id,stage_name,real_name,date_of_birth,biography) values(nextval('artist_id_seq'),'Lazza','Jacopo Lazzarini','1994-08-22','zzala');
+insert into artist(id,stage_name,real_name,date_of_birth,biography) values(nextval('artist_id_seq'),'Post Malone','Austin Richard Post','1995-07-04','posty');
 insert into credentials(id,username,password,role,artist_id) values(nextval('credentials_id_seq'),'rt','$2a$12$l7qQAec52Uay4JsLIlGsxeptCkczRWmKCN/aOePRbOptDTM7fwaY6','ARTIST',7);
 insert into song(id,title,duration,pubblication_date,number_of_plays) values(nextval('song_id_seq'),'spalle al muro','300','1991-02-28','2273000');
 insert into song(id,title,duration,pubblication_date,number_of_plays) values(nextval('song_id_seq'),'cercami','340','1998-06-04','24642000');
