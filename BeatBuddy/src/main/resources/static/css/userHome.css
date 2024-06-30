@@ -28,6 +28,17 @@
     align-items: center;
 }
 
+.carousel-slide{
+    width: 20%;
+}
+
+.carousel-item img {
+    width: 500px;
+    height: 300px;
+    object-fit: cover;
+    width: 100%;
+}
+
 .search-form {
     display: flex;
     justify-content: center;
@@ -56,18 +67,6 @@
     color: white !important;
 }
 
-.carousel-slide{
-    width: 20%;
-}
-
-.carousel-item img {
-    width: 500px;
-    height: 300px;
-    object-fit: cover;
-    width: 100%;
-}
-
-
 /* SECTION */
 
 .user-section {
@@ -76,7 +75,7 @@
 }
 
 .user-section h1 {
-    color: #834230;
+    color: black;
     font-weight: bold;
     margin-bottom: 20px;
 }
@@ -128,6 +127,12 @@
     font-weight: 500;
     font-family: 'Montserrat', sans-serif;
 }
+
+.carousel-square,
+.carousel-circle {
+    margin-right: 150px;
+    margin-left: 150px;
+}
 .carousel-square img,
 .carousel-circle img {
     width: 150px;
@@ -142,28 +147,30 @@
     border-radius: 10%;
 }
 
-.carousel-control-prev,
-.carousel-control-next {
-    color: black !important;
-    border-radius: 100px 100px ;
-    max-width: 50px;
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: #834230;
+    border-radius: 50%;
+}
+.carousel-control-prev-icon::after,
+.carousel-control-next-icon::after {
+    color: #fff;
+    font-size: 50px;
 }
 
-.carousel-control-prev:hover,
-.carousel-control-next:hover {
-    color: black !important;
-    border-radius: 100px 100px ;
-}
 
-.container mt-4{
+.container{
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
 }
 
+.container h2{
+    font-weight: bold;
+}
+
 .row-song {
-    width: 80%;
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -178,6 +185,10 @@
     align-items: left;
 }
 
+.card-title{
+    font-size: 25px;
+}
+
 
 .song-card {
     width: 800px;
@@ -189,6 +200,9 @@
     align-items: center;
     margin: 10px;
     background-color: #fff;
+
+    text-decoration: none; 
+    color: #000; 
 }
 
 .song-card:hover{
@@ -224,8 +238,8 @@
 }
 
 .song-info audio {
-    margin-top: 10px;
-    width: 80%;
+    margin-top: 30px;
+    width: 100%;
 }
 
 

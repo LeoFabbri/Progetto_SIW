@@ -25,6 +25,54 @@ body{
     color: #834230; 
 }
 
+/* HEADER */
+
+
+.center-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.search-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 15px;
+    width: 70%; /* Larghezza del form */
+    max-width: 600px; /* Larghezza massima del form */
+}
+
+.search-input {
+    flex: 1; /* L'input occupa tutto lo spazio disponibile */
+    margin-right: 10px;
+}
+
+.search-btn {
+    min-width: 80px; /* Larghezza minima del pulsante */
+    border-color: #834230 !important;
+    background-color: white !important; 
+    color: #834230 !important; 
+  
+}
+
+.search-btn:hover{
+    background-color: #834230 !important;
+    color: white !important;
+}
+
+.carousel-slide{
+    width: 20%;
+}
+
+.carousel-item img {
+    width: 500px;
+    height: 300px;
+    object-fit: cover;
+    width: 100%;
+}
+
 /*SECTION*/
 
 .list-group{
@@ -42,7 +90,7 @@ body{
     color: #834230;
     font-weight: bold;
     margin-top: 20px;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
 }
 
 .song-list {
