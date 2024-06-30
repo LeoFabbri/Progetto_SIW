@@ -4,3 +4,7 @@ insert into artist(id,stage_name,real_name,data_di_nascita,biography) values(nex
 insert into artist(id,stage_name,real_name,data_di_nascita,biography) values(nextval('artist_seq'),'Lazza','Jacopo Lazzarini','1994-08-22','zzala');
 insert into artist(id,stage_name,real_name,data_di_nascita,biography) values(nextval('artist_seq'),'Post Malone','Austin Richard Post','1995-07-04','posty');
 insert into credentials(id,username,password,role,artist_id) values(nextval('credentials_seq'),'rt','$2a$12$l7qQAec52Uay4JsLIlGsxeptCkczRWmKCN/aOePRbOptDTM7fwaY6','ARTIST',1);
+insert into song(id,title,duration,pubblication_date,number_of_plays) values(nextval('song_seq'),'spalle al muro','300','1991-02-28','2273000');
+insert into song(id,title,duration,pubblication_date,number_of_plays) values(nextval('song_seq'),'cercami','340','1998-06-04','24642000');
+insert into song_singers(singers_id,songs_sung_id) values(1,1);
+insert into song_singers(singers_id,songs_sung_id) values(1,51);

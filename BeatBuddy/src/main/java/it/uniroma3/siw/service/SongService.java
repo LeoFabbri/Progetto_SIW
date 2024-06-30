@@ -33,13 +33,7 @@ public class SongService {
     }
 
     public List<Song> findBySinger(Artist a){
-        List<Song> songs = new ArrayList<Song>();
-        for(Song s : this.songRepository.findAll()){
-            if(s.getSingers().contains(a) && s.getAlbum()==null){
-                songs.add(s);
-            }
-        }
-        return songs;
+        return this.songRepository.findBySinger(a);
     }
     
 }

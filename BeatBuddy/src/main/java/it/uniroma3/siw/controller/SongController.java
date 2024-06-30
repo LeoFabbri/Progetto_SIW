@@ -53,6 +53,12 @@ public class SongController {
         return "song.html";
     }
 
+    @GetMapping("/artist/songs")
+    public String getArtistSongs(Model model){
+        model.addAttribute("songs", this.songService.findBySinger(this.artistRepository.findById((Long)model.getAttribute("artistID")).get()));
+        return "artist/artistSongs.html";
+    }
+
     @GetMapping("/artist/formNewSong")
     public String getFormNewSong(Model model) {
         model.addAttribute("song", new Song());
@@ -147,7 +153,7 @@ public class SongController {
     @GetMapping("/artist/deleteSongs")
     public String getDeleteSongs(Model model) {
         model.addAttribute("songs", this.songService.findBySinger(this.artistRepository.findById((Long)model.getAttribute("artistID")).get()));
-        return "artist/artistSongs.html";
+        return "artist/deleteArtistSongs.html";
     }
 
     @GetMapping("/artist/deleteSongs/{id}")

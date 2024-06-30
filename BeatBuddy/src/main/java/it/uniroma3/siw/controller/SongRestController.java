@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import it.uniroma3.siw.model.Artist;
 import it.uniroma3.siw.model.Song;
 import it.uniroma3.siw.repository.ArtistRepository;
 import it.uniroma3.siw.repository.SongRepository;
@@ -26,11 +27,10 @@ public class SongRestController {
     @GetMapping("/rest/songs")
     @ResponseBody
     public List<Song> getSongs(Model model){
-        List<Song> canzoni = new ArrayList<Song>();
-        for(Song s : this.songRepository.findBySinger(this.artistRepository.findById((Long)model.getAttribute("artistID")).get())){
-            canzoni.add(s);
-        }
-        return canzoni;
+        Artist singer = this.artistRepository.findById((Long)model.getAttribute("artistID")).get();
+        List<Song> songs = this.songRepository.findBySinger(singer);
+        System.out.println("Fetched songs : "+songs);
+        return songs;
     }
 
 }

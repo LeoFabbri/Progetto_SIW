@@ -114,7 +114,7 @@ public class AlbumController {
     @GetMapping("/artist/deleteAlbums")
     public String getDeleteAlbums(Model model){
         model.addAttribute("albums", this.albumService.findByArtist(this.artistRepository.findById((Long)model.getAttribute("artistID")).get()));
-        return "artist/artistAlbum.html";
+        return "artist/deleteArtistAlbum.html";
     }
 
     @GetMapping("/artist/deleteAlbums/{id}")
