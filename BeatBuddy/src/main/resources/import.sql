@@ -43,5 +43,5 @@ insert into song(id,title,duration,pubblication_date,number_of_plays) values(nex
 insert into song(id,title,duration,pubblication_date,number_of_plays) values(nextval('song_id_seq'),'cercami','340','1998-06-04','24642000');
 insert into song_singers(singers_id,songs_sung_id) values(1,2);
 insert into song_singers(singers_id,songs_sung_id) values(2,1);
-insert into song_singers(singers_id,songs_sung_id) values(7,7);
-insert into song_singers(singers_id,songs_sung_id) values(7,8);
+insert into song_singers(singers_id,songs_sung_id) values(7,2);
+insert into song_singers(singers_id,songs_sung_id) values(7,3);

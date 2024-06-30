@@ -138,7 +138,7 @@
                 <h2 class="section-title">Le canzoni del momento</h2>
                 <div class="row-song">
                     <div th:each="song, iterStat : ${songs}" class="col-12 mb-4">
-                        <div class="song-card">
+                        <a th:href="@{'/songs/' + ${song.id}}" class="song-card">
                             <img th:src=" 'data:image/;base64,' + ${song.base64}" alt="Song Image" class="song-image">
                             <div class="song-info-container">
                                 <div class="song-info">
@@ -155,7 +155,7 @@
                                     <p class="card-text" th:text="'Duration: ' + ${song.duration} + ' min.'">Duration</p>
                                 </div>
                             </div>
-                        </div>
+                        </a>
                     </div>
                 </div>
             </div>

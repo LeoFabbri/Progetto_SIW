@@ -90,6 +90,11 @@
         font-weight: 500;
         font-family: 'Montserrat', sans-serif;
     }
+    .carousel-square,
+    .carousel-circle {
+        margin-right: 150px;
+        margin-left: 150px;
+    }
     .carousel-square img,
     .carousel-circle img {
         width: 150px;
@@ -103,32 +108,31 @@
         border-radius: 10%;
     }
 
-    .carousel-control-prev,
-    .carousel-control-next {
-        color: black !important;
-        border-radius: 100px 100px ;
-        max-width: 50px;
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+        background-color: #834230;
+        border-radius: 50%;
     }
- 
-    .carousel-control-prev:hover,
-    .carousel-control-next:hover {
-        color: black !important;
-        border-radius: 100px 100px ;
+    .carousel-control-prev-icon::after,
+    .carousel-control-next-icon::after {
+        color: #fff;
+        font-size: 50px;
     }
 
-    .container mt-4{
+    .container{
         display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: column;
     }
+    .container h2{
+        font-weight: bold;
+    }
     
     .row-song {
-        width: 80%;
         display: flex;
         justify-content: center;
         flex-direction: column;
-
     }
 
     .album-img {
@@ -137,6 +141,10 @@
         object-fit: cover;
         border-radius: 10px;
         align-items: left;
+    }
+
+    .card-title{
+        font-size: 25px;
     }
 
 
@@ -150,6 +158,9 @@
         align-items: center;
         margin: 10px;
         background-color: #fff;
+
+        text-decoration: none; 
+        color: #000; 
     }
 
     .song-card:hover{
