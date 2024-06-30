@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -11,6 +12,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Transient;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Album {
@@ -18,6 +22,7 @@ public class Album {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank
     private String title;
     private LocalDate pubblicationDate;
     @Column(length = 1000000000)
@@ -31,8 +36,11 @@ public class Album {
 		this.base64 = base64;
 	}
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     private List<Song> songs;
+
+    @Transient
+    private List<String> songsId;
 
     @OneToMany
     private List<Review> reviews;
@@ -40,7 +48,8 @@ public class Album {
     @ManyToMany
     private List<Artist> artists;
 
-    
+    @Transient
+    private List<String> artistsId;
 
     public Long getId(){
         return this.id;
@@ -90,16 +99,51 @@ public class Album {
         this.artists = artists;
     }
 
+    public List<String> getArtistsId() {
+        return artistsId;
+    }
 
-    @Override
-    public boolean equals(Object o){
-        Album album = (Album)o;
-        return this.title.equals(album.getTitle()) && this.pubblicationDate.equals(album.getPubblicationDate());
+    public void setArtistsId(List<String> artistsId) {
+        this.artistsId = artistsId;
+    }
+
+    public List<String> getSongsId() {
+        return songsId;
+    }
+
+    public void setSongsId(List<String> songsId) {
+        this.songsId = songsId;
     }
 
     @Override
-    public int hashCode(){
-        return this.title.hashCode() + this.pubblicationDate.hashCode();
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((title == null) ? 0 : title.hashCode());
+        result = prime * result + ((artists == null) ? 0 : artists.hashCode());
+        return result;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Album other = (Album) obj;
+        if (title == null) {
+            if (other.title != null)
+                return false;
+        } else if (!title.equals(other.title))
+            return false;
+        if (artists == null) {
+            if (other.artists != null)
+                return false;
+        } else if (!artists.equals(other.artists))
+            return false;
+        return true;
+    }    
     
 }

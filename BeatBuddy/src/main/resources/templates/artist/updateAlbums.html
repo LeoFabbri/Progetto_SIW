@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>BeatBuddy - albums</title>
+    </head>
+
+    <body>
+        
+        <a href="/"><h1>BeatBuddy</h1></a>
+
+        <div>
+            <i>Canzoni:</i>
+            <div th:if="${albums}">
+
+                <ul>
+                    <li th:each="album : ${albums}">
+                        <span th:text="${album.title}">Nome canzone</span>
+                        <a th:href="@{'/artist/formUpdateAlbum/'+${album.id}}">Modifica</a>
+                    </li>
+                </ul> 
+
+            </div>
+
+            <div th:unless="${albums}">
+                <i>Nessuna canzone trovata</i>
+            </div>
+        
+        </div>
+
+    </body>
+
+</html>

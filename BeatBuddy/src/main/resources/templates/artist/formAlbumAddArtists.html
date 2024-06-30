@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>SiwFood - New artists</title>
+    </head>
+
+    <body>
+        
+        <a href="/logout">logout</a>
+        <br><br>
+
+        <h1>Aggiungi nuovi artist all'album</h1>
+
+        <div>
+            <form th:action="@{'/artist/updateAlbum/addArtists/newAlbum/'+${album.id}}" th:object="${newAlbum}" method="post">
+
+                <div id="artistsDiv">
+                    <h2>Artisti: </h2>
+                    <select name="artistsId[0]" id="artistId_0" th:field="${newAlbum.artistsId[0]}">
+                        <option th:each="artist : ${artists}" th:value="${artist.id}" th:text="${artist.stageName}"></option>
+                    </select>
+                </div>
+                <input type="button" onclick="addArtists()" value="Aggiungi un'artista">
+
+                <br>
+            
+                <div>
+                    <input type="submit" value="registra">
+                </div>
+
+            </form>
+        </div>
+
+        <script>
+
+            let artistsCont = 1;
+
+            function addArtists() {
+
+                fetch('/rest/singers').then(data => data.json()).then(data => {
+                    const div = document.createElement('div');
+                    const select = document.createElement('select');
+                    select.id = 'artistId_'+artistsCont;
+                    select.name = 'artistsId['+artistsCont+']';
+                    const button = document.createElement('input')
+                    button.id = 'artistButton_'+artistsCont;
+                    button.type = 'button';
+                    button.value = 'Rimuovi';
+                    button.setAttribute('onclick', 'removeArtist()');
+                    data.forEach(item => {
+                        const option = document.createElement('option');
+                        option.value = item.id;
+                        option.textContent = item.stageName;
+                        select.appendChild(option);
+                    });
+                    div.appendChild(select);
+                    div.appendChild(button);
+                    document.getElementById('artistsDiv').append(div);
+                    artistsCont++;
+                }).catch(error => console.error('Error fetching artists:', error));
+
+            }
+
+            function removeArtist(){
+                document.getElementById("artistId_"+(artistsCont-1)).remove();
+                document.getElementById("artistButton_"+(artistsCont-1)).remove();
+                artistsCont--;
+            }
+
+        </script>
+
+    </body>
+
+</html>

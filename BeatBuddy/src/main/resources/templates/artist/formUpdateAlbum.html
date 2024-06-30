@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>BeatBuddy</title>
+    </head>
+
+    <body>
+        
+        <a href="/"><h1>BeatBuddy</h1></a>
+
+        <div>
+            
+            <div th:if="${album}">
+
+                <div><b>Titolo: </b><span th:text="${album.title}"></span></div>
+                <div><b>Data di pubblicazione: </b><span th:text="${album.pubblicationDate}"></span></div>
+
+                <div th:unless="${album.artists.isEmpty()}">
+                    <b>Artisti:</b>
+                    <ul>
+                        <li th:each="artist : ${album.artists}">
+                            <span th:text="${artist.stageName}+' '"></span>
+                            <a th:href="@{'/artist/updateAlbum/removeArtist/'+${album.id}+'/'+${artist.id}}">Remove</a>
+                        </li>
+                        <a th:href="@{'/artist/updateAlbum/addArtists/'+${album.id}}">Aggiungi artisti</a>
+                    </ul>
+                </div>
+                <div th:if="${album.artists.isEmpty()}"><i>Nessun artista inserito</i></div>
+
+                <div th:unless="${album.songs.isEmpty()}">
+                    <b>Brani:</b>
+                    <ul>
+                        <audio src=""></audio>
+                        <li th:each="song : ${album.songs}">
+                            <span th:text="${song.title} + ' ' + ${song.duration} + ' '"></span>
+                            <a th:href="@{'/artist/updateAlbum/removeSong/'+${album.id}+'/'+${song.id}}">Remove</a>
+                        </li>
+                        <a th:href="@{'/artist/updateAlbum/addSongs/'+${album.id}}">Aggiungi brani</a>
+                    </ul>
+                </div>
+                <div th:if="${album.songs.isEmpty()}"><i>Nessun brano inserito</i></div>
+
+            </div>
+        
+        </div>
+
+    </body>
+
+</html>

@@ -4,6 +4,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 import jakarta.persistence.Column;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -12,14 +15,26 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Transient;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
+@JsonIdentityInfo(
+	generator = ObjectIdGenerators.PropertyGenerator.class,
+	property = "id"
+)
 @Entity
-public class Song {
+public class Song implements Comparable{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank
     private String title;
+    @NotNull
     private Integer duration;
     private LocalDate pubblicationDate;
     private Integer numberOfPlays;
@@ -35,13 +50,22 @@ public class Song {
     private List<Review> reviews;
 
     @ManyToMany
-    private List<Artist> producedBy;
+    private List<Artist> producers;
+
+    @Transient
+    private List<String> producersId;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private List<Artist> sungBy;
+    private List<Artist> singers;
+
+    @Transient
+    private List<String> singersId;
 
     @ManyToMany
-    private List<Artist> writtenBy;
+    private List<Artist> writers;
+
+    @Transient
+    private List<String> writersId;
 
     public Long getId(){
         return this.id;
@@ -99,52 +123,60 @@ public class Song {
         this.reviews = reviews;
     }
 
-    public List<Artist> getProducedBy() {
-        return producedBy;
+    public List<Artist> getProducers() {
+        return producers;
     }
 
-    public void setProducedBy(List<Artist> producedBy) {
-        this.producedBy = producedBy;
+    public void setProducers(List<Artist> producers) {
+        this.producers = producers;
     }
 
-    public List<Artist> getSungBy() {
-        return sungBy;
+    public List<Artist> getSingers() {
+        return singers;
     }
 
-    public void setSungBy(List<Artist> sungBy) {
-        this.sungBy = sungBy;
+    public void setSingers(List<Artist> singers) {
+        this.singers = singers;
     }
 
-    public List<Artist> getWrittenBy() {
-        return writtenBy;
+    public List<Artist> getWriters() {
+        return writers;
     }
 
-    public void setWrittenBy(List<Artist> writtenBy) {
-        this.writtenBy = writtenBy;
+    public void setWriters(List<Artist> writers) {
+        this.writers = writers;
     }
 
-    public String getAudioBase64() {
-        return audioBase64;
+    public List<String> getSingersId(){
+        return this.singersId;
     }
 
-    public void setAudioBase64(String audioBase64) {
-        this.audioBase64 = audioBase64;
+    public void setSingersId(List<String> singersId){
+        this.singersId = singersId;
     }
 
-    public String getBase64() {
-		return base64;
-	}
+    public List<String> getProducersId() {
+        return producersId;
+    }
 
-	public void setBase64(String base64) {
-		this.base64 = base64;
-	}
-    
+    public void setProducersId(List<String> producersId) {
+        this.producersId = producersId;
+    }
+
+    public List<String> getWritersId() {
+        return writersId;
+    }
+
+    public void setWritersId(List<String> writersId) {
+        this.writersId = writersId;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((title == null) ? 0 : title.hashCode());
-        result = prime * result + ((duration == null) ? 0 : duration.hashCode());
+        result = prime * result + ((singers == null) ? 0 : singers.hashCode());
         return result;
     }
 
@@ -162,14 +194,35 @@ public class Song {
                 return false;
         } else if (!title.equals(other.title))
             return false;
-        if (duration == null) {
-            if (other.duration != null)
+        if (singers == null) {
+            if (other.singers != null)
                 return false;
-        } else if (!duration.equals(other.duration))
+        } else if (!singers.equals(other.singers))
             return false;
         return true;
     }
-    
+
+    @Override
+    public int compareTo(Object o) {
+        Song s = (Song)o;
+        return this.title.compareTo(s.getTitle());
+    }
+
+    public String getAudioBase64() {
+        return audioBase64;
+    }
+
+    public void setAudioBase64(String audioBase64) {
+        this.audioBase64 = audioBase64;
+    }
+
+    public String getBase64() {
+		return base64;
+	}
+
+	public void setBase64(String base64) {
+		this.base64 = base64;
+	}
     
 
 }

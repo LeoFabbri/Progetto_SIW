@@ -1,5 +1,6 @@
 package it.uniroma3.siw.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,10 @@ public class ArtistService {
 
     public List<Artist> findByStageNameContainingIgnoreCase(String stageName){
         return artistRepository.findByStageNameContainingIgnoreCase(stageName);
+    }
+
+    public List<Artist> findAllExceptId(Long id){
+        return this.artistRepository.findAllExceptId(id);
     }
     
 }
