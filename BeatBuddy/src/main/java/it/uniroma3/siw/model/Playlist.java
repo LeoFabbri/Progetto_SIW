@@ -1,6 +1,5 @@
 package it.uniroma3.siw.model;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import jakarta.persistence.Entity;
@@ -15,7 +14,7 @@ import jakarta.persistence.ManyToOne;
 public class Playlist {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
     private Integer duration;

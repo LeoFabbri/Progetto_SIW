@@ -28,6 +28,10 @@ public class AlbumService {
         this.albumRepository.save(Album);
     }
 
+    public List<Album> findByTitleContainingIgnoreCase(String title){
+        return albumRepository.findByTitleContainingIgnoreCase(title);
+    }
+
     public void deleteById(Long id){
         this.albumRepository.deleteById(id);
     }

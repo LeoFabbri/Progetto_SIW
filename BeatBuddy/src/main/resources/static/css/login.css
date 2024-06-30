@@ -1,0 +1,61 @@
+
+section{
+  background-image: url('/images/3.jpg');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 500px;
+  margin: 0;
+}
+.login-container {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  max-width: 400px;
+  width: 100%;
+}
+.btn{
+  color: #834230 !important;
+  background-color: white !important;
+  border-color: #834230 !important;
+}
+.btn:hover{
+  color: white !important;
+  background-color: #834230 !important;
+  border-color: #834230 !important;
+}
+.navbar {
+  background-color: white;
+}
+.navbar .navbar-brand {
+  font-weight: bold;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.navbar-nav {
+  flex-direction: row;
+}
+.navbar-nav .nav-link {
+  color: black;
+}
+.navbar-nav .nav-link:hover {
+  color: #834230;
+}
+input[type="email"] {
+  border: 2px solid #000;
+  margin: 0 0 1em 0;
+  padding: 10px;
+  width: 100%;
+}
+input[type="password"] {
+  border: 2px solid #333;
+  border-radius: 5px;
+  width: 100%;
+  padding: 10px;
+  font-weight: bold;
+  color: #000; /* Cambiato a nero per rendere visibile il testo */
+}

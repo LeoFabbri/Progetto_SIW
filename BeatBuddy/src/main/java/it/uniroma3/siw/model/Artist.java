@@ -3,6 +3,7 @@ package it.uniroma3.siw.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import jakarta.persistence.Column;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -21,7 +22,7 @@ import jakarta.persistence.ManyToMany;
 public class Artist {
 
     @Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String stageName;
     private String realName;
@@ -29,6 +30,17 @@ public class Artist {
     private Long monthlyListeners;
     private String biography;
 
+	@Column(length = 1000000000)
+	private String base64;
+
+	public String getBase64() {
+		return base64;
+	}
+
+	public void setBase64(String base64) {
+		this.base64 = base64;
+	}
+	
 	@ManyToMany(mappedBy = "producers")
 	private List<Song> songsProduced;
 
@@ -88,6 +100,8 @@ public class Artist {
     public void setBiography(String biography) {
         this.biography = biography;
     }
+
+
 
 	public List<Song> getSongsProduced() {
 		return songsProduced;

@@ -1,9 +1,9 @@
 package it.uniroma3.siw.model;
 
-import java.sql.Time;
 import java.time.LocalDate;
 import java.util.List;
 
+import jakarta.persistence.Column;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -30,7 +30,7 @@ import jakarta.validation.constraints.Size;
 public class Song implements Comparable{
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotBlank
     private String title;
@@ -38,6 +38,10 @@ public class Song implements Comparable{
     private Integer duration;
     private LocalDate pubblicationDate;
     private Integer numberOfPlays;
+    @Column(length = 1000000000)
+	private String base64;
+    @Column(length = 1000000000)
+	private String audioBase64;    
 
     @ManyToOne
     private Album album;
@@ -203,6 +207,22 @@ public class Song implements Comparable{
         Song s = (Song)o;
         return this.title.compareTo(s.getTitle());
     }
+
+    public String getAudioBase64() {
+        return audioBase64;
+    }
+
+    public void setAudioBase64(String audioBase64) {
+        this.audioBase64 = audioBase64;
+    }
+
+    public String getBase64() {
+		return base64;
+	}
+
+	public void setBase64(String base64) {
+		this.base64 = base64;
+	}
     
 
 }

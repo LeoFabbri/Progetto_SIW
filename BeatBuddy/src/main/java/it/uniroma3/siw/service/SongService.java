@@ -20,6 +20,10 @@ public class SongService {
         return this.songRepository.findById(id).get();
     }
 
+    public List<Song> findByTitle(String title){
+        return this.songRepository.findByTitle(title);
+    }
+
     public Iterable<Song> findAll(){
         return this.songRepository.findAll();
     }
@@ -35,5 +39,7 @@ public class SongService {
     public List<Song> findBySinger(Artist a){
         return this.songRepository.findBySinger(a);
     }
-    
+    public List<Song> findByTitleContainingIgnoreCase(String title){
+        return songRepository.findByTitleContainingIgnoreCase(title);
+    }
 }

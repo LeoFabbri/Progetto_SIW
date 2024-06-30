@@ -14,6 +14,8 @@ public interface AlbumRepository extends CrudRepository<Album,Long>{
 
     public List<Album> findByTitle(String title);
 
+    public List<Album> findByTitleContainingIgnoreCase(String title);
+    
     public boolean existsByTitle(String title);
 
     @Query("select a from Album a where :artist member of a.artists and :title = a.title")

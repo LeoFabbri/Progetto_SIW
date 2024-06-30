@@ -27,6 +27,10 @@ public class ArtistService {
         this.artistRepository.save(Artist);
     }
 
+    public List<Artist> findByStageNameContainingIgnoreCase(String stageName){
+        return artistRepository.findByStageNameContainingIgnoreCase(stageName);
+    }
+
     public List<Artist> findAllExceptId(Long id){
         return this.artistRepository.findAllExceptId(id);
     }

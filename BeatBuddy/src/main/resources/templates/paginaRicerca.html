@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Risultati della Ricerca</title>
+    <link href="/css/paginaRicerca.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light border-bottom">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/registration">Sign In</a>
+                    </li>
+                </ul>
+                <a class="navbar-brand mx-auto" href="/">BeatBuddy</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1 class="text-center mt-4">Risultati della Ricerca</h1>
+        
+        <!-- Artisti -->
+        <h2 class="section-title">Artisti</h2>
+        <div th:if="${artists == null || artists.isEmpty()}">
+            <p>Non ci sono artisti corrispondenti alla ricerca.</p>
+        </div>
+        <div th:each="artist : ${artists}" class="col-md-4 mb-4">
+            <div class="card">
+                <img th:src="'data:image/;base64,' + ${artist.base64}" alt="Artist Image" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <a th:href="@{'/artist/'+${artist.id}}" th:text="${artist.stageName}">
+                            Nome Artista
+                        </a>
+                    </h5>
+                </div>
+            </div>
+        </div>
+        <!-- <div th:if="${artists.isEmpty()}">
+            <p>Non ci sono artisti corrispondenti alla ricerca.</p>
+        </div> -->
+        
+        <!-- Album -->
+        <h2 class="section-title">Album</h2>
+        <div th:if="${albums == null || albums.isEmpty()}">
+            <p>Non ci sono album corrispondenti alla ricerca.</p>
+        </div>
+        <div th:each="album : ${albums}" class="col-md-4 mb-4">
+            <div class="card">
+                <img th:src="'data:image/;base64,' + ${album.base64}" alt="Album Image" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <a th:href="@{'/album/'+${album.id}}" th:text="${album.title}">
+                            Titolo Album
+                        </a>
+                    </h5>
+                </div>
+            </div>
+        </div>
+        <!-- </div>
+        <div th:if="${albums.isEmpty()}">
+            <p>Non ci sono album corrispondenti alla ricerca.</p>
+        </div> -->
+
+        <!-- Canzoni -->
+        <h2 class="section-title">Canzoni</h2>
+        <div th:if="${songs == null || songs.isEmpty()}">
+            <p>Non ci sono canzoni corrispondenti alla ricerca.</p>
+        </div>
+        <div th:each="song : ${songs}" class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <a th:href="@{'/song/'+${song.id}}" th:text="${song.title}">
+                            Titolo Canzone
+                        </a>
+                    </h5>
+                    <p class="card-text" th:text="'Album: ' + ${song.album.title}">Nome Album</p>
+                    <p class="card-text" th:text="'Durata: ' + ${song.duration} + ' sec'">Durata</p>
+                    <p class="card-text" th:text="'Pubblicazione: ' + ${song.pubblicationDate}">Data di Pubblicazione</p>
+                    <p class="card-text" th:text="'Riproduzioni: ' + ${song.numberOfPlays}">Numero di Riproduzioni</p>
+                    <audio controls><source th:src="'data:audio/mpeg;base64,' + ${song.audioBase64}"></audio>
+                </div>
+            </div>
+        </div>
+        <!-- <div th:if="${songs.isEmpty()}">
+            <p>Non ci sono canzoni corrispondenti alla ricerca.</p>
+        </div> -->
+    </div>
+</body>
+</html>

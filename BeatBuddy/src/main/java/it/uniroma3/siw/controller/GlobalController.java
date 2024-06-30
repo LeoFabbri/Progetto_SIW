@@ -15,18 +15,6 @@ public class GlobalController {
 
     @Autowired
     private CredentialsRepository credentialsRepository;
-
-    @ModelAttribute("artistID")
-    public Long getArtistID() {
-        UserDetails user = null;
-        Long id = null;
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            id = credentialsRepository.findByUsername(user.getUsername()).get().getArtist().getId();
-        }
-        return id;
-    }
     
     @ModelAttribute("userDetails")
     public UserDetails getUser() {
@@ -36,6 +24,18 @@ public class GlobalController {
             user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         }
         return user;
+    }
+
+    @ModelAttribute("userId")
+    public Long getId() {
+        UserDetails user = null;
+        Long id = null;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            id = credentialsRepository.findByUsername(user.getUsername()).get().getId();
+        }
+        return id;
     }
 
 }
