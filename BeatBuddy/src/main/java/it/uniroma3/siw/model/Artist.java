@@ -26,20 +26,14 @@ public class Artist {
 	private Long id;
 	private String stageName;
     private String realName;
-	private LocalDate dataDiNascita;
+	private String realSurname;
+	private LocalDate dateOfBirth;
     private Long monthlyListeners;
     private String biography;
+	private String email;
 
 	@Column(length = 1000000000)
 	private String base64;
-
-	public String getBase64() {
-		return base64;
-	}
-
-	public void setBase64(String base64) {
-		this.base64 = base64;
-	}
 	
 	@ManyToMany(mappedBy = "producers")
 	private List<Song> songsProduced;
@@ -61,6 +55,38 @@ public class Artist {
 		this.id = id;
 	}
 	
+	public String getRealSurname() {
+		return realSurname;
+	}
+
+	public void setRealSurname(String realSurname) {
+		this.realSurname = realSurname;
+	}
+
+	public LocalDate getDateOfBirth() {
+		return dateOfBirth;
+	}
+
+	public void setDateOfBirth(LocalDate dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getBase64() {
+		return base64;
+	}
+
+	public void setBase64(String base64) {
+		this.base64 = base64;
+	}
+	
 	public String getStageName() {
 		return stageName;
 	}
@@ -75,14 +101,6 @@ public class Artist {
 	
 	public void setRealName(String realName) {
 		this.realName = realName;
-	}
-
-	public LocalDate getDataDiNascita() {
-		return dataDiNascita;
-	}
-
-	public void setDataDiNascita(LocalDate dataDiNascita) {
-		this.dataDiNascita = dataDiNascita;
 	}
 
     public Long getMonthlyListeners() {
@@ -100,8 +118,6 @@ public class Artist {
     public void setBiography(String biography) {
         this.biography = biography;
     }
-
-
 
 	public List<Song> getSongsProduced() {
 		return songsProduced;
@@ -158,8 +174,6 @@ public class Artist {
 		} else if (!stageName.equals(other.stageName))
 			return false;
 		return true;
-	}
-	
-	
+	}	
 
 }

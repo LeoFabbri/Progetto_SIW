@@ -32,9 +32,9 @@ INSERT INTO song(id, title, pubblication_date, duration, number_of_plays) VALUES
 INSERT INTO song(id, title, pubblication_date, duration, number_of_plays) VALUES(nextval('song_id_seq'), 'e', '2002-02-02',  100, 150); 
 */
 
-insert into artist(id,stage_name,real_name,data_di_nascita,biography) values(nextval('artist_id_seq'),'Renato Tre','Renato Fiacchini','1950-09-30','er goat');
-insert into artist(id,stage_name,real_name,data_di_nascita,biography) values(nextval('artist_id_seq'),'Lazza','Jacopo Lazzarini','1994-08-22','zzala');
-insert into artist(id,stage_name,real_name,data_di_nascita,biography) values(nextval('artist_id_seq'),'Post Malone','Austin Richard Post','1995-07-04','posty');
+insert into artist(id,stage_name,real_name,date_of_birth,biography) values(nextval('artist_id_seq'),'Renato Tre','Renato Fiacchini','1950-09-30','er goat');
+insert into artist(id,stage_name,real_name,date_of_birth,biography) values(nextval('artist_id_seq'),'Lazza','Jacopo Lazzarini','1994-08-22','zzala');
+insert into artist(id,stage_name,real_name,date_of_birth,biography) values(nextval('artist_id_seq'),'Post Malone','Austin Richard Post','1995-07-04','posty');
 
 insert into users(id,email,name,surname,date_of_birth) values(nextval('users_id_seq'),'leo@prova.it','Leonardo','Fabbri','2002-11-25');
 insert into credentials(id,username,password,role,user_id) values(nextval('credentials_id_seq'),'lf','$2a$12$1stsBZY328GxN2cciE9sHuWCQLzmYdZDLTOebs4atu6gAUtIFNKL6','DEFAULT',1);

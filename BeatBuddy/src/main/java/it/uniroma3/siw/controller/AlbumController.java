@@ -1,7 +1,9 @@
 package it.uniroma3.siw.controller;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import it.uniroma3.siw.controller.validator.AlbumValidator;
 import it.uniroma3.siw.model.Album;
@@ -57,45 +61,53 @@ public class AlbumController {
     }
 
     @PostMapping("/artist/newAlbum/album")
-    public String newAlbum(@Valid @ModelAttribute("album") Album album, Model model, BindingResult bindingResult) {
-        List<Artist> artists = new ArrayList<Artist>();
-        List<Song> existingSongs = new ArrayList<Song>();
-        artists.add(this.artistRepository.findById((Long)model.getAttribute("userId")).get());
-        List<Song> songs = new ArrayList<Song>();
-        if(album.getSongs()!=null){
-            songs.addAll(album.getSongs());
-            for(Song s : songs){
-                s.setSingers(artists);
-                s.setAlbum(album);
+    public String newAlbum(@Valid @ModelAttribute("album") Album album, @RequestParam("image") MultipartFile file, Model model, BindingResult bindingResult) {
+        try{
+            List<Artist> artists = new ArrayList<Artist>();
+            List<Song> existingSongs = new ArrayList<Song>();
+            artists.add(this.artistRepository.findById((Long)model.getAttribute("userId")).get());
+            List<Song> songs = new ArrayList<Song>();
+            if(album.getSongs()!=null){
+                songs.addAll(album.getSongs());
+                for(Song s : songs){
+                    s.setSingers(artists);
+                    s.setAlbum(album);
+                }
             }
-        }
-        if(album.getArtistsId()!=null){
-            for(String s : album.getArtistsId()){
-                this.artistRepository.findById(Long.parseLong(s)).get().getAlbums().add(album);
-                artists.add(this.artistRepository.findById(Long.parseLong(s)).get());
+            if(album.getArtistsId()!=null){
+                for(String s : album.getArtistsId()){
+                    this.artistRepository.findById(Long.parseLong(s)).get().getAlbums().add(album);
+                    artists.add(this.artistRepository.findById(Long.parseLong(s)).get());
+                }
             }
-        }
-        if(album.getSongsId()!=null){
-            for(String s : album.getSongsId()){
-                Song song = this.songRepository.findById(Long.parseLong(s)).get();
-                song.setAlbum(album);
-                existingSongs.add(song);
+            if(album.getSongsId()!=null){
+                for(String s : album.getSongsId()){
+                    Song song = this.songRepository.findById(Long.parseLong(s)).get();
+                    song.setAlbum(album);
+                    existingSongs.add(song);
+                }
+                songs.addAll(existingSongs);
             }
-            songs.addAll(existingSongs);
-        }
-        Collections.sort(songs);
-        album.setSongs(songs);
-        album.setArtists(artists);
-        album.setPubblicationDate(LocalDate.now());
-        this.albumValidator.validate(album, bindingResult);
-        if(bindingResult.hasErrors()){
-            model.addAttribute("album", new Album());
-            model.addAttribute("error", "this album already exixsts");
+            Collections.sort(songs);
+            album.setSongs(songs);
+            album.setArtists(artists);
+            album.setPubblicationDate(LocalDate.now());
+    
+            byte[] byteFoto = file.getBytes();
+            album.setBase64(Base64.getEncoder().encodeToString(byteFoto));
+    
+            this.albumValidator.validate(album, bindingResult);
+            if(bindingResult.hasErrors()){
+                model.addAttribute("album", new Album());
+                model.addAttribute("error", "this album already exixsts");
+                return "artist/formNewAlbum.html";
+            }
+            this.albumService.save(album);
+            model.addAttribute("album", album);
+            return "redirect:/albums/"+album.getId(); 
+        }catch (IOException e) {
             return "artist/formNewAlbum.html";
         }
-        this.albumService.save(album);
-        model.addAttribute("album", album);
-        return "redirect:/albums/"+album.getId();
     }
 
     @GetMapping("/artist/formUpdateAlbum")

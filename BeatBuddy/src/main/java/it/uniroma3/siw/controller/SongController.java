@@ -1,7 +1,9 @@
 package it.uniroma3.siw.controller;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -9,6 +11,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.Local;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -31,6 +34,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -77,7 +81,7 @@ public class SongController {
         if((Long) model.getAttribute("userId") == null){
             model.addAttribute("role", "ANONIMO");
         }else{
-            if(credentialsService.getCredentials((Long) model.getAttribute("userId")).getRole().equals("DEFAULT")){
+            if(credentialsService.getCredentials(((UserDetails) model.getAttribute("userDetails")).getUsername()).getRole().equals("DEFAULT")){
                 User user = userService.findById((Long) model.getAttribute("userId"));
                 model.addAttribute("role", "DEFAULT");
     
@@ -133,44 +137,51 @@ public class SongController {
     }
 
     @PostMapping("/artist/newSong/song")
-    public String newSong(@Valid @ModelAttribute("song") Song song, Model model, BindingResult bindingResult) {
-        List<Artist> singers = new ArrayList<Artist>();
-        List<Artist> producers = new ArrayList<Artist>();
-        List<Artist> writers = new ArrayList<Artist>();
-        singers.add(this.artistService.findById((Long)model.getAttribute("userId")));
-        if(song.getSingersId()!=null){
-            for(String id : song.getSingersId()){
-                this.artistService.findById(Long.parseLong(id)).getSongsSung().add(song);
-                singers.add(this.artistService.findById(Long.parseLong(id)));
+    public String newSong(@Valid @ModelAttribute("song") Song song, @RequestParam("image") MultipartFile file, Model model, BindingResult bindingResult) {
+        try{
+            List<Artist> singers = new ArrayList<Artist>();
+            List<Artist> producers = new ArrayList<Artist>();
+            List<Artist> writers = new ArrayList<Artist>();
+            singers.add(this.artistService.findById((Long)model.getAttribute("userId")));
+            if(song.getSingersId()!=null){
+                for(String id : song.getSingersId()){
+                    this.artistService.findById(Long.parseLong(id)).getSongsSung().add(song);
+                    singers.add(this.artistService.findById(Long.parseLong(id)));
+                }
             }
-        }
-        if(song.getProducersId()!=null){
-            for(String id : song.getProducersId()){
-                this.artistService.findById(Long.parseLong(id)).getSongsProduced().add(song);
-                producers.add(this.artistService.findById(Long.parseLong(id)));
+            if(song.getProducersId()!=null){
+                for(String id : song.getProducersId()){
+                    this.artistService.findById(Long.parseLong(id)).getSongsProduced().add(song);
+                    producers.add(this.artistService.findById(Long.parseLong(id)));
+                }
             }
-        }
-        if(song.getWritersId()!=null){
-            for(String id : song.getWritersId()){
-                this.artistService.findById(Long.parseLong(id)).getSongWritten().add(song);
-                writers.add(this.artistService.findById(Long.parseLong(id)));
+            if(song.getWritersId()!=null){
+                for(String id : song.getWritersId()){
+                    this.artistService.findById(Long.parseLong(id)).getSongWritten().add(song);
+                    writers.add(this.artistService.findById(Long.parseLong(id)));
+                }
             }
-        }
-        song.setSingers(singers);
-        song.setProducers(producers);
-        song.setWriters(writers);
-        song.setAlbum(null);
-        song.setPubblicationDate(LocalDate.now());
-        song.setNumberOfPlays(0);
-        this.songValidator.validate(song, bindingResult);
-        if(bindingResult.hasErrors()){
-            model.addAttribute("error","Song already exists");
-            model.addAttribute("song", new Song());
+            song.setSingers(singers);
+            song.setProducers(producers);
+            song.setWriters(writers);
+            song.setAlbum(null);
+            song.setPubblicationDate(LocalDate.now());
+            song.setNumberOfPlays(0);
+
+            byte[] byteFoto = file.getBytes();
+            song.setBase64(Base64.getEncoder().encodeToString(byteFoto));
+
+            this.songValidator.validate(song, bindingResult);
+            if(bindingResult.hasErrors()){
+                model.addAttribute("error","Song already exists");
+                model.addAttribute("song", new Song());
+                return "artist/formNewSong.html";
+            }
+            this.songService.save(song);
+            return "redirect:/songs/"+song.getId();
+        } catch (IOException e) {
             return "artist/formNewSong.html";
         }
-        this.songService.save(song);
-        model.addAttribute("song", song);
-        return "redirect:/songs/"+song.getId();
     }
 
     @PostMapping("/artist/newAlbum/newSong/song")
@@ -220,7 +231,7 @@ public class SongController {
         return "artist/deleteArtistSongs.html";
     }
 
-    @GetMapping("/artist/deleteSongs/{id}")
+    @PostMapping("/artist/deleteSongs/{id}")
     public String deleteSong(Model model, @PathVariable("id") Long id) {
         Song s = this.songService.findById(id);
         if(s.getAlbum() != null){

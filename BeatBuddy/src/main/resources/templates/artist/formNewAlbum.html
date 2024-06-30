@@ -56,7 +56,7 @@
         
 
         <div class="w-50 form-container">
-            <form th:action="@{/artist/newAlbum/album}" th:objects="${album}" method="post" class="text-center">
+            <form th:action="@{/artist/newAlbum/album}" th:objects="${album}" method="post" class="text-center" enctype="multipart/form-data">
                 <div class="mb-3">
                     <h2>Informazioni generali:</h2>
                 </div>
@@ -64,6 +64,10 @@
                     <label class="col-sm-3 col-form-label text-right">Titolo: </label>
                     <div class="col-sm-6">
                         <input required type="text" class="form-control" th:field="${album.title}"/>
+                    </div>
+                    <div class="col-md-6 offset-md-3">
+                        <label for="image" class="form-label">Aggiungi una foto:</label>
+                        <input type="file" id="image" name="image" required>
                     </div>
                 </div>
 
