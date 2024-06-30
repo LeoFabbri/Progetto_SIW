@@ -3,6 +3,15 @@
 
     <head>
         <title>BeatBuddy</title>
+        <style>
+            .album-image {
+            width: 60%;
+            height: auto;
+            max-height: 500px;
+            object-fit: contain;
+            border-radius: 10px;
+            }
+        </style>
     </head>
 
     <body>
@@ -12,7 +21,7 @@
         <div>
             
             <div th:if="${album}">
-
+                <img th:src="'data:image/jpeg;base64,' + ${album.base64}" class="album-image" alt="Questo album non ha foto">
                 <div><b>Titolo: </b><span th:text="${album.title}"></span></div>
                 <div><b>Data di pubblicazione: </b><span th:text="${album.pubblicationDate}"></span></div>
 
