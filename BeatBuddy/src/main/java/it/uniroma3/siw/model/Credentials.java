@@ -22,6 +22,9 @@ public class Credentials {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private User user;
 
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Artist artist;
+
     public Long getId() {
         return id;
     }
@@ -51,6 +54,12 @@ public class Credentials {
     }
     public void setUser(User user) {
         this.user = user;
+    }
+    public Artist getArtist() {
+        return artist;
+    }
+    public void setArtist(Artist artist) {
+        this.artist = artist;
     }
 
     @Override

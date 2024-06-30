@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>SiwFood - New songs</title>
+    </head>
+
+    <body>
+        
+        <a href="/logout">logout</a>
+        <br><br>
+
+        <h1>Aggiungi nuovi brani all'album</h1>
+
+        <div>
+            <form th:action="@{'/artist/updateAlbum/addSongs/newAlbum/'+${album.id}}" th:object="${newAlbum}" method="post">
+
+                <div id="songsDiv">
+                    <h2>Canzoni: </h2>
+                    <select name="songsId[0]" id="songId_0" th:field="${newAlbum.songsId[0]}">
+                        <option th:each="song : ${songs}" th:value="${song.id}" th:text="${song.title}"></option>
+                    </select>
+                </div>
+                <input type="button" onclick="addSongs()" value="Aggiungi una canzone">
+
+                <br>
+            
+                <div>
+                    <input type="submit" value="registra">
+                </div>
+
+            </form>
+        </div>
+
+        <script>
+
+            let songsCont = 1;
+
+            function addSongs() {
+
+                fetch('/rest/songs').then(data => data.json()).then(data => {
+                    const div = document.createElement('div');
+                    const select = document.createElement('select');
+                    select.id = 'songId_'+songsCont;
+                    select.name = 'songsId['+songsCont+']';
+                    const button = document.createElement('input')
+                    button.id = 'songButton_'+songsCont;
+                    button.type = 'button';
+                    button.value = 'Rimuovi';
+                    button.setAttribute('onclick', 'removeSong()');
+                    data.forEach(item => {
+                        const option = document.createElement('option');
+                        option.value = item.id;
+                        option.textContent = item.title;
+                        select.appendChild(option);
+                    });
+                    div.appendChild(select);
+                    div.appendChild(button);
+                    document.getElementById('songsDiv').append(div);
+                    songsCont++;
+                }).catch(error => console.error('Error fetching songs:', error));
+
+            }
+
+            function removeSong(){
+                document.getElementById("songId_"+(songsCont-1)).remove();
+                document.getElementById("songButton_"+(songsCont-1)).remove();
+                songsCont--;
+            }
+
+        </script>
+
+    </body>
+
+</html>
