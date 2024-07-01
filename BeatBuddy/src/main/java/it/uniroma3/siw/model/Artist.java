@@ -29,6 +29,8 @@ public class Artist {
 	private String realSurname;
 	private LocalDate dateOfBirth;
     private Long monthlyListeners;
+
+	@Column(length = 1000000000)
     private String biography;
 	private String email;
 

@@ -57,7 +57,7 @@
                 <h2 class="section-title">Cantanti</h2>
                 <div class="row">
                     <div th:each="artist : ${song.singers}" class="col-md-4 mb-4">
-                        <a th:href="@{'/artist/' + ${artist.id}}" class="text-decoration-none">
+                        <a th:href="@{'/artists/' + ${artist.id}}" class="text-decoration-none">
                             <div class="card h-100">
                                 <img th:src="'data:image/jpeg;base64,' + ${artist.base64}" class="card-img-top" alt="Artista senza foto" style="width: 100%; height: 250px; object-fit: cover;">
                                 <div class="card-body text-center">
@@ -73,7 +73,7 @@
                 </div>
                 <div th:unless="${song.writers == null || song.writers.size() == 0}" class="row">
                     <div th:each="artist : ${song.writers}" class="col-md-4 mb-4">
-                        <a th:href="@{'/artist/' + ${artist.id}}" class="text-decoration-none">
+                        <a th:href="@{'/artists/' + ${artist.id}}" class="text-decoration-none">
                             <div class="card h-100">
                                 <img th:src="'data:image/jpeg;base64,' + ${artist.base64}" class="card-img-top" alt="Artista senza foto" style="width: 100%; height: 250px; object-fit: cover;">
                                 <div class="card-body text-center">
@@ -89,7 +89,7 @@
                 </div>
                 <div th:unless="${song.producers == null || song.producers.size() == 0}" class="row">
                     <div th:each="artist : ${song.producers}" class="col-md-4 mb-4">
-                        <a th:href="@{'/artist/' + ${artist.id}}" class="text-decoration-none">
+                        <a th:href="@{'/artists/' + ${artist.id}}" class="text-decoration-none">
                             <div class="card h-100">
                                 <img th:src="'data:image/jpeg;base64,' + ${artist.base64}" class="card-img-top" alt="Artista senza foto" style="width: 100%; height: 250px; object-fit: cover;">
                                 <div class="card-body text-center">
