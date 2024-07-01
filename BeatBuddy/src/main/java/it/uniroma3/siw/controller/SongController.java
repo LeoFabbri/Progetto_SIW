@@ -211,6 +211,7 @@ public class SongController {
         song.setWriters(writers);
         song.setPubblicationDate(LocalDate.now());
         song.setNumberOfPlays(0);
+        this.songValidator.validate(song, bindingResult);
         if(bindingResult.hasErrors()){
             model.addAttribute("error","Song already exists");
             model.addAttribute("song", new Song());

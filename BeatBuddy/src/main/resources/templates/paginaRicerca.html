@@ -51,6 +51,7 @@
         <div th:if="${artists == null || artists.isEmpty()}">
             <p>Non ci sono artisti corrispondenti alla ricerca.</p>
         </div>
+
         <div th:unless="${artists == null || artists.isEmpty()}" id="artistCarousel" class="carousel slide" data-bs-interval="false">
             <div class="carousel-inner">
                 <!-- Iterazione per ogni gruppo di tre album -->
