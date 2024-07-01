@@ -6,10 +6,10 @@ let producersCont = 0;
 
                 fetch('/rest/singers').then(data => data.json()).then(data => {
                     const div = document.createElement('div');
-                    div.className = 'd-flex align-items-center mb-2';
+                    div.className = 'd-flex align-items-center mb-2 justify-content-center';
 
                     const select = document.createElement('select');
-                    select.className = 'form-control mb-2 custom-width mx-auto';
+                    select.className = 'form-control mb-2 custom-width';
                     select.id = 'singerId_' + singersCont;
                     select.name = 'singersId[' + singersCont + ']';
 
@@ -46,10 +46,10 @@ let producersCont = 0;
 
                 fetch('/rest/artists').then(data => data.json()).then(data => {
                     const div = document.createElement('div');
-                    div.className = 'd-flex align-items-center mb-2';
+                    div.className = 'd-flex align-items-center mb-2 justify-content-center';
 
                     const select = document.createElement('select');
-                    select.className = 'form-control mb-2 custom-width mx-auto';
+                    select.className = 'form-control mb-2 custom-width';
                     select.id = 'writerId_' + writersCont;
                     select.name = 'writersId[' + writersCont + ']';
 
@@ -86,10 +86,10 @@ let producersCont = 0;
 
                 fetch('/rest/singers').then(data => data.json()).then(data => {
                     const div = document.createElement('div');
-                    div.className = 'd-flex align-items-center mb-2';
+                    div.className = 'd-flex align-items-center mb-2 justify-content-center';
 
                     const select = document.createElement('select');
-                    select.className = 'form-control mb-2 custom-width mx-auto';
+                    select.className = 'form-control mb-2 custom-width';
                     select.id = 'producerId_' + producersCont;
                     select.name = 'producerId[' + producersCont + ']';
 

@@ -3,10 +3,10 @@ let artistsCont = 1;
             function addArtists() {
             fetch('/rest/singers').then(data => data.json()).then(data => {
                 const div = document.createElement('div');
-                div.className = 'd-flex align-items-center mb-2';
+                div.className = 'd-flex align-items-center mb-2 justify-content-center';
 
                 const select = document.createElement('select');
-                select.className = 'form-control mb-2 custom-width mx-auto';
+                select.className = 'form-control mb-2 custom-width';
                 select.id = 'artistId_' + artistsCont;
                 select.name = 'artistsId[' + artistsCont + ']';
 

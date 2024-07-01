@@ -7,10 +7,10 @@ let songsCont = 1;
 
                     if (Array.isArray(data) && data.length > 0) {
                         const div = document.createElement('div');
-                        div.className = 'd-flex align-items-center mb-2';
+                        div.className = 'd-flex align-items-center mb-2 justify-content-center';
 
                         const select = document.createElement('select');
-                        select.className = 'form-control mb-2 custom-width mx-auto';
+                        select.className = 'form-control mb-2 custom-width';
                         select.id = 'songId_' + songsCont;
                         select.name = 'songsId[' + songsCont + ']';
 
