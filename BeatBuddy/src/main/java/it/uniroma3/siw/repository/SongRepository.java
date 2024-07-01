@@ -25,5 +25,8 @@ public interface SongRepository extends CrudRepository<Song,Long>{
 
     @Query("select s from Song s where :singer member of s.singers and :title = s.title")
     public List<Song> findByTitleAndSinger(String title, Artist singer);
+
+    @Query("select s from Song s where :artist member of s.singers and s.album is null")
+    public List<Song> findByArtistWithoutAlbum(Artist artist);
     
 }

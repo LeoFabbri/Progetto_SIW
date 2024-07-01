@@ -16,6 +16,6 @@ public interface PlaylistRepository extends CrudRepository<Playlist,Long>{
     public List<Playlist> findByTitle(String title);
 
     @Query("select p from Playlist p where :song not member of p.songs and p.user = :user")
-    public List<Playlist> findByUSerAndSong(User user, Song song);
+    public List<Playlist> findByUserAndSong(User user, Song song);
 
 }

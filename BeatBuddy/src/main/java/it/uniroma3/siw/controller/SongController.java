@@ -6,16 +6,13 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.Local;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-
 import it.uniroma3.siw.controller.validator.SongValidator;
 import it.uniroma3.siw.model.Artist;
 import it.uniroma3.siw.model.Review;
@@ -25,18 +22,17 @@ import it.uniroma3.siw.repository.ArtistRepository;
 import it.uniroma3.siw.repository.PlaylistRepository;
 import it.uniroma3.siw.service.ArtistService;
 import it.uniroma3.siw.service.CredentialsService;
+import it.uniroma3.siw.service.PlaylistService;
 import it.uniroma3.siw.service.ReviewService;
 import it.uniroma3.siw.service.SongService;
 import it.uniroma3.siw.service.UserService;
 import jakarta.validation.Valid;
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 
 
@@ -48,9 +44,6 @@ public class SongController {
 
     @Autowired
     private SongService songService;
-
-    @Autowired
-    private ArtistRepository artistRepository;
 
     @Autowired
     private ArtistService artistService;
@@ -65,7 +58,7 @@ public class SongController {
     private UserService userService;
 
     @Autowired
-    private PlaylistRepository playlistRepository;
+    private PlaylistService playlistService;
 
     @GetMapping("/songs")
     public String getSongs(Model model) {
@@ -90,7 +83,7 @@ public class SongController {
                 Review recensioneUser = reviewService.findBySongAndUser(song, user);
                 model.addAttribute("recensioneUser", recensioneUser);
                 // model.addAttribute("playlists", this.userService.findById((Long) model.getAttribute("userId")).getPlaylistsCreated());
-                model.addAttribute("playlists", this.playlistRepository.findByUSerAndSong(user, song));
+                model.addAttribute("playlists", this.playlistService.findByUSerAndSong(user, song));
             }
             else{
                 model.addAttribute("role", "ARTIST");
@@ -120,8 +113,8 @@ public class SongController {
 
     @GetMapping("/artist/songs")
     public String getArtistSongs(Model model){
-        model.addAttribute("songs", this.songService.findBySinger(this.artistRepository.findById((Long)model.getAttribute("userId")).get()));
-        return "artist/artistSongs.html";
+        model.addAttribute("songs", this.songService.findBySinger(this.artistService.findById((Long)model.getAttribute("userId"))));
+        return "songs.html";
     }
 
     @GetMapping("/artist/formNewSong")
@@ -139,28 +132,28 @@ public class SongController {
     @PostMapping("/artist/newSong/song")
     public String newSong(@Valid @ModelAttribute("song") Song song, @RequestParam("image") MultipartFile file, Model model, BindingResult bindingResult) {
         try{
-            List<Artist> singers = new ArrayList<Artist>();
-            List<Artist> producers = new ArrayList<Artist>();
-            List<Artist> writers = new ArrayList<Artist>();
-            singers.add(this.artistService.findById((Long)model.getAttribute("userId")));
-            if(song.getSingersId()!=null){
-                for(String id : song.getSingersId()){
-                    this.artistService.findById(Long.parseLong(id)).getSongsSung().add(song);
-                    singers.add(this.artistService.findById(Long.parseLong(id)));
-                }
+        List<Artist> singers = new ArrayList<Artist>();
+        List<Artist> producers = new ArrayList<Artist>();
+        List<Artist> writers = new ArrayList<Artist>();
+        singers.add(this.artistService.findById((Long)model.getAttribute("userId")));
+        if(song.getSingersId()!=null){
+            for(String id : song.getSingersId()){
+                this.artistService.findById(Long.parseLong(id)).getSongsSung().add(song);
+                singers.add(this.artistService.findById(Long.parseLong(id)));
             }
-            if(song.getProducersId()!=null){
-                for(String id : song.getProducersId()){
-                    this.artistService.findById(Long.parseLong(id)).getSongsProduced().add(song);
-                    producers.add(this.artistService.findById(Long.parseLong(id)));
-                }
+        }
+        if(song.getProducersId()!=null){
+            for(String id : song.getProducersId()){
+                this.artistService.findById(Long.parseLong(id)).getSongsProduced().add(song);
+                producers.add(this.artistService.findById(Long.parseLong(id)));
             }
-            if(song.getWritersId()!=null){
-                for(String id : song.getWritersId()){
-                    this.artistService.findById(Long.parseLong(id)).getSongWritten().add(song);
-                    writers.add(this.artistService.findById(Long.parseLong(id)));
-                }
+        }
+        if(song.getWritersId()!=null){
+            for(String id : song.getWritersId()){
+                this.artistService.findById(Long.parseLong(id)).getSongWritten().add(song);
+                writers.add(this.artistService.findById(Long.parseLong(id)));
             }
+        }
             song.setSingers(singers);
             song.setProducers(producers);
             song.setWriters(writers);
@@ -189,23 +182,23 @@ public class SongController {
         List<Artist> singers = new ArrayList<Artist>();
         List<Artist> producers = new ArrayList<Artist>();
         List<Artist> writers = new ArrayList<Artist>();
-        singers.add(this.artistRepository.findById((Long)model.getAttribute("userId")).get());
+        singers.add(this.artistService.findById((Long)model.getAttribute("userId")));
         if(song.getSingersId()!=null){
             for(String id : song.getSingersId()){
-                this.artistRepository.findById(Long.parseLong(id)).get().getSongsSung().add(song);
-                singers.add(this.artistRepository.findById(Long.parseLong(id)).get());
+                this.artistService.findById(Long.parseLong(id)).getSongsSung().add(song);
+                singers.add(this.artistService.findById(Long.parseLong(id)));
             }
         }
         if(song.getProducersId()!=null){
             for(String id : song.getProducersId()){
-                this.artistRepository.findById(Long.parseLong(id)).get().getSongsProduced().add(song);
-                producers.add(this.artistRepository.findById(Long.parseLong(id)).get());
+                this.artistService.findById(Long.parseLong(id)).getSongsProduced().add(song);
+                producers.add(this.artistService.findById(Long.parseLong(id)));
             }
         }
         if(song.getWritersId()!=null){
             for(String id : song.getWritersId()){
-                this.artistRepository.findById(Long.parseLong(id)).get().getSongWritten().add(song);
-                writers.add(this.artistRepository.findById(Long.parseLong(id)).get());
+                this.artistService.findById(Long.parseLong(id)).getSongWritten().add(song);
+                writers.add(this.artistService.findById(Long.parseLong(id)));
             }
         }
         song.setSingers(singers);
@@ -224,9 +217,6 @@ public class SongController {
     
     @GetMapping("/artist/deleteSongs")
     public String getDeleteSongs(Model model) {
-        System.out.println((Long)model.getAttribute("userId"));
-        System.out.println(this.artistService.findById((Long)model.getAttribute("userId")).getStageName());
-        System.out.println(this.songService.findBySinger(this.artistService.findById((Long)model.getAttribute("userId"))).size());
         model.addAttribute("songs", this.songService.findBySinger(this.artistService.findById((Long)model.getAttribute("userId"))));
         return "artist/deleteArtistSongs.html";
     }
