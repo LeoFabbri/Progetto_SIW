@@ -179,7 +179,7 @@ public class AlbumController {
         return "artist/deleteArtistAlbum.html";
     }
 
-    @GetMapping("/artist/deleteAlbums/{id}")
+    @PostMapping("/artist/deleteAlbums/{id}")
     public String deleteAlbum(@PathVariable("id") Long id, Model model){
         Album a = this.albumService.findById(id);
         if(a.getSongs() != null){

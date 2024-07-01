@@ -36,7 +36,7 @@
             <form th:action="@{'/artist/updateAlbum/addSongs/newAlbum/'+${album.id}}" th:object="${newAlbum}" method="post" class="text-center">
                 <h1 class="mb-4">Aggiungi nuovi brani all'album</h1>
                 <div id="songsDiv" class="mb-3">
-                    <select name="songsId[0]" id="songId_0" th:field="${newAlbum.songsId[0]}" class="form-control mb-2 custom-width">
+                    <select name="songsId[0]" id="songId_0" th:field="${newAlbum.songsId[0]}" class="form-control mb-2 custom-width mx-auto">
                         <option th:each="song : ${songs}" th:value="${song.id}" th:text="${song.title}"></option>
                     </select>
                 </div>
