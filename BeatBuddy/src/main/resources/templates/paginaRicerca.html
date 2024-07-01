@@ -40,7 +40,7 @@
                 <img th:src="'data:image/;base64,' + ${artist.base64}" alt="Artist Image" class="card-img-top">
                 <div class="card-body">
                     <h5 class="card-title">
-                        <a th:href="@{'/artist/'+${artist.id}}" th:text="${artist.stageName}">
+                        <a th:href="@{'/artists/'+${artist.id}}" th:text="${artist.stageName}">
                             Nome Artista
                         </a>
                     </h5>

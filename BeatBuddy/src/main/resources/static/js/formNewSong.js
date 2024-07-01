@@ -91,7 +91,7 @@ let producersCont = 0;
                     const select = document.createElement('select');
                     select.className = 'form-control mb-2 custom-width';
                     select.id = 'producerId_' + producersCont;
-                    select.name = 'producerId[' + producersCont + ']';
+                    select.name = 'producersId[' + producersCont + ']';
 
                     const button = document.createElement('input')
                     button.id = 'producerButton_' + producersCont;
