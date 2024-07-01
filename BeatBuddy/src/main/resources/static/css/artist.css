@@ -23,3 +23,67 @@ body{
 .navbar-nav .nav-link:hover {
     color: #834230; 
 }
+
+/* SECTION */
+
+.artist-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.artist-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.artist-image {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 50%; /* Rende l'immagine rotonda */
+    margin-right: 20px;
+}
+
+.artist-details {
+    max-width: 300px;
+}
+
+.artist-details h1 {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.artist-details ul {
+    list-style: none;
+    padding: 0;
+}
+
+.artist-details ul li {
+    margin-bottom: 5px;
+}
+
+.biography {
+    max-width: 1000px;
+    text-align: justify;
+    padding: 20px;
+    background-color: #83423018;
+    border-width: 10px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.biography h3 {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.biography span {
+    display: block;
+}
+

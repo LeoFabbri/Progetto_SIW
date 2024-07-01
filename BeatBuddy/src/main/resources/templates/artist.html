@@ -29,22 +29,28 @@
         </nav>
 
         <section>
-            <div class="row">
-                <!-- Colonna dell'immagine della canzone e delle informazioni -->
-                <div class="col-md-4">
-                    <div class="artist-info">
-                        <img th:src="'data:image/jpeg;base64,' + ${artist.base64}" class="song-image" alt="Questa Canzone non ha foto">
-                        <h1 th:text="${artist.stageName}">Titolo Canzone</h1>
+            <div class="artist-section">
+                <!-- Informazioni dell'artista -->
+                <div class="artist-info">
+                    <img th:src="'data:image/jpeg;base64,' + ${artist.base64}" class="artist-image" alt="Questa Canzone non ha foto">
+                    <div class="artist-details">
+                        <h1 th:text="${artist.stageName}">Nome artista</h1>
                         <ul>
                             <li><span>Nome reale: </span><span th:text="${artist.realName}+ ' '+ ${artist.realSurname}"></span></li>
-                            <li><span>Data di nascita: </span><span th:date="${artist.dateOfBirth}"></span></li>
-                            <li><span>Ascolti mensili: </span><span th:long="${song.monthlyListeners}"></span></li>
+                            <li><span>Data di nascita: </span><span th:text="${artist.dateOfBirth}"></span></li>
+                            <li><span>Ascolti mensili: </span><span th:text="${artist.monthlyListeners} + ' utenti' "></span></li>
                         </ul>
                     </div>
                 </div>
+                <!-- Biografia dell'artista -->
+                <div class="biography">
+                    <h3>Biografia:</h3>
+                    <span th:text="${artist.biography}"></span>
+                </div>
             </div>
-            
         </section>
+        
+        
     </body>
 
 </html>

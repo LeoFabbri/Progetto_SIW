@@ -82,7 +82,7 @@
                             <div th:each="index : ${#numbers.sequence(iterStat.index, iterStat.index + 2)}"
                                  th:if="${index lt albums.size()}" class="col-md-4">
                                 <div th:with="album=${albums[index]}">
-                                    <a th:href="@{/albums/{id}(id=${album.id})}">
+                                    <a th:href="@{/albums/{id}(id=${album.id})}" style="text-decoration: none;">
                                         <div class="d-flex justify-content-around">
                                             <div class="carousel-square">
                                                 <img th:src=" 'data:image/;base64,' + ${album.base64}" alt="Album Image" >
@@ -116,7 +116,7 @@
                             <div th:each="index : ${#numbers.sequence(iterStat.index, iterStat.index + 2)}"
                                  th:if="${index lt artists.size()}" class="col-md-4">
                                 <div th:with="artist=${artists[index]}">
-                                    <a th:href="@{/artist/{id}(id=${artist.id})}">
+                                    <a th:href="@{/artists/{id}(id=${artist.id})}" style="text-decoration: none;">
                                         <div class="d-flex justify-content-around">
                                             <div class="carousel-circle">
                                                 <img th:src=" 'data:image/;base64,' + ${artist.base64}" alt="Artist Image" >
