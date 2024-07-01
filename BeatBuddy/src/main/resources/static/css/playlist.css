@@ -1,87 +1,35 @@
-/* .favorite-songs-container {
-    max-width: 1200px;
-    margin: 50px auto;
-    padding: 20px;
-    border-radius: 10px;
-    background: #f8f9fa;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+.navbar {
+    background: linear-gradient(90deg, #834230 0%, #9e5c49 50%, #834230 100%);
+    /* background: linear-gradient(90deg, rgb(0, 0, 0) 0%, rgba(30,30,70,1) 50%, rgb(0, 0, 0) 100%); */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
-.song-card {
-    margin-bottom: 20px;
-    transition: transform 0.2s;
-}
-.song-card:hover {
-    transform: scale(1.05);
-}
-.song-image {
-    height: 200px;
-}
-.playlist-info-container {
-    margin: 50px auto;
-    padding: 20px;
-    border-radius: 10px;
-    background: #f1f1f1;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-.playlist-info-title {
-    margin-bottom: 20px;
-} */
-/* 
-.favorite-songs-container {
-    margin-top: 40px;
-    width: 50px;
-}
-
-.col-md-6{
-    text-decoration: none;
-    color: black;
-}
-
-.song-card {
-    display: flex;
-    flex-direction: column;
-
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #fff;
-    margin-bottom: 20px;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-.song-card:hover {
-    background-color: #f7f7f7;
-}
-
-.song-image {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 8px;
-    margin-right: 20px;
-}
-
-.song-details {
-    text-align: center;
-}
-
-.song-title {
-    font-size: 1.5em;
+.navbar-brand {
+    font-size: 1.5rem;
     font-weight: bold;
+    color: #fff !important;
 }
-
-.song-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+.nav-link {
+    color: #fff !important;
+    margin: 0 10px;
+    transition: color 0.3s ease;
+}
+.nav-link:hover {
+    color: #ffdd57 !important;
+}
+.nav-item {
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.1);
+    margin: 0 5px;
+    padding: 5px 10px;
+    transition: background-color 0.3s ease;
+}
+.nav-item:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+.nav {
     align-items: center;
 }
 
-.btn {
-    width: 120px;
-}
-
- */
  .favorite-songs-container {
     margin-top: 40px;
 }
@@ -127,4 +75,3 @@
     font-size: 1.5em;
     font-weight: bold;
 }
-
