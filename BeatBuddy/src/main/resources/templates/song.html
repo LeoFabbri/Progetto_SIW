@@ -40,8 +40,8 @@
                     <h1 th:text="${song.title}">Titolo Canzone</h1>
                     <ul>
                         <li><span>Data di pubblicazione: </span><span th:text="${song.pubblicationDate}"></span></li>
-                        <li><span>Durata: </span><span th:text="${song.duration}"></span></li>
-                        <li><span>Ascolti: </span><span th:text="${song.numberOfPlays}"></span></li>
+                        <li><span>Durata: </span><span th:text="${song.duration} + ' sec.'"></span></li>
+                        <li><span>Ascolti: </span><span th:text="${song.numberOfPlays + ' click'}"></span></li>
                     </ul>
                     <audio controls>
                         <source th:src=" 'data:audio/mpeg;base64,' + ${song.audioBase64}">
