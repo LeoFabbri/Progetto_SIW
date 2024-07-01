@@ -26,6 +26,8 @@
 
 	<h1>albums</h1>
 	<div th:if="${albums==null || albums.isEmpty()}">Non ci sono album nel sistema</div>
+    <p class="text-center">Non ci sono album nel sistema!</p>
+</div>
 	<ul>
 		<li th:each="album : ${albums}">
 			<!--<a th:href="@{'/song' + '/' + ${song.id}}" th:text="${song.title}"></a>-->

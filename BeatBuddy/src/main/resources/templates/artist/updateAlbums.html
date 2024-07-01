@@ -40,8 +40,10 @@
         <div class="container mt-5">
 
             <h2 class="mb-4 text-center">Albums</h2>
-    
-            <div th:if="${albums}" class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+            <div th:if="${albums == null || albums.size() == 0}" class="alert alert-info">
+                <p class="text-center">Non hai ancora creato un album!</p>
+            </div>
+            <div th:unless="${albums == null || albums.size() == 0}" class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
                 <div class="col mb-4" th:each="album : ${albums}">
                     <div class="card h-100">
                         <img th:src="'data:image/jpeg;base64,' + ${album.base64}" class="card-img-top" alt="Album Image">
@@ -53,10 +55,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-    
-            <div th:unless="${albums}" class="alert alert-info">
-                <i>Nessuna canzone trovata</i>
             </div>
     
         </div>

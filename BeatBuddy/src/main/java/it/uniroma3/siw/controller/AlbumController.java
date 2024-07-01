@@ -142,6 +142,7 @@ public class AlbumController {
                 existingSongs.add(song);
             }
         }
+            songs.addAll(existingSongs);
             Collections.sort(songs);
             album.setSongs(songs);
             album.setArtists(artists);
@@ -231,6 +232,7 @@ public class AlbumController {
     public String addArtistToAlbum(@ModelAttribute("newAlbum") Album newAlbum, @PathVariable("id") Long id, Model model){
         Album album = this.albumService.findById(id);
         for(String s : newAlbum.getArtistsId()){
+            this.artistService.findById(Long.parseLong(s)).getAlbums().add(album);
             album.getArtists().add(this.artistService.findById(Long.parseLong(s)));
         }
         this.albumService.save(album);
@@ -249,6 +251,7 @@ public class AlbumController {
     public String addSongToAlbum(@ModelAttribute("newAlbum") Album newAlbum, @PathVariable("id") Long id, Model model){
         Album album = this.albumService.findById(id);
         for(String s : newAlbum.getSongsId()){
+            this.songService.findById(Long.parseLong(s)).setAlbum(album);
             album.getSongs().add(this.songService.findById(Long.parseLong(s)));
         }
         this.albumService.save(album);
