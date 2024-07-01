@@ -61,7 +61,7 @@
                 <img th:src="'data:image/;base64,' + ${album.base64}" alt="Album Image" class="card-img-top">
                 <div class="card-body">
                     <h5 class="card-title">
-                        <a th:href="@{'/album/'+${album.id}}" th:text="${album.title}">
+                        <a th:href="@{'/albums/'+${album.id}}" th:text="${album.title}">
                             Titolo Album
                         </a>
                     </h5>
@@ -82,7 +82,7 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">
-                        <a th:href="@{'/song/'+${song.id}}" th:text="${song.title}">
+                        <a th:href="@{'/songs/'+${song.id}}" th:text="${song.title}">
                             Titolo Canzone
                         </a>
                     </h5>
