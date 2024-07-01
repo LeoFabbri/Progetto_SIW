@@ -45,8 +45,9 @@
         <div class="container mt-5">
 
             <h2 class="mb-4 text-center">Albums</h2>
-            <div th:if="${albums == null || albums.size() == 0}" class="alert alert-info">
+            <div th:if="${albums == null || albums.size() == 0}" class="text-center alert">
                 <p class="text-center">Non hai ancora creato un album!</p>
+                <a href="/artist/formNewAlbum" class="btn btn-primary">Aggiungi un nuovo album</a>
             </div>
             <div th:unless="${albums == null || albums.size() == 0}" class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
                 <div class="col mb-4" th:each="album : ${albums}">
