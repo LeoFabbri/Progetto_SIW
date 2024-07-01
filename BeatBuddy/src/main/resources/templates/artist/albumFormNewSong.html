@@ -44,7 +44,7 @@
             <h1 class="mb-4">Aggiungi una nuova canzone</h1>
 
             <div class="w-50 form-container">
-                <form th:action="@{'/artist/newAlbum/newSong/song'}" th:object="${song}" method="post" class="text-center">
+                <form th:action="@{'/artist/newAlbum/newSong/song'}" th:object="${song}" method="post" class="text-center" enctype="multipart/form-data">
 
                     <div class="mb-3">
                         <h2>Informazioni generali:</h2>
@@ -59,6 +59,14 @@
                         <label for="songDuration" class="col-sm-3 col-form-label text-right">Durata:</label>
                         <div class="col-sm-6">
                             <input required type="text" class="form-control" id="songDuration" th:field="${song.duration}" />
+                        </div>
+                        <div class="col-md-6 offset-md-3">
+                            <label for="image" class="form-label">Aggiungi una foto:</label>
+                            <input type="file" id="image" name="image" required>
+                        </div>
+                        <div class="col-md-6 offset-md-3">
+                            <label for="audio" class="form-label">Aggiungi l'audio della canzone:</label>
+                            <input type="file" id="audio" name="audio" accept="audio/*" required>
                         </div>
                     </div>
                     <div id="singersDiv" class="mb-3">
