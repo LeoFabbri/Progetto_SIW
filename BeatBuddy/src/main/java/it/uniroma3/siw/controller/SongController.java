@@ -241,6 +241,12 @@ public class SongController {
 
     @PostMapping("/searchAll")
     public String searchAll(Model model, @RequestParam String name) {
+        if((Long) model.getAttribute("userId") == null){
+            model.addAttribute("role", "ANONIMO");
+        }else{
+            model.addAttribute("role", "NON ANONIMO");
+        }
+
         String searchQuery = name.toLowerCase();
         List<Artist> artists = this.artistService.findByStageNameContainingIgnoreCase(searchQuery);
         List<Album> albums = this.albumService.findByTitleContainingIgnoreCase(searchQuery);

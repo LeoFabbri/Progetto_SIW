@@ -1,66 +1,12 @@
-<!-- <!DOCTYPE html>
-<html>
-
-    <head>
-        <title>BeatBuddy</title>
-    </head>
-
-    <body>
-        
-        <a href="/"><h1>BeatBuddy</h1></a>
-
-        <div>
-            
-            <div th:if="${album}">
-
-                <div><b>Titolo: </b><span th:text="${album.title}"></span></div>
-                <div><b>Data di pubblicazione: </b><span th:text="${album.pubblicationDate}"></span></div>
-
-                <div th:unless="${album.artists.isEmpty()}">
-                    <b>Artisti:</b>
-                    <ul>
-                        <li th:each="artist : ${album.artists}">
-                            <span th:text="${artist.stageName}+' '"></span>
-                            <a th:href="@{'/artist/updateAlbum/removeArtist/'+${album.id}+'/'+${artist.id}}">Remove</a>
-                        </li>
-                        <a th:href="@{'/artist/updateAlbum/addArtists/'+${album.id}}">Aggiungi artisti</a>
-                    </ul>
-                </div>
-
-                <div th:if="${album.artists.isEmpty()}"><i>Nessun artista inserito</i>
-                    <a th:href="@{'/artist/updateAlbum/addArtists/'+${album.id}}">Aggiungi artisti</a>
-                </div>
-
-                <div th:unless="${album.songs.isEmpty()}">
-                    <b>Brani:</b>
-                    <ul>
-                        <li th:each="song : ${album.songs}">
-                            <span th:text="${song.title} + ' ' + ${song.duration} + ' '"></span>
-                            <a th:href="@{'/artist/updateAlbum/removeSong/'+${album.id}+'/'+${song.id}}">Remove</a>
-                        </li>
-                        <a th:href="@{'/artist/updateAlbum/addSongs/'+${album.id}}">Aggiungi brani</a>
-                    </ul>
-                </div>
-                <div th:if="${album.songs.isEmpty()}"><i>Nessun brano inserito</i>
-                    <a th:href="@{'/artist/updateAlbum/addSongs/'+${album.id}}">Aggiungi canzoni</a>
-                </div>
-
-            </div>
-        
-        </div>
-
-    </body>
-
-</html> -->
-
 <!DOCTYPE html>
 <html>
 
 <head>
     <title>Album</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href="/css/song.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <style>
         .btn{
             background-color: #834230 !important;
@@ -74,18 +20,27 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light border-bottom">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
         <div class="container-fluid">
+            <a class="navbar-brand" href="/">BeatBuddy</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                  <li class="nav-item">
-                    <a class="nav-link" href="/logout">Logout</a>
-                  </li>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">
+                            <i class="fas fa-home"></i>
+                            Home
+                        </a>
+                    </li>
+                      <li class="nav-item">
+                          <a class="nav-link" href="/logout">Esci</a>
+                      </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/registration">Crea un account</a>
+                    </li>
                 </ul>
-                <a class="navbar-brand mx-auto" href="/">BeatBuddy</a>
             </div>
         </div>
     </nav>
