@@ -15,6 +15,11 @@ public class ArtistController {
 
     @GetMapping("/artists/{id}")
     public String getArtist(@PathVariable("id") Long id, Model model) {
+        if((Long) model.getAttribute("userId") == null){
+            model.addAttribute("role", "ANONIMO");
+        }else{
+            model.addAttribute("role", "NON ANONIMO");
+        }
         model.addAttribute("artist", this.artistService.findById(id));
         return "artist.html";
     }
