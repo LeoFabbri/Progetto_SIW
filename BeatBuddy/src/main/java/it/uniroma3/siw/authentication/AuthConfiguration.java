@@ -48,9 +48,9 @@ public class AuthConfiguration {
         .csrf().and().cors().disable()
         .authorizeHttpRequests()
         // chiunque (autenticato o no) può accedere alle pagine index, login, register, ai css e alle immagini
-        .requestMatchers(HttpMethod.GET,"/","/index","/login","/registration","/css/**", "/images/**", "/searchAll","/song/{id}","/artist/{id}").permitAll()
+        .requestMatchers(HttpMethod.GET,"/","/index","/login","/registration","/css/**", "/images/**", "/searchAll","/songs/{id}","/artists/{id}", "/albums/{id}").permitAll()
         // chiunque (autenticato o no) può mandare richieste POST al punto di accesso per login e register
-        .requestMatchers(HttpMethod.POST,"/","/index","/registration", "/login", "/searchAll","/song/{id}","/artist/{id}").permitAll()
+        .requestMatchers(HttpMethod.POST,"/","/index","/registration", "/login", "/searchAll","/songs/{id}","/artists/{id}", "/albums/{id}").permitAll()
         .requestMatchers(HttpMethod.GET,"/artist/**").hasAnyAuthority("ARTIST")
         .requestMatchers(HttpMethod.POST,"/artist/**").hasAnyAuthority("ARTIST")
         // tutti gli utenti autenticati possono accere alle pagine rimanenti

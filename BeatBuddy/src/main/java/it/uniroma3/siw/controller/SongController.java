@@ -4,11 +4,9 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Base64;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -119,7 +117,7 @@ public class SongController {
     @GetMapping("/artist/songs")
     public String getArtistSongs(Model model){
         model.addAttribute("songs", this.songService.findBySinger(this.artistService.findById((Long)model.getAttribute("userId"))));
-        return "songs.html";
+        return "artist/songs.html";
     }
 
     @GetMapping("/artist/formNewSong")
