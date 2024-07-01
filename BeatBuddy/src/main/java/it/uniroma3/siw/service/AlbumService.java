@@ -1,11 +1,8 @@
 package it.uniroma3.siw.service;
 
-import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import it.uniroma3.siw.model.Album;
 import it.uniroma3.siw.model.Artist;
 import it.uniroma3.siw.repository.AlbumRepository;
@@ -37,12 +34,10 @@ public class AlbumService {
     }
 
     public List<Album> findByArtist(Artist artist){
-        List<Album> l = new ArrayList<Album>();
-        for (Album a : this.albumRepository.findAll()) {
-            if(a.getArtists().contains(artist)){
-                l.add(a);
-            }
-        }
-        return l;
+        return this.albumRepository.findByArtist(artist);
+    }
+
+    public List<Album> findByTitleAndArtist(String title, Artist a){
+        return this.albumRepository.findByTitleAndArtist(title, a);
     }
 }
