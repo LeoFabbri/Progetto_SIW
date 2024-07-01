@@ -25,16 +25,11 @@ import it.uniroma3.siw.model.Artist;
 import it.uniroma3.siw.model.Review;
 import it.uniroma3.siw.model.Song;
 import it.uniroma3.siw.model.User;
-import it.uniroma3.siw.repository.AlbumRepository;
-import it.uniroma3.siw.repository.ArtistRepository;
-import it.uniroma3.siw.repository.SongRepository;
 import it.uniroma3.siw.service.AlbumService;
 import it.uniroma3.siw.service.ArtistService;
 import it.uniroma3.siw.service.CredentialsService;
 import it.uniroma3.siw.service.ReviewService;
 import it.uniroma3.siw.service.UserService;
-import it.uniroma3.siw.service.AlbumService;
-import it.uniroma3.siw.service.ArtistService;
 import it.uniroma3.siw.service.SongService;
 import jakarta.validation.Valid;
 
@@ -118,30 +113,31 @@ public class AlbumController {
     @PostMapping("/artist/newAlbum/album")
     public String newAlbum(@Valid @ModelAttribute("album") Album album, @RequestParam("image") MultipartFile file, Model model, BindingResult bindingResult) {
         try{
-        List<Artist> artists = new ArrayList<Artist>();
-        List<Song> existingSongs = new ArrayList<Song>();
-        artists.add(this.artistService.findById((Long)model.getAttribute("userId")));
-        List<Song> songs = new ArrayList<Song>();
-        if(album.getSongs()!=null){
-            songs.addAll(album.getSongs());
-            for(Song s : songs){
-                s.setSingers(artists);
-                s.setAlbum(album);
+            List<Artist> artists = new ArrayList<Artist>();
+            List<Song> existingSongs = new ArrayList<Song>();
+            artists.add(this.artistService.findById((Long)model.getAttribute("userId")));
+            List<Song> songs = new ArrayList<Song>();
+            if(album.getSongs()!=null){
+                songs.addAll(album.getSongs());
+                for(Song s : songs){
+                    s.setSingers(artists);
+                    s.setAlbum(album);
+                }
             }
-        }
-        if(album.getArtistsId()!=null){
-            for(String s : album.getArtistsId()){
-                this.artistService.findById(Long.parseLong(s)).getAlbums().add(album);
-                artists.add(this.artistService.findById(Long.parseLong(s)));
+            if(album.getArtistsId()!=null){
+                for(String s : album.getArtistsId()){
+                    this.artistService.findById(Long.parseLong(s)).getAlbums().add(album);
+                    artists.add(this.artistService.findById(Long.parseLong(s)));
+                }
             }
-        }
-        if(album.getSongsId()!=null){
-            for(String s : album.getSongsId()){
-                Song song = this.songService.findById(Long.parseLong(s));
-                song.setAlbum(album);
-                existingSongs.add(song);
+            if(album.getSongsId()!=null){
+                for(String s : album.getSongsId()){
+                    Song song = this.songService.findById(Long.parseLong(s));
+                    song.setAlbum(album);
+                    existingSongs.add(song);
+                }
             }
-        }
+            songs.addAll(existingSongs);
             Collections.sort(songs);
             album.setSongs(songs);
             album.setArtists(artists);
@@ -231,7 +227,9 @@ public class AlbumController {
     public String addArtistToAlbum(@ModelAttribute("newAlbum") Album newAlbum, @PathVariable("id") Long id, Model model){
         Album album = this.albumService.findById(id);
         for(String s : newAlbum.getArtistsId()){
-            album.getArtists().add(this.artistService.findById(Long.parseLong(s)));
+            Artist artist = this.artistService.findById(Long.parseLong(s));
+            album.getArtists().add(artist);
+            artist.getAlbums().add(album);
         }
         this.albumService.save(album);
         return "redirect:/artist/formUpdateAlbum/"+album.getId();
@@ -249,7 +247,9 @@ public class AlbumController {
     public String addSongToAlbum(@ModelAttribute("newAlbum") Album newAlbum, @PathVariable("id") Long id, Model model){
         Album album = this.albumService.findById(id);
         for(String s : newAlbum.getSongsId()){
-            album.getSongs().add(this.songService.findById(Long.parseLong(s)));
+            Song song = this.songService.findById(Long.parseLong(s));
+            album.getSongs().add(song);
+            song.setAlbum(album);
         }
         this.albumService.save(album);
         return "redirect:/artist/formUpdateAlbum/"+album.getId();
