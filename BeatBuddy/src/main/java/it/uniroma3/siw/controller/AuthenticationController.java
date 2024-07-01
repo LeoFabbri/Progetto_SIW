@@ -66,6 +66,13 @@ public class AuthenticationController {
             UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
 			if (credentials.getRole().equals("ARTIST")) {
+                Iterable<Album> albums = albumService.findAll();
+                Iterable<Artist> artists = artistService.findAll();
+                Iterable<Song> songs = songService.findAll();
+
+                model.addAttribute("albums", albums);
+                model.addAttribute("artists", artists);
+                model.addAttribute("songs", songs);
 				return "artistHome.html";
 			}else{
                 Iterable<Album> albums = albumService.findAll();

@@ -1,0 +1,28 @@
+.favorite-songs-container {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 20px;
+    border-radius: 10px;
+    background: #f8f9fa;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.song-card {
+    margin-bottom: 20px;
+    transition: transform 0.2s;
+}
+.song-card:hover {
+    transform: scale(1.05);
+}
+.song-image {
+    height: 200px;
+}
+.playlist-info-container {
+    margin: 50px auto;
+    padding: 20px;
+    border-radius: 10px;
+    background: #f1f1f1;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.playlist-info-title {
+    margin-bottom: 20px;
+}

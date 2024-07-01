@@ -92,7 +92,7 @@
                 </div>
             </div>
     
-            <!-- Colonna degli artisti -->
+            <!-- Colonna delle canzoni e dei cantanti-->
             <div class="col-md-4 artist-section">
                 <h2 class="section-title">Canzoni</h2>
                 <div th:if="${album.songs == null || album.songs.size() == 0}" class="row">
@@ -100,7 +100,7 @@
                 </div>
                 <div th:unless="${album.songs == null || album.songs.size() == 0}" class="row">
                     <div th:each="song : ${album.songs}" class="col-md-4 mb-4">
-                        <a th:href="@{'/song/' + ${song.id}}" class="text-decoration-none">
+                        <a th:href="@{'/songs/' + ${song.id}}" class="text-decoration-none">
                             <div class="card h-100">
                                 <img th:src="'data:image/jpeg;base64,' + ${song.base64}" class="card-img-top" alt="Canzone senza foto" style="width: 100%; height: 250px; object-fit: cover;">
                                 <div class="card-body text-center">

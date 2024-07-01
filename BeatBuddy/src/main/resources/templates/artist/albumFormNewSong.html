@@ -3,58 +3,29 @@
 
     <head>
         <title>SiwFood - New Song</title>
+        <link rel="stylesheet" href="/css/formNewSong.css">
         <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-        <style>
-            
-
-            .form-container {
-                border: 2px solid #333;
-                background-color: #f8f9fa;
-                padding: 20px;
-                border-radius: 5px;
-            }
-            .form-container .form-group {
-                width: 90%;
-            }
-            .form-container input[type="text"] {
-                width: 100%; 
-            }
-            .col-form-label {
-                padding-left: 43px;
-                margin-right: 0;
-                padding-right: 0;
-            }
-            .col-sm-9 {
-                padding-left: 0;
-            }
-            .form-control.custom-width {
-                width: 30%;
-            }
-
-            
-
-        </style>
+        <script src="/js/formNewSong.js"></script>
     </head>
 
     <body>
 
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="/index">
-                <img src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Bootstrap" width="30" height="24">
-                BeatBuddy
-            </a>
-            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <span class="nav-link" th:text="${userDetails.username}"></span>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/logout">Logout</a>
-                    </li>
-                </ul>
+        <nav class="navbar navbar-expand-lg navbar-light border-bottom">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout">Logout</a>
+                        </li>
+                    </ul>
+                    <a class="navbar-brand mx-auto" href="/">BeatBuddy</a>
+                </div>
             </div>
         </nav>
 
@@ -107,139 +78,6 @@
             </div>
 
         </div>
-
-        <script>
-            let singersCont = 0;
-            let writersCont = 0;
-            let producersCont = 0;
-
-            function addSingers() {
-
-                fetch('/rest/singers').then(data => data.json()).then(data => {
-                    const div = document.createElement('div');
-                    div.className = 'd-flex align-items-center mb-2';
-
-                    const select = document.createElement('select');
-                    select.className = 'form-control mb-2 custom-width mx-auto';
-                    select.id = 'singerId_' + singersCont;
-                    select.name = 'singersId[' + singersCont + ']';
-
-                    const button = document.createElement('input')
-                    button.id = 'singerButton_' + singersCont;
-                    button.type = 'button';
-                    button.value = 'Rimuovi';
-                    button.className = 'btn btn-danger btn-sm';
-                    button.setAttribute('onclick', 'removeSinger(' + singersCont + ')');
-                    data.forEach(item => {
-                        if(typeof item === 'object' && item !== null) {
-                            const option = document.createElement('option');
-                            option.value = item.id;
-                            option.textContent = item.stageName;
-                            select.appendChild(option);
-                        }else{
-                            fetch('/rest/artists/'+item).then(data => data.json()).then(data => {
-                            const option = document.createElement('option');
-                            option.value = data.id;
-                            option.textContent = data.stageName;
-                            select.appendChild(option);
-                            });
-                        }
-                    });
-                    document.getElementById('singersDiv').append(select);
-                    singersCont++;
-                }).catch(error => console.error('Error fetching singers:', error));
-
-            }
-
-            function addWriters() {
-
-                fetch('/rest/artists').then(data => data.json()).then(data => {
-                    const div = document.createElement('div');
-                    div.className = 'd-flex align-items-center mb-2';
-
-                    const select = document.createElement('select');
-                    select.className = 'form-control mb-2 custom-width mx-auto';
-                    select.id = 'writerId_' + writersCont;
-                    select.name = 'writersId[' + writersCont + ']';
-
-                    const button = document.createElement('input')
-                    button.id = 'writerButton_' + writersCont;
-                    button.type = 'button';
-                    button.value = 'Rimuovi';
-                    button.className = 'btn btn-danger btn-sm';
-                    button.setAttribute('onclick', 'removeWriter(' + writersCont + ')');
-                    data.forEach(item => {
-                        if(typeof item === 'object' && item !== null) {
-                            const option = document.createElement('option');
-                            option.value = item.id;
-                            option.textContent = item.stageName;
-                            select.appendChild(option);
-                        }else{
-                            fetch('/rest/artists/'+item).then(data => data.json()).then(data => {
-                            const option = document.createElement('option');
-                            option.value = data.id;
-                            option.textContent = data.stageName;
-                            select.appendChild(option);
-                            });
-                        }
-                    });
-                    document.getElementById('writersDiv').append(select);
-                    writersCont++;
-                }).catch(error => console.error('Error fetching writers:', error));
-
-            }
-
-            function addProducers() {
-
-                fetch('/rest/singers').then(data => data.json()).then(data => {
-                    const div = document.createElement('div');
-                    div.className = 'd-flex align-items-center mb-2';
-
-                    const select = document.createElement('select');
-                    select.className = 'form-control mb-2 custom-width mx-auto';
-                    select.id = 'producerId_' + producersCont;
-                    select.name = 'producerId[' + producersCont + ']';
-
-                    const button = document.createElement('input')
-                    button.id = 'producerButton_' + producersCont;
-                    button.type = 'button';
-                    button.value = 'Rimuovi';
-                    button.className = 'btn btn-danger btn-sm';
-                    button.setAttribute('onclick', 'removeProducer(' + producersCont + ')');
-                    data.forEach(item => {
-                        if(typeof item === 'object' && item !== null) {
-                            const option = document.createElement('option');
-                            option.value = item.id;
-                            option.textContent = item.stageName;
-                            select.appendChild(option);
-                        }else{
-                            fetch('/rest/artists/'+item).then(data => data.json()).then(data => {
-                            const option = document.createElement('option');
-                            option.value = data.id;
-                            option.textContent = data.stageName;
-                            select.appendChild(option);
-                            });
-                        }
-                    });
-                    document.getElementById('producersDiv').append(select);
-                    producersCont++;
-                }).catch(error => console.error('Error fetching producers:', error));
-
-            }
-
-            function removeSinger(id) {
-                document.getElementById('singerId_' + id).parentNode.remove();
-            }
-
-            function removeWriter(id) {
-                document.getElementById('writerId_' + id).parentNode.remove();
-            }
-
-            function removeProducer(id) {
-                document.getElementById('producerId_' + id).parentNode.remove();
-            }
-
-        </script>
 
     </body>
 
