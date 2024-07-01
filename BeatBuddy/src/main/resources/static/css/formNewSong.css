@@ -29,15 +29,16 @@
 .nav {
     align-items: center;
 }
-
 .container{
     margin-bottom: 50px;
+    margin-right: 50px !important;
 }
 .form-container {
     border: 2px solid #834230;
     background-color: #f8f9fa;
     padding: 20px;
     border-radius: 5px;
+    
 }
 .form-container .form-group {
     width: 90%;
@@ -81,4 +82,7 @@
     color: white !important;
     background-color: #5b2e20 !important;
     border: 2px solid #5b2e20 !important;
+}
+.titolo{
+    margin-left: 50px !important;
 }

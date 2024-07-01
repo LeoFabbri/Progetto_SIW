@@ -183,42 +183,52 @@ public class SongController {
     }
 
     @PostMapping("/artist/newAlbum/newSong/song")
-    public String albumFormNewSong(@Valid @ModelAttribute("song") Song song, Model model, BindingResult bindingResult) {
-        List<Artist> singers = new ArrayList<Artist>();
-        List<Artist> producers = new ArrayList<Artist>();
-        List<Artist> writers = new ArrayList<Artist>();
-        singers.add(this.artistService.findById((Long)model.getAttribute("userId")));
-        if(song.getSingersId()!=null){
-            for(String id : song.getSingersId()){
-                this.artistService.findById(Long.parseLong(id)).getSongsSung().add(song);
-                singers.add(this.artistService.findById(Long.parseLong(id)));
+    public String albumFormNewSong(@Valid @ModelAttribute("song") Song song, @RequestParam("image") MultipartFile file, @RequestParam("audio") MultipartFile audio, Model model, BindingResult bindingResult) {
+        try{
+            List<Artist> singers = new ArrayList<Artist>();
+            List<Artist> producers = new ArrayList<Artist>();
+            List<Artist> writers = new ArrayList<Artist>();
+            singers.add(this.artistService.findById((Long)model.getAttribute("userId")));
+            if(song.getSingersId()!=null){
+                for(String id : song.getSingersId()){
+                    this.artistService.findById(Long.parseLong(id)).getSongsSung().add(song);
+                    singers.add(this.artistService.findById(Long.parseLong(id)));
+                }
             }
-        }
-        if(song.getProducersId()!=null){
-            for(String id : song.getProducersId()){
-                this.artistService.findById(Long.parseLong(id)).getSongsProduced().add(song);
-                producers.add(this.artistService.findById(Long.parseLong(id)));
+            if(song.getProducersId()!=null){
+                for(String id : song.getProducersId()){
+                    this.artistService.findById(Long.parseLong(id)).getSongsProduced().add(song);
+                    producers.add(this.artistService.findById(Long.parseLong(id)));
+                }
             }
-        }
-        if(song.getWritersId()!=null){
-            for(String id : song.getWritersId()){
-                this.artistService.findById(Long.parseLong(id)).getSongWritten().add(song);
-                writers.add(this.artistService.findById(Long.parseLong(id)));
+            if(song.getWritersId()!=null){
+                for(String id : song.getWritersId()){
+                    this.artistService.findById(Long.parseLong(id)).getSongWritten().add(song);
+                    writers.add(this.artistService.findById(Long.parseLong(id)));
+                }
             }
-        }
-        song.setSingers(singers);
-        song.setProducers(producers);
-        song.setWriters(writers);
-        song.setPubblicationDate(LocalDate.now());
-        song.setNumberOfPlays(0);
-        this.songValidator.validate(song, bindingResult);
-        if(bindingResult.hasErrors()){
-            model.addAttribute("error","Song already exists");
-            model.addAttribute("song", new Song());
+            song.setSingers(singers);
+            song.setProducers(producers);
+            song.setWriters(writers);
+            song.setPubblicationDate(LocalDate.now());
+            song.setNumberOfPlays(0);
+
+            byte[] byteFoto = file.getBytes();
+            song.setBase64(Base64.getEncoder().encodeToString(byteFoto));
+            byte[] byteAudio = audio.getBytes();
+            song.setAudioBase64(Base64.getEncoder().encodeToString(byteAudio));
+
+            this.songValidator.validate(song, bindingResult);
+            if(bindingResult.hasErrors()){
+                model.addAttribute("error","Song already exists");
+                model.addAttribute("song", new Song());
+                return "artist/albumFormNewSong.html";
+            }
+            this.songService.save(song);
+            return "redirect:/artist/formNewAlbum";
+        }catch(IOException e){
             return "artist/albumFormNewSong.html";
         }
-        this.songService.save(song);
-        return "redirect:/artist/formNewAlbum";
     }
     
     @GetMapping("/artist/deleteSongs")
