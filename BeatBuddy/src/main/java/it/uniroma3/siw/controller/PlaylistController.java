@@ -52,7 +52,7 @@ public class PlaylistController {
         playlist.setDuration(0);
         this.playlistService.save(playlist); 
 		//return "redirect:/song/{id}";
-        return "redirect:/";
+        return "redirect:/playlists";
 	}
 
     @GetMapping("/playlist/{id}")
