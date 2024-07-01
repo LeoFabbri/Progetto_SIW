@@ -7,8 +7,7 @@ import it.uniroma3.siw.service.UserService;
 
 @Controller
 public class UserController {
-
-    @Autowired
-    private UserService userService;
     
+    @Autowired UserService userService;
+
 }
