@@ -1,11 +1,14 @@
 package it.uniroma3.siw.controller;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,11 +16,23 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import it.uniroma3.siw.controller.validator.AlbumValidator;
 import it.uniroma3.siw.model.Album;
 import it.uniroma3.siw.model.Artist;
+import it.uniroma3.siw.model.Review;
 import it.uniroma3.siw.model.Song;
+import it.uniroma3.siw.model.User;
+import it.uniroma3.siw.repository.AlbumRepository;
+import it.uniroma3.siw.repository.ArtistRepository;
+import it.uniroma3.siw.repository.SongRepository;
+import it.uniroma3.siw.service.AlbumService;
+import it.uniroma3.siw.service.ArtistService;
+import it.uniroma3.siw.service.CredentialsService;
+import it.uniroma3.siw.service.ReviewService;
+import it.uniroma3.siw.service.UserService;
 import it.uniroma3.siw.service.AlbumService;
 import it.uniroma3.siw.service.ArtistService;
 import it.uniroma3.siw.service.SongService;
@@ -44,10 +59,54 @@ public class AlbumController {
         return "albums.html";
     }
 
+    @Autowired
+    private ReviewService reviewService;
+
+    @Autowired
+    private CredentialsService credentialsService;
+
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/albums/{id}")
-    public String getAlbum(@PathVariable("id") Long id, Model model){
-        model.addAttribute("album",this.albumService.findById(id));
+    public String getAlbum(@PathVariable("id") Long id, Model model) {
+        Album album = this.albumService.findById(id);
+        model.addAttribute("album", album);
+        model.addAttribute("recensioni", reviewService.findByAlbum(album));
+        if((Long) model.getAttribute("userId") == null){
+            model.addAttribute("role", "ANONIMO");
+        }else{
+            if(credentialsService.getCredentials(((UserDetails) model.getAttribute("userDetails")).getUsername()).getRole().equals("DEFAULT")){
+                User user = userService.findById((Long) model.getAttribute("userId"));
+                model.addAttribute("role", "DEFAULT");
+    
+                Review recensioneUser = reviewService.findByAlbumAndUser(album, user);
+                model.addAttribute("recensioneUser", recensioneUser);
+            }
+            else{
+                model.addAttribute("role", "ARTIST");
+            }
+        }
+
         return "album.html";
+    }
+
+    @PostMapping("/albums/{id}/recensione")
+    public String addRecensione(@PathVariable("id") Long id, @RequestParam int stars, 
+                                @RequestParam String comment, @ModelAttribute("userId") Long userId, Model model) {
+        Album album = this.albumService.findById(id);
+        User user = userService.findById(userId);
+
+        Review recensione = new Review();
+        recensione.setUser(user);
+        recensione.setAlbum(album);
+        recensione.setComment(comment);
+        recensione.setPubblicationDate(LocalDate.now());
+        recensione.setStars(stars);
+        reviewService.save(recensione);
+        album.getReviews().add(recensione);
+
+        return "redirect:/albums/" + id;
     }
 
     @GetMapping("/artist/formNewAlbum")
@@ -57,7 +116,8 @@ public class AlbumController {
     }
 
     @PostMapping("/artist/newAlbum/album")
-    public String newAlbum(@Valid @ModelAttribute("album") Album album, Model model, BindingResult bindingResult) {
+    public String newAlbum(@Valid @ModelAttribute("album") Album album, @RequestParam("image") MultipartFile file, Model model, BindingResult bindingResult) {
+        try{
         List<Artist> artists = new ArrayList<Artist>();
         List<Song> existingSongs = new ArrayList<Song>();
         artists.add(this.artistService.findById((Long)model.getAttribute("userId")));
@@ -81,21 +141,27 @@ public class AlbumController {
                 song.setAlbum(album);
                 existingSongs.add(song);
             }
-            songs.addAll(existingSongs);
         }
-        Collections.sort(songs);
-        album.setSongs(songs);
-        album.setArtists(artists);
-        album.setPubblicationDate(LocalDate.now());
-        this.albumValidator.validate(album, bindingResult);
-        if(bindingResult.hasErrors()){
-            model.addAttribute("album", new Album());
-            model.addAttribute("error", "this album already exixsts");
+            Collections.sort(songs);
+            album.setSongs(songs);
+            album.setArtists(artists);
+            album.setPubblicationDate(LocalDate.now());
+    
+            byte[] byteFoto = file.getBytes();
+            album.setBase64(Base64.getEncoder().encodeToString(byteFoto));
+    
+            this.albumValidator.validate(album, bindingResult);
+            if(bindingResult.hasErrors()){
+                model.addAttribute("album", new Album());
+                model.addAttribute("error", "this album already exixsts");
+                return "artist/formNewAlbum.html";
+            }
+            this.albumService.save(album);
+            model.addAttribute("album", album);
+            return "redirect:/albums/"+album.getId(); 
+        }catch (IOException e) {
             return "artist/formNewAlbum.html";
         }
-        this.albumService.save(album);
-        model.addAttribute("album", album);
-        return "redirect:/albums/"+album.getId();
     }
 
     @GetMapping("/artist/formUpdateAlbum")

@@ -1,5 +1,8 @@
 package it.uniroma3.siw.controller;
 
+import java.io.IOException;
+import java.util.Base64;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -22,6 +25,8 @@ import it.uniroma3.siw.service.UserService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 
 @Controller
@@ -48,8 +53,8 @@ public class AuthenticationController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (authentication instanceof AnonymousAuthenticationToken) {
             
-            Iterable<Album> albums = albumService.findAll(); // Recupera tutti gli album dal servizio
-            Iterable<Artist> artists = artistService.findAll(); // Recupera tutti gli artisti dal servizio
+            Iterable<Album> albums = albumService.findAll();
+            Iterable<Artist> artists = artistService.findAll();
             Iterable<Song> songs = songService.findAll();
 
             model.addAttribute("albums", albums);
@@ -63,6 +68,13 @@ public class AuthenticationController {
 			if (credentials.getRole().equals("ARTIST")) {
 				return "artistHome.html";
 			}else{
+                Iterable<Album> albums = albumService.findAll();
+                Iterable<Artist> artists = artistService.findAll();
+                Iterable<Song> songs = songService.findAll();
+
+                model.addAttribute("albums", albums);
+                model.addAttribute("artists", artists);
+                model.addAttribute("songs", songs);
                 return "userHome.html";
             }
 
@@ -78,19 +90,45 @@ public class AuthenticationController {
    public String getRegistrationForm(Model model) {
        model.addAttribute("credentials", new Credentials());
        model.addAttribute("user", new User());
+       model.addAttribute("artist", new Artist());
        return "registration.html";
    }
+   
+//    @PostMapping("/registration")
+//    public String userRegistration(@ModelAttribute("user") User user, @ModelAttribute("credentials") Credentials credentials, Model model){
+//         userService.save(user);
+//         credentials.setUser(user);
+//         credentialsService.saveCredentials(credentials);
+//         return "redirect:/login";
+//    }
 
    @PostMapping("/registration")
-   public String userRegistration(@ModelAttribute("user") User user, @ModelAttribute("credentials") Credentials credentials, Model model){
-        userService.save(user);
-        credentials.setUser(user);
-        credentialsService.saveCredentials(credentials);
-        return "redirect:/login";
+   public String userRegistration(@ModelAttribute("user") User user, @ModelAttribute("artist") Artist artist, @ModelAttribute("credentials") Credentials credentials, @RequestParam("image") MultipartFile file, Model model){
+        try{
+
+            if(credentials.getRole().equals("DEFAULT")){
+                System.out.println("QUA SI USER");
+                byte[] byteFoto = file.getBytes();
+                user.setBase64(Base64.getEncoder().encodeToString(byteFoto));
+                userService.save(user);
+                credentials.setUser(user);
+            }else{
+                System.out.println("QUA SI ARTIST");
+                byte[] byteFoto = file.getBytes();
+                artist.setBase64(Base64.getEncoder().encodeToString(byteFoto));
+                artist.setRealName(user.getName());
+                artist.setRealSurname(user.getSurname());
+                artist.setDateOfBirth(user.getDateOfBirth());
+                artist.setEmail(user.getEmail());
+                artistService.save(artist);
+                credentials.setArtist(artist);
+            }
+            credentialsService.saveCredentials(credentials);
+            return "redirect:/login";
+
+        }catch (IOException e) {
+            return "registration.html";
+        }
    }
-
-
-   
-   
     
 }

@@ -162,7 +162,7 @@
                         <img th:src="'data:image/jpeg;base64,' + ${base64}" class="card-img-top song-image" alt="song Image">
                         <div class="card-body">
                             <h5 class="card-title" th:text="${song.title}">Nome Canzone</h5>
-                            <a th:href="@{/song/{id}(id=${song.id})}" class="btn btn-primary">Visualizza Canzone</a>
+                            <a th:href="@{/songs/{id}(id=${song.id})}" class="btn btn-primary">Visualizza Canzone</a>
                             <div class="d-inline-block">
                                 <form th:action="@{'/playlist/' + ${playlist.id} + '/removeSong'}" method="POST" onsubmit="return confirm('Sei sicuro di voler eliminare questa canzone?');">
                                     <input type="hidden" name="songId" th:value="${song.id}" />

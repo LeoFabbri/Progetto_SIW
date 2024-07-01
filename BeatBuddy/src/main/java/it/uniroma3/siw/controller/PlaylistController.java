@@ -85,7 +85,7 @@ public class PlaylistController {
         playlist.setDuration(playlist.getDuration() + song.getDuration());
         playlistService.save(playlist);
         redirectAttributes.addFlashAttribute("userId", userId);
-        return "redirect:/song/" + id;
+        return "redirect:/songs/" + id;
     }
 
     @PostMapping("/playlist/{id}/removeSong")

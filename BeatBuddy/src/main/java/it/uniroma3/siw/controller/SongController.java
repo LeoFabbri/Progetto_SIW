@@ -1,10 +1,15 @@
 package it.uniroma3.siw.controller;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,6 +18,8 @@ import it.uniroma3.siw.model.Artist;
 import it.uniroma3.siw.model.Review;
 import it.uniroma3.siw.model.Song;
 import it.uniroma3.siw.model.User;
+import it.uniroma3.siw.repository.ArtistRepository;
+import it.uniroma3.siw.repository.PlaylistRepository;
 import it.uniroma3.siw.service.ArtistService;
 import it.uniroma3.siw.service.CredentialsService;
 import it.uniroma3.siw.service.PlaylistService;
@@ -24,6 +31,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.PostMapping;
 
 
@@ -66,7 +74,7 @@ public class SongController {
         if((Long) model.getAttribute("userId") == null){
             model.addAttribute("role", "ANONIMO");
         }else{
-            if(credentialsService.getCredentials((Long) model.getAttribute("userId")).getRole().equals("DEFAULT")){
+            if(credentialsService.getCredentials(((UserDetails) model.getAttribute("userDetails")).getUsername()).getRole().equals("DEFAULT")){
                 User user = userService.findById((Long) model.getAttribute("userId"));
                 model.addAttribute("role", "DEFAULT");
     
@@ -100,7 +108,7 @@ public class SongController {
         reviewService.save(recensione);
         song.getReviews().add(recensione);
 
-        return "redirect:/song/" + id;
+        return "redirect:/songs/" + id;
     }
 
     @GetMapping("/artist/songs")
@@ -122,7 +130,8 @@ public class SongController {
     }
 
     @PostMapping("/artist/newSong/song")
-    public String newSong(@Valid @ModelAttribute("song") Song song, Model model, BindingResult bindingResult) {
+    public String newSong(@Valid @ModelAttribute("song") Song song, @RequestParam("image") MultipartFile file, Model model, BindingResult bindingResult) {
+        try{
         List<Artist> singers = new ArrayList<Artist>();
         List<Artist> producers = new ArrayList<Artist>();
         List<Artist> writers = new ArrayList<Artist>();
@@ -145,20 +154,27 @@ public class SongController {
                 writers.add(this.artistService.findById(Long.parseLong(id)));
             }
         }
-        song.setSingers(singers);
-        song.setProducers(producers);
-        song.setWriters(writers);
-        song.setAlbum(null);
-        song.setPubblicationDate(LocalDate.now());
-        song.setNumberOfPlays(0);
-        this.songValidator.validate(song, bindingResult);
-        if(bindingResult.hasErrors()){
-            model.addAttribute("error","Song already exists");
-            model.addAttribute("song", new Song());
+            song.setSingers(singers);
+            song.setProducers(producers);
+            song.setWriters(writers);
+            song.setAlbum(null);
+            song.setPubblicationDate(LocalDate.now());
+            song.setNumberOfPlays(0);
+
+            byte[] byteFoto = file.getBytes();
+            song.setBase64(Base64.getEncoder().encodeToString(byteFoto));
+
+            this.songValidator.validate(song, bindingResult);
+            if(bindingResult.hasErrors()){
+                model.addAttribute("error","Song already exists");
+                model.addAttribute("song", new Song());
+                return "artist/formNewSong.html";
+            }
+            this.songService.save(song);
+            return "redirect:/songs/"+song.getId();
+        } catch (IOException e) {
             return "artist/formNewSong.html";
         }
-        this.songService.save(song);
-        return "redirect:/songs/"+song.getId();
     }
 
     @PostMapping("/artist/newAlbum/newSong/song")
