@@ -130,7 +130,7 @@ public class SongController {
     }
 
     @PostMapping("/artist/newSong/song")
-    public String newSong(@Valid @ModelAttribute("song") Song song, @RequestParam("image") MultipartFile file, Model model, BindingResult bindingResult) {
+    public String newSong(@Valid @ModelAttribute("song") Song song, @RequestParam("image") MultipartFile file, @RequestParam("audio") MultipartFile audio, Model model, BindingResult bindingResult) {
         try{
         List<Artist> singers = new ArrayList<Artist>();
         List<Artist> producers = new ArrayList<Artist>();
@@ -163,6 +163,8 @@ public class SongController {
 
             byte[] byteFoto = file.getBytes();
             song.setBase64(Base64.getEncoder().encodeToString(byteFoto));
+            byte[] byteAudio = audio.getBytes();
+            song.setAudioBase64(Base64.getEncoder().encodeToString(byteAudio));
 
             this.songValidator.validate(song, bindingResult);
             if(bindingResult.hasErrors()){
