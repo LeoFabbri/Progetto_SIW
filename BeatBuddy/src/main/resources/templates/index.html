@@ -149,6 +149,7 @@
                             <div class="song-info-container">
                                 <div class="song-info">
                                     <h2 class="card-title" th:text="${song.title}">Song Title</h2>
+                                    <!-- <p class="card-title" th:if="${song.album.title != null}" th:text="'Album: ' + ${song.album.title}">Album</p> -->
                                     <!-- <a class="card-text" th:href="@{/album/{id}(id=${album.id})}" th:text="'Album: ' + ${song.album.title}">Album Title</a> -->
                                     <audio controls>
                                         <source th:src=" 'data:audio/mpeg;base64,' + ${song.audioBase64}">

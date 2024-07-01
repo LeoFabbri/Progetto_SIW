@@ -176,10 +176,9 @@
         align-items: left;
     }
 
-    .card-title{
+    .card-title {
         font-size: 25px;
     }
-
 
     .song-card {
         width: 800px;
@@ -192,7 +191,7 @@
         margin: 10px;
         background-color: #fff;
 
-        text-decoration: none; 
+        text-decoration: none !important;
         color: #000; 
     }
 

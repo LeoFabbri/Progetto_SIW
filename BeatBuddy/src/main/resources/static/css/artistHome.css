@@ -87,19 +87,18 @@ body{
     padding: 25px;
     text-align: center;
     margin-bottom: 20px;
-    background-color: #f8f9fa;
-    transition: transform 0.2s ease-in-out;
-}
-.border-section{
-    border-width: 20px !important;
-    border-color:#834230 !important;
+
+    border: 2px solid black; /* Colore e spessore del bordo */
     border-radius: 8px;
+
+    background-color: #8342304a;
+    transition: transform 0.2s ease-in-out;
+    
 }
 
-.section:hover {
+.section a:hover {
     transform: scale(1.05);
 }
-
 
 .section a {
     display: inline-block;

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -50,27 +50,31 @@
 
     <div th:if="${songs}">
         <div class="container favorite-songs-container">
-            <h1 class="text-center mb-4">Canzoni della Playlist</h1>
+            <h1 class="text-center mb-4">Canzoni nella Playlist</h1>
             <div class="row">
-                <div th:each="song : ${songs}" class="col-md-4">
-                    <div class="card song-card">
-                        <img th:src="'data:image/jpeg;base64,' + ${song.base64}" class="card-img-top song-image" alt="song Image">
-                        <div class="card-body">
-                            <h5 class="card-title" th:text="${song.title}">Nome Canzone</h5>
-                            <a th:href="@{/songs/{id}(id=${song.id})}" class="btn btn-primary">Visualizza Canzone</a>
-                            <div class="d-inline-block">
-                                <form th:action="@{'/playlist/' + ${playlist.id} + '/removeSong'}" method="POST" onsubmit="return confirm('Sei sicuro di voler eliminare questa canzone?');">
-                                    <input type="hidden" name="songId" th:value="${song.id}" />
-                                    <button type="submit" class="btn btn-danger">Rimuovi</button>
-                                </form>
+                <div th:each="song : ${songs}" class="col-md-6">
+                    <a th:href="@{/songs/{id}(id=${song.id})}" class="song-card">
+                        <img th:src="'data:image/jpeg;base64,' + ${song.base64}" alt="Song Image" class="song-image">
+                        <div class="song-info-container">
+                            <div class="song-info">
+                                <h2 class="song-title" th:text="${song.title}">Song Title</h2>
+                                <audio controls>
+                                    <source th:src="'data:audio/mpeg;base64,' + ${song.audioBase64}">
+                                </audio>
                             </div>
+                            <form th:action="@{'/playlist/' + ${playlist.id} + '/removeSong'}" method="POST" onsubmit="return confirm('Sei sicuro di voler eliminare questa canzone?');">
+                                <input type="hidden" name="songId" th:value="${song.id}" />
+                                <button type="submit" class="btn btn-danger">Rimuovi</button>
+                            </form>
                         </div>
-                    </div>
+                    </a>
                 </div>
             </div>
         </div>
     </div>
     <div th:unless="${songs}" class="alert alert-warning" role="alert">Non ci sono canzoni nella playlist</div>
+    
+    
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz4fnFO9gybBgQrYtI6PZ60x6IVp5V6EbxO9e3v8hTMIIhO6fg7FF0EyJ4" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12PQCvLQ6BO4Uj5fdNRw5yF4F1Xw1jLMk2JOvrKK7+7eUz+F" crossorigin="anonymous"></script>
